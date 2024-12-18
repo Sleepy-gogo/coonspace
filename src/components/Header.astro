@@ -1,8 +1,10 @@
 ---
-import Button from './Button.astro';
+import { Button } from './ui/button';
 ---
 
 <header class="flex justify-between py-4 max-w-screen-lg px-4 mx-auto">
   <h1 class="text-3xl font-bold">Online markdown</h1>
-  <Button text="Login" />
+  <div>
+    <Button variant="secondary">Login</Button>
+  </div>
 </header>

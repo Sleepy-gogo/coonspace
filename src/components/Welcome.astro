@@ -1,13 +1,5 @@
 ---
-import Button from './Button.astro';
-
-/*
-max-w-md px-4 sm:max-w-2xl
-
-sm:px-6 md:max-w-3xl lg:max-w-4xl
-
-lg:px-0 xl:max-w-5xl 2xl:max-w-6xl
-*/
+import { Button } from './ui/button';
 ---
 
 <div>
@@ -21,6 +13,6 @@ lg:px-0 xl:max-w-5xl 2xl:max-w-6xl
         class="text-blue-500">easy</span
       >
     </h1>
-    <Button text="Get started" />
+    <Button size="lg">Get started!</Button>
   </section>
 </div>
