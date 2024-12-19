@@ -1,4 +1,15 @@
-<div class="w-screen overflow-y-hidden h-0">
+---
+const starsCount = 40;
+const stars = Array.from({ length: starsCount }, () => ({
+  size: (Math.random() * 2 + 1).toFixed(2),
+  x: (Math.random() * 100).toFixed(2),
+  y: (Math.random() * 100).toFixed(2),
+  blur: (Math.random() * 1.5).toFixed(2),
+  duration: `${Math.floor(Math.random() * 6 + 2)}s`
+}));
+---
+
+<div class="w-screen">
   <div
     class="absolute bottom-0 left-0 right-0 -z-10 top-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_2px)] bg-[size:74px_94px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"
   >
@@ -11,4 +22,49 @@
     class="absolute bottom-0 right-[-110%] md:right-[-90%] lg:right-[-20%] top-[-10%] size-[1300px] -z-10 rounded-full bg-[radial-gradient(circle_farthest-side,rgba(80,80,255,.18),rgba(255,255,255,0))]"
   >
   </div>
+  {/* Stars container */}
+  <div class="absolute inset-0 -z-10 pointer-events-none">
+    {
+      stars.map((star, index) => (
+        <div
+          class="star"
+          style={{
+            '--star-size': `${star.size}px`,
+            '--star-x': `${star.x}%`,
+            '--star-y': `${star.y}%`,
+            '--star-blur': `${star.blur}px`,
+            '--star-duration': star.duration
+          }}
+        />
+      ))
+    }
+  </div>
 </div>
+<style is:global>
+  .star {
+    position: absolute;
+    border-radius: 50%;
+    background-color: white;
+    width: var(--star-size);
+    height: var(--star-size);
+    left: var(--star-x);
+    top: var(--star-y);
+    filter: blur(var(--star-blur));
+    animation: twinkle var(--star-duration) ease-in-out infinite;
+  }
+
+  @keyframes twinkle {
+    0% {
+      transform: scale(1);
+      opacity: 0.5;
+    }
+    50% {
+      transform: scale(1.1);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 0.5;
+    }
+  }
+</style>
