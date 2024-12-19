@@ -39,10 +39,12 @@ import Header from '@/components/Header.astro';
     <meta name="twitter:image" content="/images/twitter-image.png" />
      -->
   </head>
-  <body class="bg-slate-900 text-white relative overflow-hidden">
-    <Header />
-    <slot />
-    <Background />
+  <body class="bg-slate-900">
+    <div class="relative pb-4 overflow-hidden w-screen">
+      <Header />
+      <slot />
+      <Background />
+    </div>
   </body>
 </html>
 

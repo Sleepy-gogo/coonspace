@@ -3,11 +3,16 @@
 The main objective is to have a free open source markdown sharing tool, where you can just paste the markdown code and share it with the world.
 This tool is built using [Astro](https://astro.build) and [TailwindCSS](https://tailwindcss.com/)
 
-Todo
+To do
+
+- [ ] Finish brand desing
+- [ ] Finish landing
+- [ ] Finish dashboard
 
 **Core Features:**
 
 - [ ] Implement user authentication (Clerk)
+- [ ] Public profile pages
 - [ ] Enable file uploading (Uploadthing)
 - [ ] Handle markdown parsing and rendering
 - [ ] Create dynamic routes for markdown files
