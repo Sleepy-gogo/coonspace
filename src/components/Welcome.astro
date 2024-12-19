@@ -2,17 +2,63 @@
 import { Button } from './ui/button';
 ---
 
-<div>
-  <section
-    class="flex items-center justify-center flex-col py-36 md:py-48 max-w-md px-6 sm:max-w-2xl sm:px-8 md:max-w-3xl md:px-10 lg:max-w-4xl lg:px-4 xl:max-w-5xl 2xl:max-w-6xl mx-auto gap-10"
+<main class="flex flex-col gap-32 lg:gap-40">
+  <div
+    class="flex items-center justify-center flex-col pt-36 md:pt-48 max-w-md px-6 sm:max-w-2xl sm:px-8 md:max-w-3xl md:px-10 lg:max-w-4xl lg:px-4 xl:max-w-5xl 2xl:max-w-6xl mx-auto gap-10"
   >
     <h1
-      class="text-4xl font-bold text-center tracking-tight sm:text-6xl lg:text-[4rem] xl:text-[6rem] 2xl:text-[6.5rem]"
+      class="text-4xl font-bold text-center tracking-tight sm:text-6xl lg:text-[4rem] xl:text-[6rem] 2xl:text-[6.5rem] text-white"
     >
       Markdown sharing, <br /><span class="text-violet-400">fast</span> and <span
         class="text-blue-500">easy</span
       >
     </h1>
     <Button size="lg">Get started!</Button>
+  </div>
+  <section>
+    <div class="max-w-screen-lg w-full px-4 mx-auto">
+      <div
+        class="flex flex-col w-full gap-6 mt-6 sm:flex-row sm:flex-wrap lg:flex-nowrap sm:justify-center"
+      >
+        <div
+          class="p-6 bg-slate-800/50 border border-slate-200/20 rounded-lg sm:w-[48%] md:w-[31%] hover:shadow-lg hover:border-slate-200/40 hover:bg-slate-700/30 transition-colors group"
+        >
+          <h3
+            class="text-2xl font-bold text-slate-200 tracking-tight group-hover:text-white"
+          >
+            Create
+          </h3>
+          <p class="mt-2 text-slate-200">
+            Use our markdown editor to create markdown documents online.
+          </p>
+        </div>
+        <div
+          class="p-6 bg-slate-800/50 border border-slate-200/20 rounded-lg sm:w-[48%] md:w-[31%] hover:shadow-lg hover:border-slate-200/40 hover:bg-slate-700/30 transition-colors group"
+        >
+          <h3
+            class="text-2xl font-bold text-slate-200 tracking-tight group-hover:text-white"
+          >
+            Share
+          </h3>
+          <p class="mt-2 text-slate-200">
+            Share your markdown documents with anyone by simply sharing the
+            link.
+          </p>
+        </div>
+        <div
+          class="p-6 bg-slate-800/50 border border-slate-200/20 rounded-lg sm:w-[48%] md:w-[31%] hover:shadow-lg hover:border-slate-200/40 hover:bg-slate-700/30 transition-colors group"
+        >
+          <h3
+            class="text-2xl font-bold text-slate-200 tracking-tight group-hover:text-white"
+          >
+            Save
+          </h3>
+          <p class="mt-2 text-slate-200">
+            Quickly save your markdown documents as pdf files with a single
+            click.
+          </p>
+        </div>
+      </div>
+    </div>
   </section>
-</div>
+</main>
