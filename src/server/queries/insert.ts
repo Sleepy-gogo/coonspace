@@ -1,3 +1,5 @@
+import "server-only";
+
 import { db } from '~/server/db';
 import type { InsertUser, InsertNote } from '~/server/db/schema';
 import { users, notes } from '~/server/db/schema';
