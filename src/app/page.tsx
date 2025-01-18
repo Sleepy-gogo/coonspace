@@ -1,37 +1,62 @@
-import Link from "next/link";
+import { FileDownIcon, Share2Icon, SquareChevronRight } from "lucide-react";
+import { Button } from "~/components/ui/button";
+import Background from "~/components/background";
+import Header from "~/components/header";
 
 export default function HomePage() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-      <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
-        <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
-          Create <span className="text-[hsl(280,100%,70%)]">T3</span> App
-        </h1>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
-          <Link
-            className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-            href="https://create.t3.gg/en/usage/first-steps"
-            target="_blank"
-          >
-            <h3 className="text-2xl font-bold">First Steps →</h3>
-            <div className="text-lg">
-              Just the basics - Everything you need to know to set up your
-              database and authentication.
-            </div>
-          </Link>
-          <Link
-            className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-            href="https://create.t3.gg/en/introduction"
-            target="_blank"
-          >
-            <h3 className="text-2xl font-bold">Documentation →</h3>
-            <div className="text-lg">
-              Learn more about Create T3 App, the libraries it uses, and how to
-              deploy it.
-            </div>
-          </Link>
+    <div className="relative w-screen overflow-hidden pb-4">
+      <Header />
+      <main className="flex flex-col gap-32 lg:gap-40">
+        <div className="mx-auto flex max-w-md flex-col items-center justify-center gap-10 px-6 pt-36 sm:max-w-2xl sm:px-8 md:max-w-3xl md:px-10 md:pt-48 lg:max-w-4xl lg:px-4 xl:max-w-5xl 2xl:max-w-6xl">
+          <h1 className="text-center text-4xl font-bold tracking-tight text-white sm:text-6xl lg:text-[4rem] xl:text-[6rem] 2xl:text-[6.5rem]">
+            Markdown sharing, <br />
+            <span className="text-violet-400">fast</span> and{" "}
+            <span className="text-blue-500">easy</span>
+          </h1>
+          <Button className="transition-all hover:shadow-md" size="lg">
+            Get started!
+          </Button>
         </div>
-      </div>
-    </main>
+        <section>
+          <div className="mx-auto w-full max-w-screen-lg px-4">
+            <div className="mt-6 flex w-full flex-col gap-6 sm:flex-row sm:flex-wrap sm:justify-center lg:flex-nowrap">
+              <div className="group rounded-lg border border-slate-200/20 bg-slate-800/50 p-6 shadow-sm transition-colors hover:border-slate-200/40 hover:bg-slate-700/30 hover:shadow-lg sm:w-[48%] md:w-[31%]">
+                <h3 className="flex items-center gap-2 text-2xl font-bold tracking-tight text-slate-200/95 group-hover:text-white">
+                  <SquareChevronRight className="mt-0.5" />
+                  Create
+                </h3>
+                <p className="mt-2 font-semibold text-slate-300">
+                  Use our markdown editor to create markdown documents online.
+                </p>
+              </div>
+              <div className="group rounded-lg border border-slate-200/20 bg-slate-800/50 p-6 shadow-sm transition-colors hover:border-slate-200/40 hover:bg-slate-700/30 hover:shadow-lg sm:w-[48%] md:w-[31%]">
+                <h3 className="flex items-center gap-2 text-2xl font-bold tracking-tight text-slate-200/95 group-hover:text-white">
+                  <Share2Icon className="mt-0.5 size-6" />
+                  Share
+                </h3>
+                <p className="mt-2 font-semibold text-slate-300">
+                  Share your markdown documents with anyone by simply sharing
+                  the link.
+                </p>
+              </div>
+              <div className="group rounded-lg border border-slate-200/20 bg-slate-800/50 p-6 shadow-sm transition-colors hover:border-slate-200/40 hover:bg-slate-700/30 hover:shadow-lg sm:w-[48%] md:w-[31%]">
+                <h3 className="flex items-center gap-2 text-2xl font-bold tracking-tight text-slate-200/95 group-hover:text-white">
+                  <FileDownIcon className="mt-0.5 size-6" />
+                  Save
+                </h3>
+                <p className="mt-2 font-semibold text-slate-300">
+                  Quickly save your markdown documents as pdf files with a
+                  single click.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section>Add screenshots of the app here</section>
+      </main>
+
+      <Background />
+    </div>
   );
 }
