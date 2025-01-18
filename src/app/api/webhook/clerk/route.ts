@@ -1,8 +1,10 @@
 import { Webhook } from 'svix';
 import { headers } from 'next/headers';
-import { WebhookEvent } from '@clerk/nextjs/server';
-import { db } from '~/server/db';
+import type { WebhookEvent } from '@clerk/nextjs/server';
 import { env } from '~/env';
+import { createUser } from '~/server/queries/insert';
+import { deleteUser } from '~/server/queries/delete';
+import { updateUser } from '~/server/queries/update';
 
 export async function POST(req: Request) {
   const SIGNING_SECRET: string = env.CLERK_SIGNING_SECRET;
@@ -10,7 +12,6 @@ export async function POST(req: Request) {
   if (!SIGNING_SECRET) {
     throw new Error('Error: Please add SIGNING_SECRET from Clerk Dashboard to .env or .env.local');
   }
-
 
   // Create new Svix instance with secret
   const wh = new Webhook(SIGNING_SECRET);
@@ -48,50 +49,39 @@ export async function POST(req: Request) {
     });
   }
 
-  const { id } = evt.data;
   const eventType = evt.type;
 
-  // switch (eventType) {
-  //   case 'user.created':
-  //     try {
-  //       await db.insert()
-  //     } catch {
-  //       return new Response('User already exists', { status: 400 });
-  //     }
-  //     break;
-  //   case 'user.deleted':
-  //     try {
-  //       await db.user.delete({
-  //         where: {
-  //           externalUserId: payload.data.id
-  //         }
-  //       });
-  //     } catch {
-  //       return new Response('User not found', { status: 404 });
-  //     }
-  //     break;
-  //   case 'user.updated':
-  //     try {
-  //       await resetIngresses(payload.data.id);
+  switch (eventType) {
+    case 'user.created':
+      try {
+        await createUser({
+          id: payload.data?.id,
+          username: payload.data?.username,
+          imageUrl: payload.data?.image_url,
+        });
+        console.log('User created : ', payload.data.username);
+      } catch {
+        return new Response('User already exists', { status: 400 });
+      }
+      break;
+    case 'user.deleted':
+      try {
+        await deleteUser(payload.data.id);
+      } catch {
+        return new Response('User not found', { status: 404 });
+      }
+      break;
+    case 'user.updated':
+      try {
+        await updateUser(payload.data.id, {
+          username: payload.data.username,
+          imageUrl: payload.data.image_url,
+        });
+      } catch {
+        return new Response('User not found', { status: 404 });
+      }
 
-  //       await db.user.update({
-  //         where: {
-  //           externalUserId: payload.data.id
-  //         },
-  //         data: {
-  //           username: payload.data.username,
-  //           imageUrl: payload.data.image_url
-  //         }
-  //       });
-  //     } catch {
-  //       return new Response('User not found', { status: 404 });
-  //     }
-  //   default:
-  //     break;
-  // }
-
-  console.log(`Received webhook with ID ${id} and event type of ${eventType}`);
-  console.log('Webhook payload:', body);
+  }
 
   return new Response('OK', { status: 200 });
 }

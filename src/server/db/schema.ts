@@ -3,6 +3,7 @@
 
 import { sql } from "drizzle-orm";
 import { int, sqliteTableCreator, text } from "drizzle-orm/sqlite-core";
+import { createId } from '@paralleldrive/cuid2';
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
@@ -15,7 +16,7 @@ export const createTable = sqliteTableCreator((name) => `coonspace_${name}`);
 export const users = createTable(
   "user",
   {
-    id: int("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
+    id: text("id", { length: 32 }).primaryKey().unique().notNull(),
     username: text("username", { length: 256 }).unique().notNull(),
     imageUrl: text("image_url", { length: 256 }).notNull(),
   }
@@ -24,16 +25,16 @@ export const users = createTable(
 export const notes = createTable(
   "note",
   {
-    id: int("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
+    id: text("id", { length: 32 }).primaryKey().unique().notNull().$defaultFn(() => createId()),
     title: text("title", { length: 256 }).notNull(),
     content: text("content", { length: 256 }).notNull(),
     createdAt: int("created_at", { mode: "timestamp" })
       .default(sql`(unixepoch())`)
       .notNull(),
-    updatedAt: int("updated_at", { mode: "timestamp" }).$onUpdate(
+    updatedAt: int("updated_at", { mode: "timestamp" }).default(sql`(unixepoch())`).$onUpdate(
       () => new Date()
-    ),
-    userId: int("user_id", { mode: "number" }).notNull().references(() => users.id),
+    ).notNull(),
+    userId: text("user_id", { length: 32 }).notNull().references(() => users.id),
   }
 );
 
