@@ -11,7 +11,7 @@ import { Skeleton } from "~/components/ui/skeleton";
 
 function Header() {
   return (
-    <header className="mx-auto flex max-w-screen-lg justify-between px-4 py-4">
+    <header className="mx-auto flex container justify-between px-4 py-4">
       <Link
         href="/"
         className="text-3xl font-black tracking-tighter text-white"

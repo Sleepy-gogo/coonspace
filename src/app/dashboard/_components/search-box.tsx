@@ -1,8 +1,8 @@
-import { Input } from '~/components/ui/input'
+import { Input } from "~/components/ui/input";
 
 interface SearchBoxProps {
-  searchTerm: string
-  setSearchTerm: (term: string) => void
+  searchTerm: string;
+  setSearchTerm: (term: string) => void;
 }
 
 export function SearchBox({ searchTerm, setSearchTerm }: SearchBoxProps) {
@@ -12,8 +12,7 @@ export function SearchBox({ searchTerm, setSearchTerm }: SearchBoxProps) {
       placeholder="Search notes..."
       value={searchTerm}
       onChange={(e) => setSearchTerm(e.target.value)}
-      className="max-w-sm"
+      className="w-full md:w-96"
     />
-  )
+  );
 }
-
