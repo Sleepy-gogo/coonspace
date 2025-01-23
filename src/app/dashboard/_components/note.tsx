@@ -11,11 +11,12 @@ import {
 
 interface NoteProps {
   note: {
-    id: number;
+    id: string;
     title: string;
     content: string;
-    createdAt: string;
-    updatedAt: string;
+    createdAt: number;
+    updatedAt: number;
+    userId: string;
   };
 }
 

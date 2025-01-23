@@ -2,11 +2,6 @@ import * as React from "react";
 
 import { cn } from "~/lib/utils";
 
-/*
-My button for color reference:
-bg-blue-200/10 text-slate-100 border border-blue-200/20 hover:bg-blue-200/20
-*/
-
 const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
   ({ className, type, ...props }, ref) => {
     return (

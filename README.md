@@ -12,7 +12,6 @@ To do
 **Core Features:**
 
 - [x] Implement user authentication (Clerk)
-- [ ] Public profile pages
 - [ ] Enable file uploading (Uploadthing)
 - [ ] Handle markdown parsing and rendering
 - [ ] Create dynamic routes for markdown files

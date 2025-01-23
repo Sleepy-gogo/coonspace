@@ -1,26 +1,26 @@
 [
   {
-    "id": 1,
+    "id": "1",
     "title": "First Note",
-    "author": "Author One",
     "content": "This is the content of the first note.",
-    "createdAt": "2023-01-01T12:00:00Z",
-    "updatedAt": "2023-01-02T12:00:00Z"
+    "createdAt": 1672579200,
+    "updatedAt": 1672665600,
+    "userId": "user1"
   },
   {
-    "id": 2,
+    "id": "2",
     "title": "Second Note",
-    "author": "Author Two",
     "content": "This is the content of the second note.",
-    "createdAt": "2023-01-03T12:00:00Z",
-    "updatedAt": "2023-01-04T12:00:00Z"
+    "createdAt": 1672752000,
+    "updatedAt": 1672838400,
+    "userId": "user2"
   },
   {
-    "id": 3,
+    "id": "3",
     "title": "Third Note",
-    "author": "Author Three",
     "content": "This is the content of the third note.",
-    "createdAt": "2023-01-05T12:00:00Z",
-    "updatedAt": "2023-01-06T12:00:00Z"
+    "createdAt": 1672924800,
+    "updatedAt": 1673011200,
+    "userId": "user3"
   }
 ]
