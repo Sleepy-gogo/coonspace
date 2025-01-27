@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import { Button } from "~/components/ui/button";
 import {
@@ -9,7 +11,7 @@ import {
   DialogTrigger,
 } from "~/components/ui/dialog";
 import UploadButton from "./upload-button";
-import Link from 'next/link';
+import Link from "next/link";
 
 export function AddNoteModal() {
   const [open, setOpen] = useState(false);
@@ -28,10 +30,10 @@ export function AddNoteModal() {
         </DialogHeader>
         <div className="flex flex-col gap-1">
           <UploadButton />
-          <p className="text-slate-400 mx-auto">- or -</p>
-            <Link href="/new" className="mx-auto">
-              <Button variant="outline">Create a new note</Button>
-            </Link>
+          <p className="mx-auto text-slate-400">- or -</p>
+          <Link href="/new" className="mx-auto">
+            <Button variant="outline">Create a new note</Button>
+          </Link>
         </div>
       </DialogContent>
     </Dialog>

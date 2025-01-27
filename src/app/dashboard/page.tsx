@@ -1,7 +1,8 @@
 import Header from "~/components/header";
 import NoteGrid from "./_components/note-grid";
 
-function DashboardPage() {
+async function DashboardPage() {
+
   return (
     <div className="relative min-h-screen w-screen overflow-hidden pb-4">
       <Header />

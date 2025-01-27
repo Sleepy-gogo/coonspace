@@ -8,16 +8,10 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
+import type { PartialNote } from "~/types/note";
 
 interface NoteProps {
-  note: {
-    id: string;
-    title: string;
-    content: string;
-    createdAt: number;
-    updatedAt: number;
-    userId: string;
-  };
+  note: PartialNote;
 }
 
 export function Note({ note }: NoteProps) {
