@@ -22,7 +22,7 @@ export const ourFileRouter = {
     .onUploadComplete(async ({ metadata, file }) => {
       const note = {
         userId: metadata.userId,
-        title: file.name,
+        title: file.name.replace(/\.md$/, ''),
         content: file.url
       };
       await createNote(note);

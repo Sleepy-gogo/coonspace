@@ -29,6 +29,7 @@
     "@radix-ui/react-slot": "^1.1.1",
     "@radix-ui/react-tooltip": "^1.1.6",
     "@t3-oss/env-nextjs": "^0.10.1",
+    "@uidotdev/usehooks": "^2.4.1",
     "@uploadthing/react": "^7.1.5",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
