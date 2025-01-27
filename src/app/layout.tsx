@@ -1,8 +1,11 @@
 import "~/styles/globals.css";
 
+import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import { type Metadata } from "next";
+import { extractRouterConfig } from "uploadthing/server";
+import { ourFileRouter } from "~/app/api/uploadthing/core";
 
 export const metadata: Metadata = {
   title: "CoonSpace | Online Markdown Sharing",
@@ -27,7 +30,10 @@ export default function RootLayout({
       }}
     >
       <html lang="en">
-        <body className="bg-slate-900">{children}</body>
+        <body className="bg-slate-900">
+          <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
+          {children}
+        </body>
       </html>
     </ClerkProvider>
   );

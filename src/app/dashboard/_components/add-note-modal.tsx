@@ -8,6 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "~/components/ui/dialog";
+import { UploadButton } from "~/utils/uploadthing";
 
 export function AddNoteModal() {
   const [open, setOpen] = useState(false);
@@ -24,6 +25,17 @@ export function AddNoteModal() {
             Upload a Markdown file directly or use our built in editor.
           </DialogDescription>
         </DialogHeader>
+        <UploadButton
+          endpoint="mdUploader"
+          onClientUploadComplete={() => {
+            setOpen(false);
+            console.log("Uploaded!");
+          }}
+          onUploadError={() => {
+            setOpen(false);
+            console.log("Error!");
+          }}
+        />
       </DialogContent>
     </Dialog>
   );
