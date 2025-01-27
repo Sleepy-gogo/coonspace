@@ -8,7 +8,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "~/components/ui/dialog";
-import { UploadButton } from "~/utils/uploadthing";
+import UploadButton from "./upload-button";
+import Link from 'next/link';
 
 export function AddNoteModal() {
   const [open, setOpen] = useState(false);
@@ -25,17 +26,13 @@ export function AddNoteModal() {
             Upload a Markdown file directly or use our built in editor.
           </DialogDescription>
         </DialogHeader>
-        <UploadButton
-          endpoint="mdUploader"
-          onClientUploadComplete={() => {
-            setOpen(false);
-            console.log("Uploaded!");
-          }}
-          onUploadError={() => {
-            setOpen(false);
-            console.log("Error!");
-          }}
-        />
+        <div className="flex flex-col gap-1">
+          <UploadButton />
+          <p className="text-slate-400 mx-auto">- or -</p>
+            <Link href="/new" className="mx-auto">
+              <Button variant="outline">Create a new note</Button>
+            </Link>
+        </div>
       </DialogContent>
     </Dialog>
   );

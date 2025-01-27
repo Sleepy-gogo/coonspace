@@ -6,6 +6,7 @@ import { dark } from "@clerk/themes";
 import { type Metadata } from "next";
 import { extractRouterConfig } from "uploadthing/server";
 import { ourFileRouter } from "~/app/api/uploadthing/core";
+import { Toaster } from "~/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "CoonSpace | Online Markdown Sharing",
@@ -33,6 +34,7 @@ export default function RootLayout({
         <body className="bg-slate-900">
           <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
           {children}
+          <Toaster theme="dark" />
         </body>
       </html>
     </ClerkProvider>

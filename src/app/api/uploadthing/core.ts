@@ -7,7 +7,7 @@ const f = createUploadthing();
 export const ourFileRouter = {
   mdUploader: f({
     "text/markdown": {
-      maxFileSize: "2MB",
+      maxFileSize: "256KB",
       maxFileCount: 1,
     }
   })
