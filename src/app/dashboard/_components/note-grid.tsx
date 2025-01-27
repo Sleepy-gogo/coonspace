@@ -4,8 +4,7 @@ import notes from "~/lib/notes.json";
 import { Note } from "./note";
 import { useState } from 'react';
 import { SearchBox } from './search-box';
-import Link from 'next/link';
-import { Button } from '~/components/ui/button';
+import { AddNoteModal } from './add-note-modal';
 
 function NoteGrid() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -13,9 +12,7 @@ function NoteGrid() {
     <>
       <div className="mb-6 flex items-center justify-between gap-4">
         <SearchBox searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-        <Link href="/new" aria-label="New Note">
-          <Button size="default" variant="secondary" >New note</Button>
-        </Link>
+        <AddNoteModal />
       </div>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
