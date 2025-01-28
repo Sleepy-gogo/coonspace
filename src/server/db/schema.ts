@@ -3,7 +3,11 @@
 
 import { sql } from "drizzle-orm";
 import { int, sqliteTableCreator, text } from "drizzle-orm/sqlite-core";
-import { createId } from '@paralleldrive/cuid2';
+import { init } from '@paralleldrive/cuid2';
+
+const createId = init({
+  length: 48
+}); 
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
@@ -25,7 +29,7 @@ export const users = createTable(
 export const notes = createTable(
   "note",
   {
-    id: text("id", { length: 32 }).primaryKey().unique().notNull().$defaultFn(() => createId()),
+    id: text("id", { length: 48 }).primaryKey().unique().notNull().$defaultFn(() => createId()),
     title: text("title", { length: 256 }).notNull(),
     content: text("content", { length: 256 }).notNull(),
     createdAt: int("created_at", { mode: "timestamp" })
