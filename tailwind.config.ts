@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 import { withUt } from "uploadthing/tw";
 import { type Config } from "tailwindcss";
 import { fontFamily } from "tailwindcss/defaultTheme";
@@ -21,5 +22,8 @@ export default withUt({
 			colors: {}
 		}
 	},
-	plugins: [require("tailwindcss-animate")],
+	plugins: [
+		require("tailwindcss-animate"),
+		require('@tailwindcss/typography')
+	],
 } satisfies Config); 

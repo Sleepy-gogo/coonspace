@@ -42,7 +42,13 @@ const NoteComponent = ({ note, onDelete }: NoteProps) => {
     }
   };
   return (
-    <Link href={`/notes/${note.id}`} aria-label={note.title} className={ isDeleting ? "pointer-events-none cursor-wait animate-pulse" : ""}>
+    <Link
+      href={`/note/${note.id}`}
+      aria-label={note.title}
+      className={
+        isDeleting ? "pointer-events-none animate-pulse cursor-wait" : ""
+      }
+    >
       <Card className="group flex h-full flex-col">
         <CardContent className="flex-grow p-4">
           <h2 className="text-xl font-semibold">{note.title}</h2>

@@ -16,6 +16,7 @@ export const ourFileRouter = {
     .middleware(async () => {
       const user = await auth();
 
+      // eslint-disable-next-line @typescript-eslint/only-throw-error
       if (!user.userId) throw new UploadThingError("Unauthorized");
 
       return { userId: user.userId };

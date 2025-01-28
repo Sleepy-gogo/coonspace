@@ -13,8 +13,8 @@ This tool is built using [Next](https://https://nextjs.org/) and [TailwindCSS](h
 
 - [x] Implement user authentication (Clerk)
 - [x] Enable file uploading (Uploadthing)
-- [ ] Handle markdown parsing and rendering
-- [ ] Create dynamic routes for markdown files
+- [x] Handle markdown parsing and rendering
+- [x] Create dynamic routes for markdown files
 - [ ] Implement markdown editor
 - [ ] Implement transitions API
 - [ ] Basic CRUD operations for markdown files

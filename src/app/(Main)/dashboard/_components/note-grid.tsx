@@ -18,8 +18,10 @@ export function NoteGrid({ initialNotes }: { initialNotes: PartialNote[] }) {
   // Use SWR to fetch notes
   const {
     data: notes,
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     error,
     mutate,
+    isLoading,
   } = useSWR<PartialNote[]>(
     `/api/note/list${debouncedSearchTerm ? `?search=${encodeURIComponent(debouncedSearchTerm)}` : ""}`,
     fetcher,
@@ -41,13 +43,20 @@ export function NoteGrid({ initialNotes }: { initialNotes: PartialNote[] }) {
         refetchNotes={mutate}
       />
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {notes && notes.length === 0 && (
-          <p className="text-center text-slate-400">No notes found</p>
-        )}
+      {notes && notes.length === 0 && !isLoading && (
+        <p className="text-center text-slate-400 md:text-lg">
+          Click the <span className="font-bold">Add Note</span> to start
+          publishing your notes!
+        </p>
+      )}
+      <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {notes?.map((note, index) => (
           <Note key={index} note={note} onDelete={mutate} />
         ))}
+        {isLoading &&
+          Array.from({ length: 3 }).map((_, index) => (
+            <NoteSkeleton key={index} />
+          ))}
       </div>
     </>
   );

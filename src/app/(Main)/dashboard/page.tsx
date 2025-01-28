@@ -1,6 +1,7 @@
 import Header from "~/components/header";
 import { NoteGrid } from "./_components/note-grid";
 import { getPersonalNotes } from "~/server/queries/select";
+import CenterLight from '~/components/background/center-light';
 
 async function DashboardPage() {
   const notes = await getPersonalNotes();
@@ -16,9 +17,7 @@ async function DashboardPage() {
           <NoteGrid initialNotes={notes} />
         </div>
       </main>
-      <div>
-        <div className="absolute left-1/2 top-0 -z-10 size-[100rem] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(circle_farthest-side,rgba(90,90,255,.25),rgba(255,255,255,0))] opacity-60"></div>
-      </div>
+      <CenterLight />
     </div>
   );
 }
