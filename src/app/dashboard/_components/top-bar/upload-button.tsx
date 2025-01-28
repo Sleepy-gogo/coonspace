@@ -1,4 +1,3 @@
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useUploadThing } from "~/utils/uploadthing";
 
@@ -64,13 +63,11 @@ function LoadSvg() {
   );
 }
 
-export default function UploadButton({
-  onComplete,
-}: {
+interface UploadButtonProps {
   onComplete: () => void;
-}) {
-  const router = useRouter();
+}
 
+export default function UploadButton({ onComplete }: UploadButtonProps) {
   const { inputProps, isUploading } = useUploadThingInputProps("mdUploader", {
     onUploadError: () => {
       toast.error(
@@ -83,7 +80,6 @@ export default function UploadButton({
       });
     },
     onClientUploadComplete: () => {
-      router.refresh();
       toast.dismiss("loading-toast");
       toast.success("File uploaded successfully!");
       onComplete();

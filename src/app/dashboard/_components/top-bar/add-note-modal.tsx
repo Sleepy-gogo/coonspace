@@ -13,10 +13,17 @@ import {
 import UploadButton from "./upload-button";
 import Link from "next/link";
 
-export function AddNoteModal() {
+interface AddNoteModalProps {
+  refetchNotes: () => void;
+}
+
+export function AddNoteModal({ refetchNotes }: AddNoteModalProps) {
   const [open, setOpen] = useState(false);
 
-  const closeDialog = () => setOpen(false);
+  const onComplete = () => {
+    setOpen(false);
+    refetchNotes();
+  };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -31,7 +38,7 @@ export function AddNoteModal() {
           </DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-1">
-          <UploadButton onComplete={closeDialog} />
+          <UploadButton onComplete={onComplete} />
           <p className="mx-auto text-slate-400">- or -</p>
           <Link href="/new" className="mx-auto">
             <Button variant="outline">Create a new note</Button>
