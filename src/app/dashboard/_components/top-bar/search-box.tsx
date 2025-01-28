@@ -17,3 +17,15 @@ export function SearchBox({ searchTerm, setSearchTerm }: SearchBoxProps) {
     />
   );
 }
+
+export function DisabledSearchBox() {
+  return (
+    <Input
+      type="text"
+      placeholder="Search notes..."
+      value=""
+      disabled
+      className="w-full md:w-96"
+    />
+  );
+}

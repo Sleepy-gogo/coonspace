@@ -48,3 +48,7 @@ export function AddNoteModal({ refetchNotes }: AddNoteModalProps) {
     </Dialog>
   );
 }
+
+export function DisabledAddNoteModal() {
+  return <Button disabled>Add Note</Button>;
+}

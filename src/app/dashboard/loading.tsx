@@ -1,9 +1,7 @@
-import Header from "~/components/header";
-import { NoteGrid } from "./_components/note-grid";
-import { getPersonalNotes } from "~/server/queries/select";
+import Header from '~/components/header';
+import { NoteGridSkeleton } from './_components/note-grid';
 
-async function DashboardPage() {
-  const notes = await getPersonalNotes();
+function Loading() {
   return (
     <div className="relative min-h-screen w-screen overflow-hidden pb-4">
       <Header />
@@ -12,8 +10,7 @@ async function DashboardPage() {
           <h1 className="mb-8 py-8 text-center text-5xl font-bold text-white">
             Your notes
           </h1>
-
-          <NoteGrid initialNotes={notes} />
+          <NoteGridSkeleton />
         </div>
       </main>
       <div>
@@ -23,4 +20,4 @@ async function DashboardPage() {
   );
 }
 
-export default DashboardPage;
+export default Loading;

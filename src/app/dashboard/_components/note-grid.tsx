@@ -7,10 +7,11 @@ import type { PartialNote } from "~/types/note";
 import { toast } from "sonner";
 import { useDebounce } from "@uidotdev/usehooks";
 import GridTopBar from "./top-bar";
+import { DisabledGridTopBar } from './top-bar';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-function NoteGrid({ initialNotes }: { initialNotes: PartialNote[] }) {
+export function NoteGrid({ initialNotes }: { initialNotes: PartialNote[] }) {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const debouncedSearchTerm = useDebounce(searchTerm, 400);
 
@@ -44,14 +45,21 @@ function NoteGrid({ initialNotes }: { initialNotes: PartialNote[] }) {
         {notes && notes.length === 0 && (
           <p className="text-center text-slate-400">No notes found</p>
         )}
-        {!notes &&
-          Array.from({ length: 3 }).map((_, index) => (
-            <NoteSkeleton key={index} />
-          ))}
         {notes?.map((note, index) => <Note key={index} note={note} />)}
       </div>
     </>
   );
 }
 
-export default NoteGrid;
+export function NoteGridSkeleton() {
+  return (
+    <>
+      <DisabledGridTopBar />
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {Array.from({ length: 6 }).map((_, index) => (
+          <NoteSkeleton key={index} />
+        ))}
+      </div>
+    </>
+  );
+}
