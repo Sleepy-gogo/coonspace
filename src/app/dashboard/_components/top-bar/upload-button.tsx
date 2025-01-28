@@ -64,7 +64,11 @@ function LoadSvg() {
   );
 }
 
-export default function UploadButton() {
+export default function UploadButton({
+  onComplete,
+}: {
+  onComplete: () => void;
+}) {
   const router = useRouter();
 
   const { inputProps, isUploading } = useUploadThingInputProps("mdUploader", {
@@ -82,6 +86,7 @@ export default function UploadButton() {
       router.refresh();
       toast.dismiss("loading-toast");
       toast.success("File uploaded successfully!");
+      onComplete();
     },
   });
 

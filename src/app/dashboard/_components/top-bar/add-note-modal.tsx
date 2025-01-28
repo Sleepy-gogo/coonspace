@@ -16,6 +16,8 @@ import Link from "next/link";
 export function AddNoteModal() {
   const [open, setOpen] = useState(false);
 
+  const closeDialog = () => setOpen(false);
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -29,7 +31,7 @@ export function AddNoteModal() {
           </DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-1">
-          <UploadButton />
+          <UploadButton onComplete={closeDialog} />
           <p className="mx-auto text-slate-400">- or -</p>
           <Link href="/new" className="mx-auto">
             <Button variant="outline">Create a new note</Button>

@@ -2,6 +2,7 @@ import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { UploadThingError } from "uploadthing/server";
 import { auth } from '@clerk/nextjs/server';
 import { createNote } from '~/server/queries/insert';
+import { revalidatePath } from 'next/cache';
 
 const f = createUploadthing();
 
@@ -26,7 +27,7 @@ export const ourFileRouter = {
         content: file.url
       };
       await createNote(note);
-
+      revalidatePath('/dashboard');
       return { fileName: file.name };
     }),
 } satisfies FileRouter;

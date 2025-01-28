@@ -1,18 +1,17 @@
 "use client";
 
-import { Note } from "./note";
-import { AddNoteModal } from "./add-note-modal";
-import { SearchBox } from "./search-box";
+import { Note, NoteSkeleton } from "./note";
 import { useEffect, useState } from "react";
 import type { PartialNote } from "~/types/note";
 import { toast } from "sonner";
 import { useDebounce } from "@uidotdev/usehooks";
+import GridTopBar from "./top-bar";
 
-function NoteGrid() {
-  const [notes, setNotes] = useState<PartialNote[]>([]);
+function NoteGrid({initialNotes}: {initialNotes: PartialNote[]}) {
+  const [notes, setNotes] = useState<PartialNote[]>(initialNotes);
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
-  const debouncedSearchTerm = useDebounce(searchTerm, 300);
+  const [loading, setLoading] = useState<boolean>(true);
+  const debouncedSearchTerm = useDebounce(searchTerm, 400);
 
   useEffect(() => {
     const fetchNotes = async () => {
@@ -51,15 +50,16 @@ function NoteGrid() {
 
   return (
     <>
-      <div className="mb-6 flex items-center justify-between gap-4">
-        <SearchBox searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-        <AddNoteModal />
-      </div>
+      <GridTopBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {notes.length === 0 && !loading && (
           <p className="text-center text-slate-400">No notes found</p>
         )}
+        {loading &&
+          Array.from({ length: 3 }).map((_, index) => (
+            <NoteSkeleton key={index} />
+          ))}
         {notes.map((note, index) => (
           <Note key={index} note={note} />
         ))}

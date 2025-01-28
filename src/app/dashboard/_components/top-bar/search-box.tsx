@@ -1,6 +1,7 @@
 import { Input } from "~/components/ui/input";
 
 interface SearchBoxProps {
+  
   searchTerm: string;
   setSearchTerm: (term: string) => void;
 }

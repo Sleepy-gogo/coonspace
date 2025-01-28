@@ -31,6 +31,12 @@ export default function RootLayout({
       }}
     >
       <html lang="en">
+        <head>
+          <script
+            async
+            src="https://unpkg.com/react-scan/dist/auto.global.js"
+          ></script>
+        </head>
         <body className="bg-slate-900">
           <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
           {children}
