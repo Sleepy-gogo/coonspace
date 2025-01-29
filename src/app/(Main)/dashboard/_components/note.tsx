@@ -41,6 +41,20 @@ const NoteComponent = ({ note, onDelete }: NoteProps) => {
       toast.error("Failed to delete note");
     }
   };
+
+  const handleShare = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    try {
+      await navigator.clipboard.writeText(
+        window.location.href.replace("dashboard", "note/" + note.id),
+      );
+      toast.success("Link copied to clipboard");
+    } catch (err) {
+      toast.error("Failed to copy link to clipboard");
+    }
+  };
+
   return (
     <Link
       href={`/note/${note.id}`}
@@ -86,7 +100,7 @@ const NoteComponent = ({ note, onDelete }: NoteProps) => {
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button size="icon" variant="outline">
+                <Button size="icon" variant="outline" onClick={handleShare}>
                   <Share2 className="h-4 w-4" />
                 </Button>
               </TooltipTrigger>
