@@ -7,7 +7,7 @@ import { init } from '@paralleldrive/cuid2';
 
 const createId = init({
   length: 48
-}); 
+});
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
@@ -21,6 +21,7 @@ export const users = createTable(
   "user",
   {
     id: text("id", { length: 32 }).primaryKey().unique().notNull(),
+    fullName: text("full_name", { length: 256 }).notNull(),
     username: text("username", { length: 256 }).unique().notNull(),
     imageUrl: text("image_url", { length: 256 }).notNull(),
   }

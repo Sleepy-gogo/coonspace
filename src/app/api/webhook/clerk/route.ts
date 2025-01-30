@@ -56,18 +56,20 @@ export async function POST(req: Request) {
       try {
         await createUser({
           id: payload.data?.id,
+          fullName: `${payload.data?.first_name} ${payload.data?.last_name}`,
           username: payload.data?.username,
           imageUrl: payload.data?.image_url,
         });
-        console.log('User created : ', payload.data.username);
+        console.log('User created : ', payload.data?.username);
       } catch {
         return new Response('User already exists', { status: 400 });
       }
       break;
     case 'user.deleted':
       try {
-        await deleteUser(payload.data.id);
+        await deleteUser(payload.data?.id);
       } catch {
+        console.log(`User ${payload.data?.id} not found. Deletion incomplete.`);
         return new Response('User not found', { status: 404 });
       }
       break;
