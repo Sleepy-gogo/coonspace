@@ -7,7 +7,7 @@ export default function AppLayout({
   return (
     <div className="relative min-h-screen w-screen overflow-hidden pb-4">
       <Header />
-      <main>{children}</main>
+      <main className="min-h-[85vh]">{children}</main>
       <CenterLight />
     </div>
   );

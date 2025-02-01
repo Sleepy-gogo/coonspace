@@ -1,6 +1,6 @@
 import "server-only";
 
-import { asc, eq } from 'drizzle-orm';
+import { asc, eq, and, like } from 'drizzle-orm';
 import { db } from '~/server/db';
 import type { SelectUser, SelectNote } from '~/server/db/schema';
 import { users, notes } from '~/server/db/schema';
@@ -8,6 +8,7 @@ import { auth } from '@clerk/nextjs/server';
 
 export async function getUserById(id: SelectUser['id']): Promise<Array<{
   id: string,
+  fullName: string,
   username: string,
   imageUrl: string;
 }>> {
@@ -16,6 +17,7 @@ export async function getUserById(id: SelectUser['id']): Promise<Array<{
 
 export async function getUserByUsername(username: SelectUser['username']): Promise<Array<{
   id: string,
+  fullName: string,
   username: string,
   imageUrl: string;
 }>> {
@@ -70,5 +72,5 @@ export async function getMatchingNotes(
   const userId = user.userId;
 
   const offset = (page - 1) * pageSize;
-  return db.select().from(notes).where(eq(notes.userId, userId)).orderBy(asc(notes.updatedAt)).limit(pageSize).offset(offset);
+  return db.select().from(notes).where(and(eq(notes.userId, userId), like(notes.title, `%${query}%`))).orderBy(asc(notes.updatedAt)).limit(pageSize).offset(offset);
 }
