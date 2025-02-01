@@ -19,7 +19,14 @@ export default withUt({
 				md: 'calc(var(--radius) - 2px)',
 				sm: 'calc(var(--radius) - 4px)'
 			},
-			colors: {}
+			colors: {},
+			typography: {
+				invert: {
+					css: {
+						'--tw-prose-pre-bg': "#1e293b"
+					}
+				}
+			}
 		}
 	},
 	plugins: [
