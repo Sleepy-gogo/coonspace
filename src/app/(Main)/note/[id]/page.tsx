@@ -7,6 +7,7 @@ import { Suspense } from "react";
 import LoadingSpinner from "~/components/loading-spinner";
 import GoToTopButton from "./_components/go-to-top";
 import UserInfoCard from "./_components/user-info";
+import PageWrapper, { SidebarWrapperSkeleton } from './_components/sidebar-wrapper';
 
 export default async function NotePage({ params }: { params: { id: string } }) {
   const { id } = await params;
@@ -36,25 +37,23 @@ export default async function NotePage({ params }: { params: { id: string } }) {
     };
   }
 
-  return (
-    <div className="container mx-auto grid grid-cols-1 gap-4 p-3 sm:px-6 pb-8 lg:grid-cols-12">
-      <GoToTopButton />
-      <div className="lg:col-span-9 lg:h-[85vh] lg:overflow-y-scroll mx-auto lg:mx-0">
-        <h1 className="my-8 text-center md:text-left text-4xl font-bold italic tracking-tight text-white md:mt-4 border-b pb-4">
-          {title}
-        </h1>
-        <Suspense fallback={<LoadingSpinner />}>
-          <MarkdownRenderer markdown={markdownContent} />
-        </Suspense>
-      </div>
+  const sidebarData = {
+    user,
+    info: {
+      id,
+      updatedAt: note.updatedAt,
+    },
+  };
 
-      <UserInfoCard
-        user={user}
-        info={{
-          id,
-          updatedAt: note.updatedAt,
-        }}
-      />
-    </div>
+  return (
+    <PageWrapper sidebarData={sidebarData}>
+      <GoToTopButton />
+      <h1 className="my-8 text-center md:text-left text-4xl font-bold italic tracking-tight text-white md:mt-4 border-b pb-4">
+        {title}
+      </h1>
+      <Suspense fallback={<LoadingSpinner />}>
+        <MarkdownRenderer markdown={markdownContent} />
+      </Suspense>
+    </PageWrapper>
   );
 }

@@ -8,7 +8,7 @@ export async function GET(request: Request) {
   try {
     const notes = await getMatchingNotes(searchTerm);
     return NextResponse.json(notes);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to fetch notes' }, { status: 500 });
   }
 }
