@@ -15,7 +15,6 @@ export function NoteGrid() {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const debouncedSearchTerm = useDebounce(searchTerm, 400);
 
-  // Use SWR to fetch notes
   const {
     data: notes,
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment

@@ -2,16 +2,16 @@
 
 import { useState } from "react";
 import { Button } from "~/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "~/components/ui/dialog";
 import UploadButton from "./upload-button";
 import Link from "next/link";
+import {
+  ResponsiveModal,
+  ResponsiveModalContent,
+  ResponsiveModalDescription,
+  ResponsiveModalHeader,
+  ResponsiveModalTitle,
+  ResponsiveModalTrigger,
+} from "~/components/ui/responsive-dialog";
 
 interface AddNoteModalProps {
   refetchNotes: () => void;
@@ -26,17 +26,17 @@ export function AddNoteModal({ refetchNotes }: AddNoteModalProps) {
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
+    <ResponsiveModal open={open} onOpenChange={setOpen}>
+      <ResponsiveModalTrigger asChild>
         <Button>Add Note</Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Create a New Note</DialogTitle>
-          <DialogDescription>
+      </ResponsiveModalTrigger>
+      <ResponsiveModalContent side="bottom">
+        <ResponsiveModalHeader>
+          <ResponsiveModalTitle>Create a New Note</ResponsiveModalTitle>
+          <ResponsiveModalDescription>
             Upload a Markdown file directly or use our built in editor.
-          </DialogDescription>
-        </DialogHeader>
+          </ResponsiveModalDescription>
+        </ResponsiveModalHeader>
         <div className="flex flex-col gap-1">
           <UploadButton onComplete={onComplete} />
           <p className="mx-auto text-slate-400">- or -</p>
@@ -44,8 +44,8 @@ export function AddNoteModal({ refetchNotes }: AddNoteModalProps) {
             <Button variant="outline">Create a new note</Button>
           </Link>
         </div>
-      </DialogContent>
-    </Dialog>
+      </ResponsiveModalContent>
+    </ResponsiveModal>
   );
 }
 
