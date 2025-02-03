@@ -34,7 +34,7 @@ function MarkdownRenderer({ markdown }: MarkdownRendererProps) {
 
   return (
     <div
-      className="prose prose-invert max-w-none w-full"
+      className="prose prose-invert max-w-none w-full break-words"
       dangerouslySetInnerHTML={{ __html: htmlContent }}
     />
   );

@@ -25,6 +25,16 @@ export default withUt({
 					css: {
 						'--tw-prose-pre-bg': "#1e293b"
 					}
+				},
+				DEFAULT: {
+					css: {
+						'.prose :where(h2):not(:where([class~="not-prose"], [class~="not-prose"] *))': {
+							"margin-top": "0rem",
+						},
+						'.prose :where(h1):not(:where([class~="not-prose"], [class~="not-prose"] *))': {
+							'box-shadow' : '0 2px white'
+						}
+					}
 				}
 			}
 		}

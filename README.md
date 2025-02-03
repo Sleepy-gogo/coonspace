@@ -15,7 +15,7 @@ This tool is built using [Next](https://https://nextjs.org/) and [TailwindCSS](h
 - [x] Enable file uploading (Uploadthing)
 - [x] Handle markdown parsing and rendering
 - [x] Create dynamic routes for markdown files
-- [ ] Implement markdown editor
+- [x] Implement markdown editor
 - [ ] Implement transitions API
 - [ ] Basic CRUD operations for markdown files
 - [ ] Implement rate limiting
