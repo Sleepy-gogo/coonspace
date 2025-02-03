@@ -1,4 +1,4 @@
-import { Pencil, Trash2, Share2 } from "lucide-react";
+import { Pencil, Trash2, Share2, Check } from "lucide-react";
 import Link from "next/link";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardFooter } from "~/components/ui/card";
@@ -12,6 +12,7 @@ import { Skeleton } from "~/components/ui/skeleton";
 import type { PartialNote } from "~/types/note";
 import React, { useState } from "react";
 import { toast } from "sonner";
+import { useCopyToClipboard } from "@uidotdev/usehooks";
 
 interface NoteProps {
   note: PartialNote;
@@ -19,7 +20,10 @@ interface NoteProps {
 }
 
 const NoteComponent = ({ note, onDelete }: NoteProps) => {
+  const [, copyToClipboard] = useCopyToClipboard();
+  const [copied, setCopied] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+
   const handleDelete = async (e: React.MouseEvent) => {
     e.preventDefault();
     if (isDeleting) return;
@@ -37,8 +41,10 @@ const NoteComponent = ({ note, onDelete }: NoteProps) => {
 
       toast.success("Note deleted successfully");
       onDelete();
-    } catch (error) {
+    } catch {
       toast.error("Failed to delete note");
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -46,11 +52,14 @@ const NoteComponent = ({ note, onDelete }: NoteProps) => {
     e.preventDefault();
     e.stopPropagation();
     try {
-      await navigator.clipboard.writeText(
-        window.location.href.replace("dashboard", "note/" + note.id),
-      );
+      const url = window.location.href.replace("dashboard", "note/" + note.id);
+      await copyToClipboard(url);
+      setCopied(true);
       toast.success("Link copied to clipboard");
-    } catch (err) {
+      setTimeout(() => {
+        setCopied(false);
+      }, 2000);
+    } catch {
       toast.error("Failed to copy link to clipboard");
     }
   };
@@ -101,7 +110,11 @@ const NoteComponent = ({ note, onDelete }: NoteProps) => {
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button size="icon" variant="outline" onClick={handleShare}>
-                  <Share2 className="h-4 w-4" />
+                  {copied ? (
+                    <Check className="h-4 w-4" />
+                  ) : (
+                    <Share2 className="h-4 w-4" />
+                  )}
                 </Button>
               </TooltipTrigger>
               <TooltipContent>

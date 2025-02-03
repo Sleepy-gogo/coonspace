@@ -11,7 +11,7 @@ import { DisabledGridTopBar } from "./top-bar";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-export function NoteGrid({ initialNotes }: { initialNotes: PartialNote[] }) {
+export function NoteGrid() {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const debouncedSearchTerm = useDebounce(searchTerm, 400);
 
@@ -25,9 +25,6 @@ export function NoteGrid({ initialNotes }: { initialNotes: PartialNote[] }) {
   } = useSWR<PartialNote[]>(
     `/api/note/list${debouncedSearchTerm ? `?search=${encodeURIComponent(debouncedSearchTerm)}` : ""}`,
     fetcher,
-    {
-      fallbackData: initialNotes,
-    },
   );
 
   // Handle errors
