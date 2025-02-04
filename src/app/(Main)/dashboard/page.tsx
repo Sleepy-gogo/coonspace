@@ -1,6 +1,11 @@
 import { Suspense } from 'react';
 import { NoteGrid, NoteGridSkeleton } from "./_components/note-grid";
 
+export const metadata = {
+  title: 'Dashboard | Coonspace',
+  description: 'See your shared notes on Coonspace!\n\nOnline Markdown sharing, fast and easy.',
+};
+
 function DashboardPage() {
   return (
     <div className="container mx-auto p-4">
