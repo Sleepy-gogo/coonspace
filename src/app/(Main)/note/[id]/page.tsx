@@ -9,7 +9,7 @@ import GoToTopButton from "./_components/go-to-top";
 import PageWrapper from "./_components/sidebar-wrapper";
 
 export async function generateMetadata({ params }: { params: { id: string } }) {
-  const { id } = params;
+  const { id } = await params;
   const noteRes = await getNoteById(id);
   const post = noteRes[0];
 

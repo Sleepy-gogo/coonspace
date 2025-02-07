@@ -9,7 +9,7 @@ export default function AppLayout({
     <div className="relative min-h-screen w-screen overflow-hidden pb-4">
       <Header />
       <main className="min-h-[85vh]">{children}</main>
-      <Stars />
+      <Stars opacity={0.7} />
       <BottomGradient />
     </div>
   );
