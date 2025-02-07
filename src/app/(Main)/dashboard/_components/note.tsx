@@ -74,8 +74,8 @@ const NoteComponent = ({ note, onDelete }: NoteProps) => {
     >
       <Card className="group flex h-full flex-col">
         <CardContent className="flex-grow p-4">
-          <h2 className="text-xl font-semibold">{note.title}</h2>
-          <p className="whitespace-pre-wrap text-slate-400">
+          <h2 className="text-xl font-bold">{note.title}</h2>
+          <p className="whitespace-pre-wrap text-slate-400 transition-colors group-hover:text-slate-200">
             Last update:{" "}
             {new Date(note.updatedAt).toLocaleString("en-US", {
               month: "short",
@@ -89,7 +89,7 @@ const NoteComponent = ({ note, onDelete }: NoteProps) => {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button size="icon" variant="outline">
+                <Button className="group-hover:border-slate-50/20 group-hover:shadow" size="icon" variant="outline">
                   <Pencil className="h-4 w-4" />
                 </Button>
               </TooltipTrigger>
@@ -99,7 +99,7 @@ const NoteComponent = ({ note, onDelete }: NoteProps) => {
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button size="icon" variant="outline" onClick={handleDelete}>
+                <Button className="group-hover:border-slate-50/20 group-hover:shadow" size="icon" variant="outline" onClick={handleDelete}>
                   <Trash2 className="h-4 w-4" />
                 </Button>
               </TooltipTrigger>
@@ -109,7 +109,7 @@ const NoteComponent = ({ note, onDelete }: NoteProps) => {
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button size="icon" variant="outline" onClick={handleShare}>
+                <Button className="group-hover:border-slate-50/20 group-hover:shadow" size="icon" variant="outline" onClick={handleShare}>
                   {copied ? (
                     <Check className="h-4 w-4" />
                   ) : (

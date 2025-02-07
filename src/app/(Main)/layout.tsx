@@ -1,5 +1,5 @@
+import BottomGradient from '~/components/background/bottom-gradient';
 import Header from "~/components/header";
-import CenterLight from "~/components/background/center-light";
 
 export default function AppLayout({
   children,
@@ -8,7 +8,7 @@ export default function AppLayout({
     <div className="relative min-h-screen w-screen overflow-hidden pb-4">
       <Header />
       <main className="min-h-[85vh]">{children}</main>
-      <CenterLight />
+      <BottomGradient />
     </div>
   );
 }
