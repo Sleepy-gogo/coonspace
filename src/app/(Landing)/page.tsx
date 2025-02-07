@@ -2,6 +2,7 @@ import { FileDownIcon, Share2Icon, SquareChevronRight } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import Background from "~/components/background";
 import Header from "~/components/header";
+import MouseMoveEffect from '~/components/background/test';
 
 export default function HomePage() {
   return (
