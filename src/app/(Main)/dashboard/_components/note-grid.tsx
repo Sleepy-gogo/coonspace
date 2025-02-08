@@ -5,7 +5,7 @@ import { Note, NoteSkeleton } from "./note";
 import { useState } from "react";
 import type { PartialNote } from "~/types/note";
 import { toast } from "sonner";
-import { useDebounce } from "@uidotdev/usehooks";
+import { useDebounceValue } from "usehooks-ts";
 import GridTopBar from "./top-bar";
 import { DisabledGridTopBar } from "./top-bar";
 
@@ -13,7 +13,7 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export function NoteGrid() {
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const debouncedSearchTerm = useDebounce(searchTerm, 400);
+  const [debouncedSearchTerm, setDebounced] = useDebounceValue(searchTerm, 400);
 
   const {
     data: notes,
@@ -31,11 +31,16 @@ export function NoteGrid() {
     toast.error("Failed to fetch notes");
   }
 
+  const handleWrite = (term: string) => {
+    setSearchTerm(term);
+    setDebounced(term);
+  };
+
   return (
     <>
       <GridTopBar
         searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
+        setSearchTerm={handleWrite}
         refetchNotes={mutate}
       />
 

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import UserInfoCard, { UserInfoCardSkeleton } from "./user-info";
 import { Button } from "~/components/ui/button";
-import { useMediaQuery } from "@uidotdev/usehooks";
+import { useMediaQuery } from "usehooks-ts";
 import { ArrowLeftFromLine } from "lucide-react";
 import { Skeleton } from "~/components/ui/skeleton";
 
@@ -35,7 +35,7 @@ export default function PageWrapper({
   }, [setSidebarOpen, matches]);
 
   return (
-    <div className="container relative mx-auto grid grid-cols-1 gap-y-8 lg:gap-x-4 lg:gap-y-0 p-3 pb-8 sm:px-6 lg:grid-cols-12">
+    <div className="container relative mx-auto grid grid-cols-1 gap-y-8 p-3 pb-8 sm:px-6 lg:grid-cols-12 lg:gap-x-4 lg:gap-y-0">
       {!sidebarOpen && (
         <Button
           onClick={() => setSidebarOpen(true)}

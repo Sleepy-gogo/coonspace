@@ -12,8 +12,8 @@ import { Skeleton } from "~/components/ui/skeleton";
 import type { PartialNote } from "~/types/note";
 import React, { useState } from "react";
 import { toast } from "sonner";
-import { useCopyToClipboard } from "@uidotdev/usehooks";
-import { useRouter } from 'next/navigation';
+import { useCopyToClipboard } from "usehooks-ts";
+import { useRouter } from "next/navigation";
 
 interface NoteProps {
   note: PartialNote;
