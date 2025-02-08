@@ -16,8 +16,9 @@ This tool is built using [Next](https://https://nextjs.org/) and [TailwindCSS](h
 - [x] Handle markdown parsing and rendering
 - [x] Create dynamic routes for markdown files
 - [x] Implement markdown editor
-- [ ] Implement transitions API
-- [ ] Basic CRUD operations for markdown files
+- [x] Basic CRUD operations for markdown files
+- [ ] Add download as pdf feature
+- [ ] Add Posthog for analytics
 - [ ] Implement rate limiting
 - [ ] Set up vercel hosting
 
@@ -25,3 +26,9 @@ This tool is built using [Next](https://https://nextjs.org/) and [TailwindCSS](h
 
 - [ ] Add admin panel
 - [ ] Reporting feature (On post and contacting)
+
+**Maybe**
+
+- [ ] Add personal profiles
+- [ ] Add note visibility toggle
+- [ ] Add pagination
