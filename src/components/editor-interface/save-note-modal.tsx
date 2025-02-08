@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { UploadFileResult } from "uploadthing/types";
@@ -31,30 +31,55 @@ interface slugApiResponse {
   exists: boolean;
 }
 
-const formSchema = z.object({
-  title: z.string().min(2, "Title is required"),
-  slug: z
-    .string()
-    .min(4, "Slug is required")
-    .max(256, "Slug must be between 4 and 256 characters").refine(async (slug) => {
-      const res = await fetch(`/api/note/exists?slug=${slug}`);
-      return !res.ok || !(await res.json() as slugApiResponse).exists;
-    }, {
-      message: "Slugs already in use."
-    }),
-});
-
 interface SaveNoteModalProps {
   markdown: string;
+  initialTitle?: string;
+  initialSlug?: string;
+  noteId?: string;
 }
 
-function SaveNoteModal({markdown} : SaveNoteModalProps) {
+function SaveNoteModal({
+  markdown,
+  initialTitle = "",
+  initialSlug = "",
+  noteId = "",
+}: SaveNoteModalProps) {
+  const formSchema = useMemo(() => z.object({
+    title: z.string().min(2, "Title is required"),
+    slug: z
+      .string()
+      .min(4, "Slug is required")
+      .max(256, "Slug must be between 4 and 256 characters")
+      .optional()
+      .refine(
+        async (slug) => {
+          if (!slug) return true;
+
+          if (slug == initialSlug) return true;
+
+          const res = await fetch(
+            `/api/note/exists?slug=${slug}`
+          );
+
+          if (!res.ok) return false;
+
+          const slugExists = (await res.json() as slugApiResponse).exists;
+
+          return !slugExists;
+        },
+        {
+          message: "Slug already in use.",
+        }
+      ),
+  }), [initialSlug]);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "",
-      slug: "",
+      title: initialTitle,
+      slug: initialSlug,
     },
+    mode: "onChange",
   });
   const [open, setOpen] = useState(false);
   const router = useRouter();
@@ -67,12 +92,20 @@ function SaveNoteModal({markdown} : SaveNoteModalProps) {
       const formData = new FormData();
       formData.set("markdown", markdown);
       formData.set("title", values.title);
-      formData.set("slug", values.slug);
+      formData.set("slug", values.slug ?? "");
 
-      const res = await fetch("/api/note/save", {
-        method: "POST",
-        body: formData,
-      });
+      let res;
+      if (!noteId) {
+        res = await fetch("/api/note/save", {
+         method: "POST",
+         body: formData,
+       });
+      } else {
+        res = await fetch(`/api/note/${noteId}`, {
+         method: "PUT",
+         body: formData,
+       });
+      }
 
       if (!res.ok) {
         throw new Error("Upload failed");
@@ -86,24 +119,31 @@ function SaveNoteModal({markdown} : SaveNoteModalProps) {
 
       toast.success("Note saved successfully!");
       router.push("/dashboard");
-    } catch {
+    } catch (error) {
       toast.error("Upload failed. Try again later.");
+      console.error("Save error:", error);
     } finally {
       setIsSaving(false);
+      setOpen(false);
     }
   }
 
   return (
     <ResponsiveModal open={open} onOpenChange={setOpen}>
       <ResponsiveModalTrigger asChild>
-        <Button disabled={(markdown.length < 2)}>Publish</Button>
+        <Button disabled={markdown.length < 2}>
+          {noteId ? "Update" : "Publish"}
+        </Button>
       </ResponsiveModalTrigger>
       <ResponsiveModalContent side="bottom">
         <ResponsiveModalHeader>
-          <ResponsiveModalTitle>Publish note</ResponsiveModalTitle>
+          <ResponsiveModalTitle>
+            {noteId ? "Edit note" : "Publish note"}
+          </ResponsiveModalTitle>
           <ResponsiveModalDescription>
-            Before saving your note, set a public title and a slug for your
-            note.
+            {noteId
+              ? "Update your note's title and slug. You can leave it the same if this is not what you want."
+              : "Before saving your note, set a public title and slug for your note."}
           </ResponsiveModalDescription>
         </ResponsiveModalHeader>
         <Form {...form}>
@@ -141,14 +181,15 @@ function SaveNoteModal({markdown} : SaveNoteModalProps) {
                     <Input placeholder="your-note-slug" {...field} />
                   </FormControl>
                   <FormDescription>
-                    This will be used in the url to access the note. i.e: coonspace.com/note/my-app-tos
+                    This will be used in the url to access the note. i.e:
+                    coonspace.com/note/my-app-tos<br/>If a slug is not provided, an automatic one will be provided.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
             <Button type="submit" disabled={isSaving}>
-              {isSaving ? "Saving..." : "Save"}
+              {isSaving ? "Saving..." : noteId ? "Update" : "Save"}
             </Button>
           </form>
         </Form>

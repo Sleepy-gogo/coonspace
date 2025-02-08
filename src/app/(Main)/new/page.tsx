@@ -1,4 +1,4 @@
-import EditorInterface from "./_components/editor-interface";
+import EditorInterface from "~/components/editor-interface";
 
 export const metadata = {
   title: "New Note | Coonspace",
