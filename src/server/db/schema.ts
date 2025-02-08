@@ -33,6 +33,7 @@ export const notes = createTable(
     id: text("id", { length: 48 }).primaryKey().unique().notNull().$defaultFn(() => createId()),
     title: text("title", { length: 256 }).notNull(),
     content: text("content", { length: 256 }).notNull(),
+    slug: text("slug", { length: 256 }).notNull().unique(),
     createdAt: int("created_at", { mode: "timestamp" })
       .default(sql`(unixepoch())`)
       .notNull(),
