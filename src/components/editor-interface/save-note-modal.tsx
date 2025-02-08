@@ -44,34 +44,37 @@ function SaveNoteModal({
   initialSlug = "",
   noteId = "",
 }: SaveNoteModalProps) {
-  const formSchema = useMemo(() => z.object({
-    title: z.string().min(2, "Title is required"),
-    slug: z
-      .string()
-      .min(4, "Slug is required")
-      .max(256, "Slug must be between 4 and 256 characters")
-      .optional()
-      .refine(
-        async (slug) => {
-          if (!slug) return true;
+  const formSchema = useMemo(
+    () =>
+      z.object({
+        title: z.string().min(2, "Title is required"),
+        slug: z
+          .string()
+          .max(256, "Slug must be between 4 and 256 characters")
+          .optional()
+          .refine(
+            async (slug) => {
+              if (!slug) return true;
 
-          if (slug == initialSlug) return true;
+              if (slug == initialSlug) return true;
 
-          const res = await fetch(
-            `/api/note/exists?slug=${slug}`
-          );
+              if (slug.length < 4) return false;
 
-          if (!res.ok) return false;
+              const res = await fetch(`/api/note/exists?slug=${slug}`);
 
-          const slugExists = (await res.json() as slugApiResponse).exists;
+              if (!res.ok) return false;
 
-          return !slugExists;
-        },
-        {
-          message: "Slug already in use.",
-        }
-      ),
-  }), [initialSlug]);
+              const slugExists = ((await res.json()) as slugApiResponse).exists;
+
+              return !slugExists;
+            },
+            {
+              message: "Slug already in use or too short. (4 characters minimum)",
+            },
+          ),
+      }),
+    [initialSlug],
+  );
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -97,14 +100,14 @@ function SaveNoteModal({
       let res;
       if (!noteId) {
         res = await fetch("/api/note/save", {
-         method: "POST",
-         body: formData,
-       });
+          method: "POST",
+          body: formData,
+        });
       } else {
         res = await fetch(`/api/note/${noteId}`, {
-         method: "PUT",
-         body: formData,
-       });
+          method: "PUT",
+          body: formData,
+        });
       }
 
       if (!res.ok) {
@@ -131,7 +134,7 @@ function SaveNoteModal({
   return (
     <ResponsiveModal open={open} onOpenChange={setOpen}>
       <ResponsiveModalTrigger asChild>
-        <Button disabled={markdown.length < 2}>
+        <Button disabled={markdown.length < 1}>
           {noteId ? "Update" : "Publish"}
         </Button>
       </ResponsiveModalTrigger>
@@ -182,7 +185,10 @@ function SaveNoteModal({
                   </FormControl>
                   <FormDescription>
                     This will be used in the url to access the note. i.e:
-                    coonspace.com/note/my-app-tos<br/>If a slug is not provided, an automatic one will be provided.
+                    coonspace.com/note/my-app-tos
+                    <br />
+                    If a slug is not provided, an automatic one will be
+                    generated.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
