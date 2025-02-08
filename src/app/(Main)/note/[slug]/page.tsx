@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/await-thenable */
 
 import { notFound } from "next/navigation";
-import { getNoteById, getUserById } from "~/server/queries/select";
+import { getNoteBySlug, getUserById } from "~/server/queries/select";
 import MarkdownRenderer from "~/components/markdown-renderer";
 import { Suspense } from "react";
 import LoadingSpinner from "~/components/loading-spinner";
 import GoToTopButton from "./_components/go-to-top";
 import PageWrapper from "./_components/sidebar-wrapper";
 
-export async function generateMetadata({ params }: { params: { id: string } }) {
-  const { id } = await params;
-  const noteRes = await getNoteById(id);
+export async function generateMetadata({ params }: { params: { slug: string } }) {
+  const { slug } = await params;
+  const noteRes = await getNoteBySlug(slug);
   const post = noteRes[0];
 
   if (!post) {
@@ -30,9 +30,9 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
   };
 }
 
-export default async function NotePage({ params }: { params: { id: string } }) {
-  const { id } = await params;
-  const note = (await getNoteById(id))[0];
+export default async function NotePage({ params }: { params: { slug: string } }) {
+  const { slug } = await params;
+  const note = (await getNoteBySlug(slug))[0];
 
   if (!note) {
     return notFound();
@@ -61,7 +61,7 @@ export default async function NotePage({ params }: { params: { id: string } }) {
   const sidebarData = {
     user,
     info: {
-      id,
+      slug,
       updatedAt: note.updatedAt,
     },
   };

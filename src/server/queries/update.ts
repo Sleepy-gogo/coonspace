@@ -5,9 +5,15 @@ import { db } from '~/server/db';
 import type { SelectNote, SelectUser } from '~/server/db/schema';
 import { users, notes } from '~/server/db/schema';
 
-export async function updateNote(
+export async function updateNoteMetadata(
   id: SelectNote['id'],
-  data: Partial<Omit<SelectNote, 'id'>>) {
+  data: Pick<SelectNote, 'title' | 'slug'>) {
+  await db.update(notes).set(data).where(eq(notes.id, id));
+}
+
+export async function updateNoteContent(
+  id: SelectNote['id'],
+  data: Pick<SelectNote, 'id' | 'content'>) {
   await db.update(notes).set(data).where(eq(notes.id, id));
 }
 

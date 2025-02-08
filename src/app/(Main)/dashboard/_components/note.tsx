@@ -13,6 +13,7 @@ import type { PartialNote } from "~/types/note";
 import React, { useState } from "react";
 import { toast } from "sonner";
 import { useCopyToClipboard } from "@uidotdev/usehooks";
+import { useRouter } from 'next/navigation';
 
 interface NoteProps {
   note: PartialNote;
@@ -20,6 +21,7 @@ interface NoteProps {
 }
 
 const NoteComponent = ({ note, onDelete }: NoteProps) => {
+  const router = useRouter();
   const [, copyToClipboard] = useCopyToClipboard();
   const [copied, setCopied] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -52,7 +54,10 @@ const NoteComponent = ({ note, onDelete }: NoteProps) => {
     e.preventDefault();
     e.stopPropagation();
     try {
-      const url = window.location.href.replace("dashboard", "note/" + note.id);
+      const url = window.location.href.replace(
+        "dashboard",
+        "note/" + note.slug,
+      );
       await copyToClipboard(url);
       setCopied(true);
       toast.success("Link copied to clipboard");
@@ -64,9 +69,15 @@ const NoteComponent = ({ note, onDelete }: NoteProps) => {
     }
   };
 
+  const handleEdit = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    router.push(`/edit/${note.slug}`);
+  };
+
   return (
     <Link
-      href={`/note/${note.id}`}
+      href={`/note/${note.slug}`}
       aria-label={note.title}
       className={
         isDeleting ? "pointer-events-none animate-pulse cursor-wait" : ""
@@ -89,7 +100,12 @@ const NoteComponent = ({ note, onDelete }: NoteProps) => {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button className="group-hover:border-slate-50/20 group-hover:shadow" size="icon" variant="outline">
+                <Button
+                  className="group-hover:border-slate-50/20 group-hover:shadow"
+                  size="icon"
+                  variant="outline"
+                  onClick={handleEdit}
+                >
                   <Pencil className="h-4 w-4" />
                 </Button>
               </TooltipTrigger>
@@ -99,7 +115,12 @@ const NoteComponent = ({ note, onDelete }: NoteProps) => {
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button className="group-hover:border-slate-50/20 group-hover:shadow" size="icon" variant="outline" onClick={handleDelete}>
+                <Button
+                  className="group-hover:border-slate-50/20 group-hover:shadow"
+                  size="icon"
+                  variant="outline"
+                  onClick={handleDelete}
+                >
                   <Trash2 className="h-4 w-4" />
                 </Button>
               </TooltipTrigger>
@@ -109,7 +130,12 @@ const NoteComponent = ({ note, onDelete }: NoteProps) => {
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button className="group-hover:border-slate-50/20 group-hover:shadow" size="icon" variant="outline" onClick={handleShare}>
+                <Button
+                  className="group-hover:border-slate-50/20 group-hover:shadow"
+                  size="icon"
+                  variant="outline"
+                  onClick={handleShare}
+                >
                   {copied ? (
                     <Check className="h-4 w-4" />
                   ) : (

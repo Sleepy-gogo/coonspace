@@ -17,7 +17,7 @@ interface UserInfoCardProps {
     imageUrl: string;
   };
   info: {
-    id: string;
+    slug: string;
     updatedAt: Date;
   };
   closeSidebar: () => void;

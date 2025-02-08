@@ -56,6 +56,17 @@ export async function getNoteById(id: SelectNote['id']): Promise<Array<{
   return db.select().from(notes).where(eq(notes.id, id));
 }
 
+export async function getNoteBySlug(slug: SelectNote['slug']): Promise<Array<{
+  id: string;
+  title: string;
+  content: string;
+  slug: string;
+  updatedAt: Date;
+  userId: string;
+}>> {
+  return db.select().from(notes).where(eq(notes.slug, slug));
+}
+
 export async function getMatchingNotes(
   query: string,
   page = 1,

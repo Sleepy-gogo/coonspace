@@ -16,7 +16,7 @@ interface PageWrapperProps {
       imageUrl: string;
     };
     info: {
-      id: string;
+      slug: string;
       updatedAt: Date;
     };
   };
