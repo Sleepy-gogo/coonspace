@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/await-thenable */
 import { notFound } from "next/navigation";
-import EditorInterface from "~/components/editor-interface";
+import { Suspense } from "react";
+import EditorInterface, {
+  EditorInterfaceSkeleton,
+} from "~/components/editor-interface";
 import { getNoteBySlug, getUserById } from "~/server/queries/select";
 
 export const metadata = {
@@ -37,13 +40,15 @@ export default async function Page({ params }: { params: { slug: string } }) {
   const markdown = await content.text();
 
   return (
-    <EditorInterface
-      initialState={{
-        markdown: markdown,
-        title: post.title,
-        slug: post.slug,
-      }}
-      noteId={post.id}
-    />
+    <Suspense fallback={<EditorInterfaceSkeleton />}>
+      <EditorInterface
+        initialState={{
+          markdown: markdown,
+          title: post.title,
+          slug: post.slug,
+        }}
+        noteId={post.id}
+      />
+    </Suspense>
   );
 }
