@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import MarkdownRenderer from "~/components/markdown-renderer";
 import { Textarea } from "~/components/ui/textarea";
 import { Button } from "~/components/ui/button";
 import { Eye, EyeClosed } from "lucide-react";
 import { useMediaQuery } from "@uidotdev/usehooks";
+
 
 interface MarkdownEditorProps {
   markdown: string;
@@ -13,12 +14,9 @@ interface MarkdownEditorProps {
 }
 
 function MarkdownEditor({ markdown, setMarkdown }: MarkdownEditorProps) {
-  // If viewport is 768px or less, treat as mobile
   const isMobile = useMediaQuery("(max-width: 768px)");
-  // Local state to toggle preview vs. edit mode (only active on mobile)
   const [showPreview, setShowPreview] = useState<boolean>(false);
 
-  // Handler to toggle preview
   const togglePreview = () => {
     setShowPreview((prev) => !prev);
   };
