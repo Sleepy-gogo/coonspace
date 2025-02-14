@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/await-thenable */
-
 import { auth } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
 import { deleteNote } from '~/server/queries/delete';
@@ -8,7 +6,7 @@ import { updateMarkdown } from '~/server/upload-markdown';
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string; }; }
+  { params }: Readonly<{ params: Promise<{ id: string; }>; }>
 ) {
   const user = await auth();
 
@@ -40,7 +38,7 @@ export async function DELETE(
   }
 }
 
-export async function PUT(request: Request, { params }: { params: { id: string; }; }) {
+export async function PUT(request: Request, { params }: Readonly<{ params: Promise<{ id: string; }>; }>) {
   const user = await auth();
   if (!user.userId) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

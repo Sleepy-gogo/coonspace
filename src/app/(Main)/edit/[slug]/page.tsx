@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/await-thenable */
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import EditorInterface, {
@@ -12,7 +11,9 @@ export const metadata = {
     "Edit a note on Coonspace!\n\nOnline Markdown sharing, fast and easy.",
 };
 
-export default async function Page({ params }: { params: { slug: string } }) {
+export default async function Page({ params }: Readonly<{
+  params: Promise<{slug: string}>
+}>) {
   const { slug } = await params;
   const noteRes = await getNoteBySlug(slug);
   const post = noteRes[0];

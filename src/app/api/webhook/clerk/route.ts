@@ -5,6 +5,7 @@ import { env } from '~/env';
 import { createUser } from '~/server/queries/insert';
 import { deleteUser } from '~/server/queries/delete';
 import { updateUser } from '~/server/queries/update';
+import { ClerkUserEventData, ClerkWebhookEvent } from '~/types/clerk';
 
 export async function POST(req: Request) {
   const SIGNING_SECRET: string = env.CLERK_SIGNING_SECRET;
@@ -30,7 +31,7 @@ export async function POST(req: Request) {
   }
 
   // Get body
-  const payload = await req.json();
+  const payload = (await req.json()) as ClerkWebhookEvent<ClerkUserEventData> ;
   const body = JSON.stringify(payload);
 
   let evt: WebhookEvent;
@@ -48,7 +49,7 @@ export async function POST(req: Request) {
       status: 400,
     });
   }
-
+  
   const eventType = evt.type;
 
   switch (eventType) {

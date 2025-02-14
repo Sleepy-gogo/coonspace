@@ -7,7 +7,7 @@ This tool is built using [Next](https://https://nextjs.org/) and [TailwindCSS](h
 ## To do
 
 - [ ] Finish landing
-- [ ] Finish dashboard
+- [x] Finish dashboard
 
 **Core Features:**
 

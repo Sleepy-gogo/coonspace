@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/await-thenable */
-
 import { notFound } from "next/navigation";
 import { getNoteBySlug, getUserById } from "~/server/queries/select";
 import MarkdownRenderer from "~/components/markdown-renderer";
@@ -8,7 +6,7 @@ import LoadingSpinner from "~/components/loading-spinner";
 import GoToTopButton from "./_components/go-to-top";
 import PageWrapper from "./_components/sidebar-wrapper";
 
-export async function generateMetadata({ params }: { params: { slug: string } }) {
+export async function generateMetadata({ params }: Readonly<{ params: Promise<{slug : string}>}>) {
   const { slug } = await params;
   const noteRes = await getNoteBySlug(slug);
   const post = noteRes[0];
@@ -30,7 +28,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-export default async function NotePage({ params }: { params: { slug: string } }) {
+export default async function NotePage({ params }: Readonly<{ params: Promise<{slug : string}>}>) {
   const { slug } = await params;
   const note = (await getNoteBySlug(slug))[0];
 
