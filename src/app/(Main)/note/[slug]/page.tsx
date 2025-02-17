@@ -1,12 +1,15 @@
 import { notFound } from "next/navigation";
-import { getNoteBySlug, getUserById } from "~/server/queries/select";
+import { getNoteBySlug } from "~/server/queries/select";
 import MarkdownRenderer from "~/components/markdown-renderer";
 import { Suspense } from "react";
 import LoadingSpinner from "~/components/loading-spinner";
 import GoToTopButton from "./_components/go-to-top";
 import PageWrapper from "./_components/sidebar-wrapper";
+import { clerkClient } from "@clerk/nextjs/server";
 
-export async function generateMetadata({ params }: Readonly<{ params: Promise<{slug : string}>}>) {
+export async function generateMetadata({
+  params,
+}: Readonly<{ params: Promise<{ slug: string }> }>) {
   const { slug } = await params;
   const noteRes = await getNoteBySlug(slug);
   const post = noteRes[0];
@@ -15,8 +18,7 @@ export async function generateMetadata({ params }: Readonly<{ params: Promise<{s
     return notFound();
   }
 
-  const userRes = await getUserById(post.userId);
-  const user = userRes[0];
+  const user = await (await clerkClient()).users.getUser(post.userId);
 
   if (!user) {
     return notFound();
@@ -28,7 +30,9 @@ export async function generateMetadata({ params }: Readonly<{ params: Promise<{s
   };
 }
 
-export default async function NotePage({ params }: Readonly<{ params: Promise<{slug : string}>}>) {
+export default async function NotePage({
+  params,
+}: Readonly<{ params: Promise<{ slug: string }> }>) {
   const { slug } = await params;
   const note = (await getNoteBySlug(slug))[0];
 
@@ -45,16 +49,14 @@ export default async function NotePage({ params }: Readonly<{ params: Promise<{s
   }
 
   const markdownContent = await response.text();
-  let user = (await getUserById(note.userId))[0];
+  const fullUser = await (await clerkClient()).users.getUser(note.userId);
 
-  if (!user) {
-    user = {
-      id: "unknown",
-      fullName: "John Doe",
-      username: "Unknown",
-      imageUrl: "/default-avatar.png",
-    };
-  }
+  const user = {
+    id: note.userId,
+    fullName: fullUser.fullName ?? "John Doe",
+    username: fullUser.username ?? "Unknown",
+    imageUrl: fullUser.imageUrl,
+  };
 
   const sidebarData = {
     user,

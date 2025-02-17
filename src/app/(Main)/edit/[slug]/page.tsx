@@ -1,9 +1,10 @@
+import { clerkClient } from "@clerk/nextjs/server";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import EditorInterface, {
   EditorInterfaceSkeleton,
 } from "~/components/editor-interface";
-import { getNoteBySlug, getUserById } from "~/server/queries/select";
+import { getNoteBySlug } from "~/server/queries/select";
 
 export const metadata = {
   title: "Edit Note | Coonspace",
@@ -11,8 +12,10 @@ export const metadata = {
     "Edit a note on Coonspace!\n\nOnline Markdown sharing, fast and easy.",
 };
 
-export default async function Page({ params }: Readonly<{
-  params: Promise<{slug: string}>
+export default async function Page({
+  params,
+}: Readonly<{
+  params: Promise<{ slug: string }>;
 }>) {
   const { slug } = await params;
   const noteRes = await getNoteBySlug(slug);
@@ -22,8 +25,7 @@ export default async function Page({ params }: Readonly<{
     return notFound();
   }
 
-  const userRes = await getUserById(post.userId);
-  const user = userRes[0];
+  const user = await (await clerkClient()).users.getUser(post.userId);
 
   if (!user) {
     return notFound();

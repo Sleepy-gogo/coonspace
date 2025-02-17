@@ -17,16 +17,6 @@ const createId = init({
  */
 export const createTable = sqliteTableCreator((name) => `coonspace_${name}`);
 
-export const users = createTable(
-  "user",
-  {
-    id: text("id", { length: 32 }).primaryKey().unique().notNull(),
-    fullName: text("full_name", { length: 256 }).notNull(),
-    username: text("username", { length: 256 }).unique().notNull(),
-    imageUrl: text("image_url", { length: 256 }).notNull(),
-  }
-);
-
 export const notes = createTable(
   "note",
   {
@@ -40,12 +30,10 @@ export const notes = createTable(
     updatedAt: int("updated_at", { mode: "timestamp" }).default(sql`(unixepoch())`).$onUpdate(
       () => new Date()
     ).notNull(),
-    userId: text("user_id", { length: 32 }).notNull().references(() => users.id),
+    userId: text("user_id", { length: 32 }).notNull(),
   }
 );
 
-export type InsertUser = typeof users.$inferInsert;
 export type InsertNote = typeof notes.$inferInsert;
 
-export type SelectUser = typeof users.$inferSelect;
 export type SelectNote = typeof notes.$inferSelect;

@@ -28,7 +28,7 @@ export const ourFileRouter = {
         id: file.key,
         userId: metadata.userId,
         title: file.name.replace(/\.md$/, ''),
-        content: file.url,
+        content: file.ufsUrl,
         slug: slugify(file.name.replace(/\.md$/, '')) + "-" + createId(),
       };
       await createNote(note);

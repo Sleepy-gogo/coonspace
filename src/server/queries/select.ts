@@ -2,27 +2,9 @@ import "server-only";
 
 import { asc, eq, and, like } from 'drizzle-orm';
 import { db } from '~/server/db';
-import type { SelectUser, SelectNote } from '~/server/db/schema';
-import { users, notes } from '~/server/db/schema';
+import type { SelectNote } from '~/server/db/schema';
+import { notes } from '~/server/db/schema';
 import { auth } from '@clerk/nextjs/server';
-
-export async function getUserById(id: SelectUser['id']): Promise<Array<{
-  id: string,
-  fullName: string,
-  username: string,
-  imageUrl: string;
-}>> {
-  return db.select().from(users).where(eq(users.id, id));
-}
-
-export async function getUserByUsername(username: SelectUser['username']): Promise<Array<{
-  id: string,
-  fullName: string,
-  username: string,
-  imageUrl: string;
-}>> {
-  return db.select().from(users).where(eq(users.username, username));
-}
 
 export async function getPersonalNotes(
   page = 1,
