@@ -6,8 +6,7 @@ import { auth } from '@clerk/nextjs/server';
 import postcss from 'postcss';
 import tailwindcss from 'tailwindcss';
 import typography from '@tailwindcss/typography';
-import puppeteer, { Browser } from 'puppeteer';
-import puppeteerCore, { type Browser as BrowserCore } from 'puppeteer-core';
+import puppeteerCore from 'puppeteer-core';
 import chromium from '@sparticuz/chromium-min';
 
 export const dynamic = 'force-dynamic';
@@ -51,50 +50,50 @@ export async function GET(request: Request, { params }: Readonly<{ params: Promi
   //    @tailwind utilities;`,
   //   { from: undefined }
   // );
-  let browser: Browser | BrowserCore;
-  if (process.env.NODE_ENV === 'production' || process.env.VERCEL_ENV === 'production') {
-      const executablePath = await chromium.executablePath('https://github.com/Sparticuz/chromium/releases/download/v131.0.1/chromium-v131.0.1-pack.tar')
-      browser = await puppeteerCore.launch({
-          executablePath,
-          args: chromium.args,
-          headless: true,
-          defaultViewport: chromium.defaultViewport
-      });
-  } else {
-      browser = await puppeteer.launch({
-          headless: true,
-          args: ['--no-sandbox', '--disable-setuid-sandbox']
-      });
-  }
-
   try {
-    const page = await browser.newPage();
-
-    await page.setContent(htmlContent, {
-      waitUntil: 'networkidle0'
+    const executablePath = await chromium.executablePath('https://github.com/Sparticuz/chromium/releases/download/v131.0.1/chromium-v131.0.1-pack.tar');
+    const browser = await puppeteerCore.launch({
+      executablePath,
+      args: chromium.args,
+      headless: true,
+      defaultViewport: chromium.defaultViewport
     });
 
-    const pdf = await page.pdf({
-      format: 'A4',
-      printBackground: true,
-      margin: {
-        top: '20px',
-        right: '20px',
-        bottom: '20px',
-        left: '20px'
-      }
-    });
+    try {
+      const page = await browser.newPage();
 
-    const headers = {
-      'Content-Type': 'application/pdf',
-      'Content-Disposition': `attachment; filename="${id}.pdf"`
-    };
+      await page.setContent(htmlContent, {
+        waitUntil: 'networkidle0'
+      });
 
-    return new NextResponse(pdf, { headers });
-  } catch {
-    return NextResponse.json({ error: 'Something went wrong' }, { status: 500 });
-  } finally {
-    await browser.close();
+      const pdf = await page.pdf({
+        format: 'A4',
+        printBackground: true,
+        margin: {
+          top: '20px',
+          right: '20px',
+          bottom: '20px',
+          left: '20px'
+        }
+      });
+
+      const headers = {
+        'Content-Type': 'application/pdf',
+        'Content-Disposition': `attachment; filename="${id}.pdf"`
+      };
+
+      return new NextResponse(pdf, { headers });
+    } catch {
+      return NextResponse.json({ error: 'Something went wrong' }, { status: 500 });
+    } finally {
+      await browser.close();
+    }
+  } catch (error) {
+    console.error('PDF generation error:', error);
+    return NextResponse.json(
+      { message: 'Error generating PDF' },
+      { status: 500 }
+    );
   }
 }
 
