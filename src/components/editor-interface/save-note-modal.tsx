@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
+import { usePostHog } from 'posthog-js/react';
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -84,6 +85,7 @@ function SaveNoteModal({
     },
     mode: "onChange",
   });
+  const posthog = usePostHog();
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const [isSaving, setIsSaving] = useState<boolean>(false);
@@ -120,6 +122,12 @@ function SaveNoteModal({
         toast.error("Error trying to upload note: " + data.error.message);
       }
 
+      if (!noteId) {
+        posthog.capture("note_created_from_editor");
+      } else {
+        posthog.capture("note_updated");
+      }
+      
       toast.success("Note saved successfully!");
       router.push("/dashboard");
     } catch (error) {

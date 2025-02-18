@@ -1,4 +1,5 @@
 import { toast } from "sonner";
+import { usePostHog } from "posthog-js/react";
 import { useUploadThing } from "~/utils/uploadthing";
 
 type Input = Parameters<typeof useUploadThing>;
@@ -68,6 +69,7 @@ interface UploadButtonProps {
 }
 
 export default function UploadButton({ onComplete }: UploadButtonProps) {
+  const posthog = usePostHog();
   const { inputProps, isUploading } = useUploadThingInputProps("mdUploader", {
     onUploadError: () => {
       toast.error(
@@ -75,12 +77,14 @@ export default function UploadButton({ onComplete }: UploadButtonProps) {
       );
     },
     onUploadBegin: () => {
+      posthog.capture("file_upload_begin");
       toast.loading("File uploading, please wait...", {
         id: "loading-toast",
       });
     },
     onClientUploadComplete: () => {
       toast.dismiss("loading-toast");
+      posthog.capture("file_upload_success");
       toast.success("File uploaded successfully!");
       onComplete();
     },

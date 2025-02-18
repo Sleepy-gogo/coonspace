@@ -7,6 +7,7 @@ import { type Metadata } from "next";
 import { extractRouterConfig } from "uploadthing/server";
 import { ourFileRouter } from "~/app/api/uploadthing/core";
 import { Toaster } from "~/components/ui/sonner";
+import { CSPostHogProvider } from "./providers";
 
 export const metadata: Metadata = {
   title: "CoonSpace | Online Markdown Sharing",
@@ -32,9 +33,11 @@ export default function RootLayout({
     >
       <html lang="en">
         <body className="bg-slate-900">
-          <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
-          {children}
-          <Toaster theme="dark" />
+          <CSPostHogProvider>
+            <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
+            {children}
+            <Toaster theme="dark" />
+          </CSPostHogProvider>
         </body>
       </html>
     </ClerkProvider>
