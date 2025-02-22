@@ -30,7 +30,7 @@ function GoToTopButton() {
   }, []);
 
   return (
-    <Button className={`fixed bottom-2 right-2 size-12 px-2 z-10 transition-opacity ${isVisible ? "opacity-100" : "opacity-0"}`} onClick={scrollToTop} size="lg" variant="secondary">
+    <Button className={`fixed bottom-2 right-2 md:bottom-4 md:right-4 size-12 px-2 z-10 transition-opacity ${isVisible ? "opacity-100" : "opacity-0"}`} onClick={scrollToTop} size="lg" variant="secondary">
       <ChevronUp />
     </Button>
   );

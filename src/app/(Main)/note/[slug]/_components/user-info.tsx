@@ -1,7 +1,7 @@
-import { Flag, X } from "lucide-react";
+import { Flag } from "lucide-react";
 import Image from "next/image";
 import { Button } from "~/components/ui/button";
-import { Skeleton } from '~/components/ui/skeleton';
+import { Skeleton } from "~/components/ui/skeleton";
 import {
   Tooltip,
   TooltipProvider,
@@ -20,23 +20,14 @@ interface UserInfoCardProps {
     slug: string;
     updatedAt: Date;
   };
-  closeSidebar: () => void;
 }
 
-function UserInfoCard({ closeSidebar, user, info }: UserInfoCardProps) {
+function UserInfoCard({ user, info }: UserInfoCardProps) {
   return (
     <div className="col-span-3 flex h-full w-full flex-col gap-2 rounded-lg bg-slate-800 p-4">
-      <Button
-        onClick={closeSidebar}
-        variant="outline"
-        className="hidden lg:inline-flex"
-        size="icon"
-      >
-        <X />
-      </Button>
-      <div className="justify-left flex h-full items-center gap-2 lg:flex-col lg:justify-center">
+      <div className="justify-left flex h-full items-center gap-2">
         <Image
-          className="size-24 rounded-full lg:size-32"
+          className="size-24 rounded-full"
           src={user.imageUrl}
           alt={user.username}
           width={96}
@@ -79,9 +70,8 @@ export default UserInfoCard;
 export function UserInfoCardSkeleton() {
   return (
     <div className="col-span-3 flex h-full w-full flex-col gap-2 rounded-lg bg-slate-800 p-4">
-      <Skeleton className="hidden lg:inline-flex h-8 w-8" />
-      <div className="justify-left flex h-full items-center gap-2 lg:flex-col lg:justify-center">
-        <Skeleton className="size-24 rounded-full lg:size-32" />
+      <div className="justify-left flex h-full items-center gap-2">
+        <Skeleton className="size-24 rounded-full" />
         <div className="flex flex-col items-center justify-center gap-2">
           <Skeleton className="h-6 w-24" />
           <Skeleton className="h-4 w-16" />
