@@ -34,6 +34,27 @@ export const notes = createTable(
   }
 );
 
+export const reports = createTable(
+  'reports',
+  {
+    id: text('id', { length: 48 }).primaryKey().unique().notNull().$defaultFn(() => createId()),
+    noteId: text('note_id', { length: 48 }).notNull().references(() => notes.id),
+    userId: text('user_id', { length: 32 }).notNull(),
+    reason: text('reason', { length: 256 }),
+    status: text('status', { enum: ['pending', 'resolved', 'ignored'] })
+      .default('pending')
+      .notNull(),
+    createdAt: int("created_at", { mode: "timestamp" })
+      .default(sql`(unixepoch())`)
+      .notNull(),
+    updatedAt: int("updated_at", { mode: "timestamp" }).default(sql`(unixepoch())`).$onUpdate(
+      () => new Date()
+    ).notNull(),
+  }
+);
+
 export type InsertNote = typeof notes.$inferInsert;
+export type InsertReport = typeof reports.$inferInsert;
 
 export type SelectNote = typeof notes.$inferSelect;
+export type SelectReport = typeof reports.$inferSelect;
