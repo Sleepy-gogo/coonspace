@@ -1,18 +1,41 @@
 "use client";
 
 import { useState } from "react";
-import MarkdownEditor, { MarkdownEditorSkeleton } from "~/components/markdown-editor";
-import SaveNoteModal from './save-note-modal';
-import { Skeleton } from '../ui/skeleton';
+import MarkdownEditor, {
+  MarkdownEditorSkeleton,
+} from "~/components/markdown-editor";
+import SaveNoteModal from "./save-note-modal";
+import { Skeleton } from "../ui/skeleton";
 
 interface MarkdownEditorProps {
   initialState?: {
     markdown: string;
     title: string;
     slug: string;
-  },
-  noteId?: string
+  };
+  noteId?: string;
 }
+
+/**
+ * EditorInterface Component
+ *
+ * A markdown editor component that supports both creating new notes and editing existing ones.
+ *
+ * @component
+ * @param {Object} props - Component props
+ * @param {Object} [props.initialState] - Initial state for the editor
+ * @param {string} [props.initialState.markdown=""] - Initial markdown content
+ * @param {string} [props.initialState.title=""] - Initial title of the note
+ * @param {string} [props.initialState.slug=""] - Initial URL slug for the note
+ * @param {string} [props.noteId=""] - ID of the note being edited
+ *
+ * @remarks
+ * The component operates in two modes:
+ * 1. Save Mode (Default): When no initialState or noteId is provided, allows creating new notes
+ * 2. Edit Mode: When both initialState and noteId are provided, enables editing existing notes
+ *
+ * @returns {JSX.Element} Rendered editor interface with markdown editor and save/update functionality
+ */
 
 export default function EditorInterface({
   initialState = {
@@ -20,15 +43,20 @@ export default function EditorInterface({
     title: "",
     slug: "",
   },
-  noteId = ""
+  noteId = "",
 }: MarkdownEditorProps) {
   const [markdown, setMarkdown] = useState(initialState.markdown);
 
   return (
     <div className="flex flex-col gap-2">
       <MarkdownEditor markdown={markdown} setMarkdown={setMarkdown} />
-      <div className='flex justify-center border-t pt-4 border-slate-400 max-w-screen-sm w-full mx-auto'>
-        <SaveNoteModal markdown={markdown} initialTitle={initialState.title} initialSlug={initialState.slug} noteId={noteId} />
+      <div className="mx-auto flex w-full max-w-screen-sm justify-center border-t border-slate-400 pt-4">
+        <SaveNoteModal
+          markdown={markdown}
+          initialTitle={initialState.title}
+          initialSlug={initialState.slug}
+          noteId={noteId}
+        />
       </div>
     </div>
   );
@@ -38,8 +66,8 @@ export function EditorInterfaceSkeleton() {
   return (
     <div className="flex flex-col gap-2">
       <MarkdownEditorSkeleton />
-      <div className='flex justify-center border-t pt-4 border-slate-400 max-w-screen-sm w-full mx-auto'>
-        <Skeleton className='w-24 h-10 rounded-full' />
+      <div className="mx-auto flex w-full max-w-screen-sm justify-center border-t border-slate-400 pt-4">
+        <Skeleton className="h-10 w-24 rounded-full" />
       </div>
     </div>
   );

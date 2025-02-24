@@ -12,6 +12,27 @@ interface MarkdownEditorProps {
   setMarkdown: (value: string) => void;
 }
 
+/**
+/**
+ * A markdown editor component with live preview functionality
+ * 
+ * @component
+ * @param {Object} props - The component props
+ * @param {string} props.markdown - The markdown content to edit
+ * @param {function} props.setMarkdown - Callback function to update markdown content
+ * 
+ * @example
+ * ```tsx
+ * const [content, setContent] = useState("");
+ * 
+ * return (
+ *   <MarkdownEditor 
+ *     markdown={content}
+ *     setMarkdown={setContent}
+ *   />
+ * );
+ * ```
+ */
 function MarkdownEditor({ markdown, setMarkdown }: MarkdownEditorProps) {
   const [showPreview, setShowPreview] = useState<boolean>(false);
 

@@ -1,33 +1,59 @@
-# Online Markdown Tool
+# CoonSpace
 
-The main objective is to have a free open source markdown sharing tool, where you can just paste the markdown code and share it with the world.
+A free and open-source platform for sharing markdown notes.
 
-This tool is built using [Next](https://https://nextjs.org/) and [TailwindCSS](https://tailwindcss.com/)
+## Features
 
-## To do
+- 📝 Markdown editor with live preview
+- 🎨 Syntax highlighting for code blocks
+- 🔗 Shareable links for your notes
+- 👤 User authentication via Clerk
+- 📊 Analytics with PostHog
 
-- [x] Finish landing
-- [x] Finish dashboard
+## Tech Stack
 
-**Core Features:**
+- Next.js 14 (App Router)
+- TypeScript
+- Tailwind CSS
+- Clerk (Authentication)
+- Turso (Database)
+- UploadThing (File Storage)
+- PostHog (Analytics)
 
-- [x] Implement user authentication (Clerk)
-- [x] Enable file uploading (Uploadthing)
-- [x] Handle markdown parsing and rendering
-- [x] Create dynamic routes for markdown files
-- [x] Implement markdown editor
-- [x] Basic CRUD operations for markdown files
-- [x] Add Posthog for analytics
-- [ ] Implement rate limiting
-- [x] Set up vercel hosting
+## Development
 
-**Safety**
+### Prerequisites
 
-- [ ] Add admin panel
-- [ ] Reporting feature (On post and contacting)
+- Node.js 18+
+- pnpm
+- Clerk account
+- Turso database
+- UploadThing account
+- PostHog account
 
-**Maybe**
+### Environment Variables
 
-- [ ] Add personal profiles
-- [ ] Add note visibility toggle
-- [ ] Add pagination
+```env
+# Authentication (Clerk)
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+CLERK_SECRET_KEY=
+CLERK_SIGNING_SECRET=
+
+# Database (Turso)
+DATABASE_URL=
+DATABASE_AUTH_TOKEN=
+
+# File Storage (UploadThing)
+UPLOADTHING_TOKEN=
+
+# Analytics (PostHog)
+NEXT_PUBLIC_POSTHOG_KEY=
+NEXT_PUBLIC_POSTHOG_HOST=`
+```
+
+### Getting Started
+
+1. Clone the repository
+2. Install dependencies: pnpm install
+3. Set up environment variables
+4. Run development server: pnpm dev

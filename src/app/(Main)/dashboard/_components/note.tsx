@@ -19,7 +19,23 @@ interface NoteProps {
   note: PartialNote;
   onDelete: () => void;
 }
-
+/**
+ * A component that displays a note card with title, last update time, and action buttons.
+ * Provides functionality for editing, deleting, and sharing notes.
+ * 
+ * @component
+ * @param {Object} props - Component props
+ * @param {PartialNote} props.note - The note data to display
+ * @param {() => void} props.onDelete - Callback function triggered after successful note deletion
+ * 
+ * @example
+ * ```tsx
+ * <Note 
+ *   note={noteData}
+ *   onDelete={() => handleNoteDeleted()}
+ * />
+ * ```
+ */
 const NoteComponent = ({ note, onDelete }: NoteProps) => {
   const router = useRouter();
   const [, copyToClipboard] = useCopyToClipboard();

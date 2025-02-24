@@ -35,6 +35,25 @@ interface SaveNoteModalProps {
   noteId?: string;
 }
 
+/**
+ * Modal component for saving or updating notes.
+ * Used internally by EditorInterface to handle note persistence.
+ *
+ * @internal
+ * @component
+ * @param {Object} props
+ * @param {string} props.markdown - Current markdown content to be saved
+ * @param {string} [props.initialTitle=""] - Pre-filled title when editing an existing note
+ * @param {string} [props.initialSlug=""] - Pre-filled slug when editing an existing note
+ * @param {string} [props.noteId=""] - ID of the note being edited, if any
+ *
+ * @remarks
+ * This component handles:
+ * - Form validation including async slug uniqueness check
+ * - Note creation/update via API
+ * - Success/error notifications
+ * - Analytics events tracking
+ */
 function SaveNoteModal({
   markdown,
   initialTitle = "",

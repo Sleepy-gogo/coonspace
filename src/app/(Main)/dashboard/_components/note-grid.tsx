@@ -11,6 +11,16 @@ import { DisabledGridTopBar } from "./top-bar";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
+/**
+ * A responsive grid component for displaying and managing notes.
+ * Features include:
+ * - Dynamic note loading with loading skeletons
+ * - Search functionality with debouncing
+ * - Empty state handling
+ * - Grid layout that adapts to different screen sizes
+ * - Support for note deletion
+ * @component
+ */
 export function NoteGrid() {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [debouncedSearchTerm, setDebounced] = useDebounceValue(searchTerm, 400);
@@ -26,7 +36,6 @@ export function NoteGrid() {
     fetcher,
   );
 
-  // Handle errors
   if (error) {
     toast.error("Failed to fetch notes");
   }

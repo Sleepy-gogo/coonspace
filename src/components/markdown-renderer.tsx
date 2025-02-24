@@ -7,6 +7,18 @@ interface MarkdownRendererProps {
   markdown: string;
 }
 
+/**
+ * Client-side markdown renderer component with syntax highlighting.
+ * Uses marked for parsing and highlight.js for code syntax highlighting.
+ * 
+ * @example
+ * ```tsx
+ * <MarkdownRenderer markdown="# Hello World" />
+ * ```
+ * 
+ * @param {object} props
+ * @param {string} props.markdown - The markdown string to render
+ */
 function MarkdownRenderer({ markdown }: MarkdownRendererProps) {
   const [htmlContent, setHtmlContent] = useState<string>("");
   const marked = useMemo(() => createMarkedInstance(), []);
