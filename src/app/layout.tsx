@@ -9,7 +9,6 @@ import { Toaster } from "~/components/ui/sonner";
 import { CSPostHogProvider } from "./providers";
 import Header from "~/components/header";
 import { Footer } from "~/components/footer";
-import Stars from "~/components/background/stars";
 import BottomGradient from "~/components/background/bottom-gradient";
 
 export const metadata: Metadata = {
@@ -38,7 +37,7 @@ export default function RootLayout({
         <body className="bg-slate-900">
           <CSPostHogProvider>
             <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
-            <div className="relative min-h-screen w-screen overflow-hidden">
+            <div className="relative min-h-screen w-[100dvw] overflow-hidden">
               <Header />
               {children}
               <BottomGradient />
