@@ -1,6 +1,6 @@
 import "server-only";
 
-import { asc, eq, and, like } from 'drizzle-orm';
+import { eq, and, like, desc } from 'drizzle-orm';
 import { db } from '~/server/db';
 import type { SelectNote } from '~/server/db/schema';
 import { notes } from '~/server/db/schema';
@@ -25,7 +25,7 @@ export async function getPersonalNotes(
   const userId = user.userId;
 
   const offset = (page - 1) * pageSize;
-  return db.select().from(notes).where(eq(notes.userId, userId)).orderBy(asc(notes.updatedAt)).limit(pageSize).offset(offset);
+  return db.select().from(notes).where(eq(notes.userId, userId)).orderBy(desc(notes.updatedAt)).limit(pageSize).offset(offset);
 }
 
 export async function getNoteById(id: SelectNote['id']): Promise<Array<{
@@ -68,11 +68,11 @@ export async function getMatchingNotes(
   const userId = user.userId;
 
   const offset = (page - 1) * pageSize;
-  return db.select().from(notes).where(and(eq(notes.userId, userId), like(notes.title, `%${query}%`))).orderBy(asc(notes.updatedAt)).limit(pageSize).offset(offset);
+  return db.select().from(notes).where(and(eq(notes.userId, userId), like(notes.title, `%${query}%`))).orderBy(desc(notes.updatedAt)).limit(pageSize).offset(offset);
 }
 
 export async function slugExists(slug: string): Promise<boolean> {
-  const note = await db.query.notes.findFirst({ where: eq(notes.slug, slug) })
+  const note = await db.query.notes.findFirst({ where: eq(notes.slug, slug) });
 
   if (note?.id) {
     return true;

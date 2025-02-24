@@ -1,4 +1,5 @@
 interface StarsProps {
+  fixed?: boolean;
   opacity?: number;
   count?: number;
   options?: {
@@ -11,6 +12,7 @@ interface StarsProps {
 }
 
 function Stars({
+  fixed = false,
   opacity = 1,
   count = 40,
   options = { size: 2, x: 100, y: 100, blur: 1.5, duration: 6 },
@@ -28,7 +30,7 @@ function Stars({
 
   return (
     <div
-      className="pointer-events-none fixed inset-0 -z-10"
+      className={"pointer-events-none inset-0 -z-10 " + (fixed ? "fixed" : "absolute")}
       style={{ opacity }}
     >
       {stars.map((star, index) => (

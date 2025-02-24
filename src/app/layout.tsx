@@ -1,5 +1,4 @@
 import "~/styles/globals.css";
-
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
@@ -8,6 +7,10 @@ import { extractRouterConfig } from "uploadthing/server";
 import { ourFileRouter } from "~/app/api/uploadthing/core";
 import { Toaster } from "~/components/ui/sonner";
 import { CSPostHogProvider } from "./providers";
+import Header from "~/components/header";
+import { Footer } from "~/components/footer";
+import Stars from "~/components/background/stars";
+import BottomGradient from "~/components/background/bottom-gradient";
 
 export const metadata: Metadata = {
   title: "CoonSpace | Online Markdown Sharing",
@@ -35,7 +38,12 @@ export default function RootLayout({
         <body className="bg-slate-900">
           <CSPostHogProvider>
             <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
-            {children}
+            <div className="relative min-h-screen w-screen overflow-hidden">
+              <Header />
+              {children}
+              <BottomGradient />
+              <Footer />
+            </div>
             <Toaster theme="dark" />
           </CSPostHogProvider>
         </body>

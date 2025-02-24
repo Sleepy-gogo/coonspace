@@ -1,13 +1,10 @@
 import { Coffee, Share2, SquareChevronRight } from "lucide-react";
-import { Button } from "~/components/ui/button";
 import Background from "~/components/background";
-import Header from "~/components/header";
-import { Footer } from '~/components/footer';
+import { Button } from "~/components/ui/button";
 
 export default function HomePage() {
   return (
-    <div className="relative w-screen overflow-hidden">
-      <Header />
+    <>
       <main className="flex flex-col gap-32 lg:gap-40">
         <div className="mx-auto flex max-w-md flex-col items-center justify-center gap-8 px-6 pt-36 sm:max-w-2xl sm:px-8 md:max-w-3xl md:px-10 md:pt-48 lg:max-w-4xl lg:px-4 xl:max-w-5xl 2xl:max-w-6xl">
           <div className="flex flex-col gap-6">
@@ -63,9 +60,7 @@ export default function HomePage() {
         </section>
         <section>Add screenshots of the app here</section>
       </main>
-
-      <Footer />
       <Background />
-    </div>
+    </>
   );
 }
