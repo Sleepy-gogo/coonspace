@@ -1,4 +1,4 @@
-import { parseMarkdown } from "~/utils/markdown";
+import { parseMarkdown } from "~/lib/markdown";
 
 interface MarkdownRendererProps {
   markdown: string;

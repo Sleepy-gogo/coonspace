@@ -2,12 +2,10 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { usePostHog } from 'posthog-js/react';
+import { usePostHog } from "posthog-js/react";
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import type { UploadFileResult } from "uploadthing/types";
-import { z } from "zod";
 import { Button } from "~/components/ui/button";
 import {
   Form,
@@ -27,10 +25,8 @@ import {
   ResponsiveModalTitle,
   ResponsiveModalTrigger,
 } from "~/components/ui/responsive-dialog";
-
-interface slugApiResponse {
-  exists: boolean;
-}
+import { saveNoteSchema, type SaveNoteFormData } from "~/lib/schemas/note";
+import { checkSlugExists, saveNote, updateNote } from "~/lib/services/note";
 
 interface SaveNoteModalProps {
   markdown: string;
@@ -45,52 +41,35 @@ function SaveNoteModal({
   initialSlug = "",
   noteId = "",
 }: SaveNoteModalProps) {
-  const formSchema = useMemo(
-    () =>
-      z.object({
-        title: z.string().min(2, "Title is required"),
-        slug: z
-          .string()
-          .max(256, "Slug must be between 4 and 256 characters")
-          .optional()
-          .refine(
-            async (slug) => {
-              if (!slug) return true;
+  const [open, setOpen] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const router = useRouter();
+  const posthog = usePostHog();
 
-              if (slug == initialSlug) return true;
+  const validationSchema = useMemo(() => {
+    return saveNoteSchema.extend({
+      slug: saveNoteSchema.shape.slug.refine(
+        async (slug) => {
+          if (!slug || slug === initialSlug) return true;
+          if (slug.length < 4) return false;
+          return !(await checkSlugExists(slug));
+        },
+        { message: "Slug already in use or too short. (4 characters minimum)" },
+      ),
+    });
+  }, [initialSlug]);
 
-              if (slug.length < 4) return false;
-
-              const res = await fetch(`/api/note/exists?slug=${slug}`);
-
-              if (!res.ok) return false;
-
-              const slugExists = ((await res.json()) as slugApiResponse).exists;
-
-              return !slugExists;
-            },
-            {
-              message: "Slug already in use or too short. (4 characters minimum)",
-            },
-          ),
-      }),
-    [initialSlug],
-  );
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<SaveNoteFormData>({
+    resolver: zodResolver(validationSchema),
     defaultValues: {
       title: initialTitle,
       slug: initialSlug,
     },
     mode: "onChange",
   });
-  const posthog = usePostHog();
-  const [open, setOpen] = useState(false);
-  const router = useRouter();
-  const [isSaving, setIsSaving] = useState<boolean>(false);
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: SaveNoteFormData) {
+    if (isSaving) return;
     setIsSaving(true);
 
     try {
@@ -99,39 +78,23 @@ function SaveNoteModal({
       formData.set("title", values.title);
       formData.set("slug", values.slug ?? "");
 
-      let res;
-      if (!noteId) {
-        res = await fetch("/api/note/save", {
-          method: "POST",
-          body: formData,
-        });
-      } else {
-        res = await fetch(`/api/note/${noteId}`, {
-          method: "PUT",
-          body: formData,
-        });
-      }
-
-      if (!res.ok) {
-        throw new Error("Upload failed");
-      }
-
-      const data: UploadFileResult = (await res.json()) as UploadFileResult;
+      const data = await (noteId
+        ? updateNote(noteId, formData)
+        : saveNote(formData));
 
       if (data?.error) {
-        toast.error("Error trying to upload note: " + data.error.message);
+        throw new Error(data.error.message);
       }
 
-      if (!noteId) {
-        posthog.capture("note_created_from_editor");
-      } else {
-        posthog.capture("note_updated");
-      }
-      
+      posthog.capture(noteId ? "note_updated" : "note_created_from_editor");
       toast.success("Note saved successfully!");
       router.push("/dashboard");
     } catch (error) {
-      toast.error("Upload failed. Try again later.");
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Upload failed. Try again later.",
+      );
       console.error("Save error:", error);
     } finally {
       setIsSaving(false);

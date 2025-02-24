@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useMemo } from "react";
-import { parseMarkdown, createMarkedInstance } from "~/utils/markdown";
+import { parseMarkdown, createMarkedInstance } from "~/lib/markdown";
 
 interface MarkdownRendererProps {
   markdown: string;
