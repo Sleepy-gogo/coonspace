@@ -1,10 +1,8 @@
 "use client";
 
-import React from "react";
-import { unified } from "unified";
-import remarkParse from "remark-parse";
-import remarkHtml from "remark-html";
 import { useEffect, useState } from "react";
+import { marked } from "marked";
+import sanitize from "sanitize-html";
 
 interface MarkdownRendererProps {
   markdown: string;
@@ -15,12 +13,10 @@ function MarkdownRenderer({ markdown }: MarkdownRendererProps) {
 
   useEffect(() => {
     const parseMarkdown = async () => {
-      const processedContent = await unified()
-        .use(remarkParse) // Parse markdown
-        .use(remarkHtml) // Convert to HTML
-        .process(markdown);
+      const html = await marked(markdown);
+      const sanitizedHtml = sanitize(html) ?? html;
 
-      setHtmlContent(processedContent.toString());
+      setHtmlContent(sanitizedHtml);
     };
 
     parseMarkdown()
@@ -34,7 +30,7 @@ function MarkdownRenderer({ markdown }: MarkdownRendererProps) {
 
   return (
     <div
-      className="prose prose-invert max-w-none w-full break-words"
+      className="prose prose-invert w-full max-w-none break-words"
       dangerouslySetInnerHTML={{ __html: htmlContent }}
     />
   );
