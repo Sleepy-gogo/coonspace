@@ -1,7 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { marked } from "marked";
+import { useEffect, useState, useMemo } from "react";
+import { Marked } from "marked";
+import { markedHighlight } from "marked-highlight";
+import hljs from "highlight.js";
 import sanitize from "sanitize-html";
 
 interface MarkdownRendererProps {
@@ -10,11 +12,61 @@ interface MarkdownRendererProps {
 
 function MarkdownRenderer({ markdown }: MarkdownRendererProps) {
   const [htmlContent, setHtmlContent] = useState<string>("");
+  const marked = useMemo(
+    () =>
+      new Marked(
+        markedHighlight({
+          async: true,
+          emptyLangClass: "hljs",
+          langPrefix: "hljs language-",
+          highlight(code, lang, _) {
+            const language = hljs.getLanguage(lang) ? lang : "plaintext";
+            return hljs.highlight(code, { language }).value;
+          },
+        }),
+      ),
+    [],
+  );
 
   useEffect(() => {
     const parseMarkdown = async () => {
-      const html = await marked(markdown);
-      const sanitizedHtml = sanitize(html) ?? html;
+      const html = await marked.parse(markdown);
+      const sanitizedHtml = sanitize(html, {
+        allowedTags: [
+          "h1",
+          "h2",
+          "h3",
+          "h4",
+          "h5",
+          "h6",
+          "p",
+          "strong",
+          "em",
+          "ul",
+          "ol",
+          "li",
+          "a",
+          "img",
+          "code",
+          "pre",
+          "span",
+          "table",
+          "thead",
+          "tbody",
+          "tr",
+          "th",
+          "td",
+          "blockquote",
+          "hr",
+          "br",
+        ],
+        allowedAttributes: {
+          a: ["href"],
+          img: ["src", "alt"],
+          code: ["class"],
+          span: ["class"],
+        },
+      });
 
       setHtmlContent(sanitizedHtml);
     };
