@@ -47,7 +47,7 @@ export async function saveMarkdown(formData: FormData) {
     userId: userId,
     title: title,
     slug: fileSlug,
-    content: uploadResponse.data?.url ?? '',
+    content: uploadResponse.data?.ufsUrl ?? '',
   };
   await createNote(note);
 
@@ -118,7 +118,7 @@ export async function updateMarkdown(id: string, formData: FormData) {
 
     const note = {
       id: key,
-      content: uploadResponse.data?.url ?? '',
+      content: uploadResponse.data?.ufsUrl ?? '',
     };
     await updateNoteContent(id, note);
   }
