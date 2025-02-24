@@ -2,8 +2,8 @@ import "server-only";
 
 import { eq, and, like, desc } from 'drizzle-orm';
 import { db } from '~/server/db';
-import type { SelectNote } from '~/server/db/schema';
-import { notes } from '~/server/db/schema';
+import type { SelectNote, SelectReport } from '~/server/db/schema';
+import { notes, reports } from '~/server/db/schema';
 import { auth } from '@clerk/nextjs/server';
 
 export async function getPersonalNotes(
@@ -79,3 +79,44 @@ export async function slugExists(slug: string): Promise<boolean> {
   }
   return false;
 }
+
+export async function getReports(
+  page = 1,
+  pageSize = 10
+): Promise<Array<{
+  id: string,
+  noteId: string,
+  userId: string,
+  reason: string | null,
+  status: string,
+  createdAt: Date,
+}>> {
+  const user = await auth();
+
+  if (!user.userId) {
+    throw new Error('Unauthorized');
+  }
+
+  const userId = user.userId;
+
+  const offset = (page - 1) * pageSize;
+  return db
+    .select()
+    .from(reports)
+    .where(eq(reports.userId, userId))
+    .orderBy(desc(reports.updatedAt))
+    .limit(pageSize)
+    .offset(offset);
+}
+
+export async function getReportById(id: SelectReport['id']): Promise<Array<{
+  id: string,
+  noteId: string,
+  userId: string,
+  reason: string | null,
+  status: string,
+  createdAt: Date,
+}>> {
+  return db.select().from(reports).where(eq(reports.id, id));
+}
+
