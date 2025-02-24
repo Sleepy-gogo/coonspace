@@ -17,11 +17,11 @@ export function Footer() {
               className="bg-slate-800 text-slate-300 border-slate-700 hover:bg-slate-700 hover:text-slate-100"
               asChild
             >
-              <Link href="https://github.com/sleepy-gogo/coonspace" target="_blank" rel="noopener noreferrer">
+              <a href="https://github.com/sleepy-gogo/coonspace" target="_blank" rel="noopener noreferrer">
                 <Github className="mr-2 h-4 w-4" />
                 GitHub
                 <span className="sr-only">(opens in a new tab)</span>
-              </Link>
+              </a>
             </Button>
           </div>
           <div className="flex flex-col md:flex-row items-center">
