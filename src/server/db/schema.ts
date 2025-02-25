@@ -35,7 +35,7 @@ export const notes = createTable(
 );
 
 export const reports = createTable(
-  'reports',
+  'report',
   {
     id: text('id', { length: 48 }).primaryKey().unique().notNull().$defaultFn(() => createId()),
     noteId: text('note_id', { length: 48 }).notNull().references(() => notes.id),
