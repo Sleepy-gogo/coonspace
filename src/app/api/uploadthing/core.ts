@@ -25,7 +25,7 @@ export const ourFileRouter = {
     })
     .onUploadComplete(async ({ metadata, file }) => {
       const note = {
-        id: file.key,
+        utId: file.key,
         userId: metadata.userId,
         title: file.name.replace(/\.md$/, ''),
         content: file.ufsUrl,

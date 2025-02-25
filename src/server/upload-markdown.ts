@@ -29,13 +29,11 @@ export async function saveMarkdown(formData: FormData) {
   const fileSlug = slug && typeof slug === 'string' ? slugify(slug, { lower: true }) : slugify(title, { lower: true }) + "-" + createId();
   const fileName = `${fileSlug}.md`;
 
-
   const file = new File([markdown], fileName, {
     type: "text/markdown",
   });
 
   const uploadResponse = await utapi.uploadFiles(file);
-
   const key = uploadResponse.data?.key;
 
   if (!key) {
@@ -43,7 +41,7 @@ export async function saveMarkdown(formData: FormData) {
   }
 
   const note = {
-    id: key,
+    utId: key,
     userId: userId,
     title: title,
     slug: fileSlug,
@@ -103,7 +101,7 @@ export async function updateMarkdown(id: string, formData: FormData) {
 
   if (markdown !== originalContent) {
     console.log("Updating note content");
-    await utapi.deleteFiles(id);
+    await utapi.deleteFiles(post.utId);
 
     const fileName = `${title}.md`;
     const file = new File([markdown], fileName, { type: "text/markdown", });
@@ -117,7 +115,7 @@ export async function updateMarkdown(id: string, formData: FormData) {
     }
 
     const note = {
-      id: key,
+      utId: key,
       content: uploadResponse.data?.ufsUrl ?? '',
     };
     await updateNoteContent(id, note);

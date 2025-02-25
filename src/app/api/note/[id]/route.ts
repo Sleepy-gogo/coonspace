@@ -31,7 +31,7 @@ export async function DELETE(
   }
 
   try {
-    await deleteNote(id);
+    await deleteNote(note[0].utId);
     return NextResponse.json({ message: 'Note deleted successfully' }, { status: 200 });
   } catch {
     return NextResponse.json({ error: 'Failed to delete note' }, { status: 500 });

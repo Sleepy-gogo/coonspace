@@ -1,5 +1,6 @@
 export interface Note {
   id: string;
+  utId: string;
   title: string;
   content: string;
   slug: string;
@@ -8,4 +9,4 @@ export interface Note {
   userId: string;
 };
 
-export type PartialNote = Pick<Note, "id" | "title" | "content" | 'updatedAt' | "slug">;
+export type PartialNote = Pick<Note, "id" | "utId" | "title" | "content" | 'updatedAt' | "slug">;
