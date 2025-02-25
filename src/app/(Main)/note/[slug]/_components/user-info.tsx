@@ -1,6 +1,4 @@
-import { Flag } from "lucide-react";
 import Image from "next/image";
-import { Button } from "~/components/ui/button";
 import { Skeleton } from "~/components/ui/skeleton";
 import {
   Tooltip,
@@ -8,6 +6,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
+import { ReportModal } from "./report-modal";
 
 interface UserInfoCardProps {
   user: {
@@ -51,9 +50,7 @@ function UserInfoCard({ user, info }: UserInfoCardProps) {
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button variant="destructive" size="icon">
-                <Flag />
-              </Button>
+              <ReportModal noteId="awawa" />
             </TooltipTrigger>
             <TooltipContent>
               <p>Report note</p>
