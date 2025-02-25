@@ -2,7 +2,9 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Flag } from "lucide-react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from 'sonner';
 import type { z } from "zod";
 import { AutosizeTextarea } from "~/components/ui/autosize-textarea";
 import { Button } from "~/components/ui/button";
@@ -31,6 +33,7 @@ interface ReportModalProps {
 }
 
 export function ReportModal({ noteId }: ReportModalProps) {
+  const [open, setOpen] = useState<boolean>(false);
   const form = useForm<z.infer<typeof saveReportSchema>>({
     resolver: zodResolver(saveReportSchema),
     defaultValues: {
@@ -43,10 +46,12 @@ export function ReportModal({ noteId }: ReportModalProps) {
       noteId,
       reason: values.reason,
     });
+    setOpen(false);
+    toast.success("Report recieved! We'll review it soon.");
   }
 
   return (
-    <ResponsiveModal>
+    <ResponsiveModal open={open} onOpenChange={setOpen}>
       <ResponsiveModalTrigger asChild>
         <Button variant="destructive" size="icon">
           <Flag />

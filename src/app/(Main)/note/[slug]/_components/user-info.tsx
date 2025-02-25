@@ -16,7 +16,7 @@ interface UserInfoCardProps {
     imageUrl: string;
   };
   info: {
-    slug: string;
+    id: string;
     updatedAt: Date;
   };
 }
@@ -50,7 +50,7 @@ function UserInfoCard({ user, info }: UserInfoCardProps) {
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <ReportModal noteId="awawa" />
+              <ReportModal noteId={info.id} />
             </TooltipTrigger>
             <TooltipContent>
               <p>Report note</p>

@@ -59,7 +59,7 @@ export default async function NotePage({
   };
 
   const info = {
-    slug: note.slug,
+    id: note.id,
     updatedAt: note.updatedAt,
   };
 
