@@ -13,7 +13,7 @@ export async function updateNoteMetadata(
 
 export async function updateNoteContent(
   id: SelectNote['id'],
-  data: Pick<SelectNote, 'id' | 'content'>) {
+  data: Pick<SelectNote, 'utId' | 'content'>) {
   await db.update(notes).set(data).where(eq(notes.id, id));
 }
 

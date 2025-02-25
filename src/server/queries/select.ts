@@ -6,30 +6,9 @@ import type { SelectNote, SelectReport } from '~/server/db/schema';
 import { notes, reports } from '~/server/db/schema';
 import { auth } from '@clerk/nextjs/server';
 
-export async function getPersonalNotes(
-  page = 1,
-  pageSize = 10
-): Promise<Array<{
-  id: string;
-  title: string;
-  content: string;
-  slug: string;
-  updatedAt: Date;
-}>> {
-  const user = await auth();
-
-  if (!user.userId) {
-    throw new Error('Unauthorized');
-  }
-
-  const userId = user.userId;
-
-  const offset = (page - 1) * pageSize;
-  return db.select().from(notes).where(eq(notes.userId, userId)).orderBy(desc(notes.updatedAt)).limit(pageSize).offset(offset);
-}
-
 export async function getNoteById(id: SelectNote['id']): Promise<Array<{
   title: string;
+  utId: string;
   content: string;
   slug: string;
   updatedAt: Date;
@@ -40,6 +19,7 @@ export async function getNoteById(id: SelectNote['id']): Promise<Array<{
 
 export async function getNoteBySlug(slug: SelectNote['slug']): Promise<Array<{
   id: string;
+  utId: string;
   title: string;
   content: string;
   slug: string;
@@ -55,6 +35,7 @@ export async function getMatchingNotes(
   pageSize = 10
 ): Promise<Array<{
   id: string;
+  utId: string;
   title: string;
   slug: string;
   updatedAt: Date;
