@@ -21,6 +21,7 @@ export const notes = createTable(
   "note",
   {
     id: text("id", { length: 48 }).primaryKey().unique().notNull().$defaultFn(() => createId()),
+    utId: text("ut_id", { length: 48 }).unique().notNull(),
     title: text("title", { length: 256 }).notNull(),
     content: text("content", { length: 256 }).notNull(),
     slug: text("slug", { length: 256 }).notNull().unique(),
