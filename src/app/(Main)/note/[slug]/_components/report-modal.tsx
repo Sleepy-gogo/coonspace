@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Flag } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from 'sonner';
+import { toast } from "sonner";
 import type { z } from "zod";
 import { AutosizeTextarea } from "~/components/ui/autosize-textarea";
 import { Button } from "~/components/ui/button";
@@ -25,6 +25,7 @@ import {
   ResponsiveModalTitle,
   ResponsiveModalTrigger,
 } from "~/components/ui/responsive-dialog";
+import { Separator } from "~/components/ui/separator";
 import { saveReportSchema } from "~/lib/schemas/report";
 import { submitReport } from "~/server/report";
 
@@ -66,7 +67,10 @@ export function ReportModal({ noteId }: ReportModalProps) {
           </ResponsiveModalDescription>
         </ResponsiveModalHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="flex flex-col gap-2"
+          >
             <FormField
               control={form.control}
               name="reason"
@@ -78,7 +82,7 @@ export function ReportModal({ noteId }: ReportModalProps) {
                   <FormControl>
                     <AutosizeTextarea
                       placeholder="This note contains..."
-                      maxHeight={200}
+                      maxHeight={100}
                       {...field}
                     />
                   </FormControl>
@@ -89,7 +93,10 @@ export function ReportModal({ noteId }: ReportModalProps) {
                 </FormItem>
               )}
             />
-            <Button type="submit">Submit</Button>
+            <Separator className="mb-2" />
+            <Button type="submit" className="self-center">
+              Submit
+            </Button>
           </form>
         </Form>
       </ResponsiveModalContent>
