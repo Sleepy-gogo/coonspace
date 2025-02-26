@@ -39,7 +39,7 @@ NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
 CLERK_SECRET_KEY=
 CLERK_SIGNING_SECRET=
 
-# Database (Turso)
+# Database (Turso or any other sqlite database)
 DATABASE_URL=
 DATABASE_AUTH_TOKEN=
 
@@ -57,3 +57,11 @@ NEXT_PUBLIC_POSTHOG_HOST=`
 2. Install dependencies: pnpm install
 3. Set up environment variables
 4. Run development server: pnpm dev
+
+## Admin Panel
+
+For simplicity, the admin panel is currently integrated under the `/admin` route, protected by clerk's middleware.
+
+To access it, you may need to manually modify your account's public metadata to include `role:"admin"` and customize your session token. Don't worry as this is read-only, and cannot be modified by users. Further instructions can be found [here](https://clerk.com/docs/references/nextjs/basic-rbac).
+
+In larger, more scalable applications, it might be preferable to separate the admin panel into its own build, hosted under an `admin.` subdomain. However, for this simple side project, maintaining two separate builds would be a bit overkill.

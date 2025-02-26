@@ -5,6 +5,7 @@ import { db } from '~/server/db';
 import type { SelectNote, SelectReport } from '~/server/db/schema';
 import { notes, reports } from '~/server/db/schema';
 import { auth } from '@clerk/nextjs/server';
+import type { Report } from '~/types/report';
 
 export async function getNoteById(id: SelectNote['id']): Promise<Array<{
   title: string;
@@ -64,14 +65,7 @@ export async function slugExists(slug: string): Promise<boolean> {
 export async function getReports(
   page = 1,
   pageSize = 10
-): Promise<Array<{
-  id: string,
-  noteId: string,
-  userId: string,
-  reason: string | null,
-  status: string,
-  createdAt: Date,
-}>> {
+): Promise<Array<Report>> {
   const user = await auth();
 
   if (!user.userId) {

@@ -2,6 +2,9 @@
 import { auth } from '@clerk/nextjs/server';
 import { createReport } from './queries/insert';
 import { updateReportStatus } from './queries/update';
+import { checkRole } from '~/utils/roles';
+import { deleteReport as deleteReportFromDb } from './queries/delete';
+import { revalidatePath } from 'next/cache';
 
 export async function submitReport({ noteId, reason = "" }: { noteId: string, reason?: string; }) {
   const { userId } = await auth();
@@ -15,13 +18,27 @@ export async function submitReport({ noteId, reason = "" }: { noteId: string, re
   return { success: true, message: 'Report submitted' };
 }
 
-export async function updateStatus({ reportId, status }: { reportId: string, status: 'pending' | 'resolved' | 'ignored'; }) {
+export async function updateStatus(reportId: string, status: 'pending' | 'resolved' | 'ignored') {
   const { userId } = await auth();
   if (!userId) throw new Error('Unauthorized');
+
+  if (!(await checkRole('admin'))) throw new Error('Unauthorized');
 
   await updateReportStatus(
     reportId,
     {
       status,
     });
+}
+
+export async function deleteReport(
+  reportId: string,
+) {
+  const { userId } = await auth();
+  if (!userId) throw new Error('Unauthorized');
+
+  if (!(await checkRole('admin'))) throw new Error('Unauthorized');
+
+  await deleteReportFromDb(reportId);
+  revalidatePath("/admin");
 }
