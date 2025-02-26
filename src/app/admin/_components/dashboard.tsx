@@ -1,6 +1,6 @@
 import { getNoteById, getReports } from "~/server/queries/select";
 import { clerkClient } from "@clerk/nextjs/server";
-import { ReportCard } from "./report-card";
+import { ReportCard, ReportCardSkeleton } from "./report-card";
 
 async function AdminDashboard() {
   const reports = await getReports();
@@ -13,7 +13,8 @@ async function AdminDashboard() {
         return {
           id: report.id,
           title: note?.title ?? "Unknown",
-          url: note?.slug ?? "Unknown",
+          slug: note?.slug ?? "Unknown",
+          noteId: note?.utId ?? "Unknown",
           reason: report.reason,
           status: report.status,
           user: {
@@ -29,7 +30,8 @@ async function AdminDashboard() {
         return {
           id: report.id,
           title: "Unknown",
-          url: "Unknown",
+          slug: "Unknown",
+          noteId: "Unkown",
           reason: report.reason,
           status: report.status,
           user: {
@@ -50,3 +52,13 @@ async function AdminDashboard() {
 }
 
 export default AdminDashboard;
+
+export function AdminDashboardSkeleton() {
+  return (
+    <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {Array.from({ length: 3 }).map((_, index) => (
+        <ReportCardSkeleton key={index} />
+      ))}
+    </div>
+  );
+}

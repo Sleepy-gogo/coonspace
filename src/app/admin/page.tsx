@@ -1,5 +1,8 @@
 import Stars from "~/components/background/stars";
-import AdminDashboard from "./_components/dashboard";
+import AdminDashboard, {
+  AdminDashboardSkeleton,
+} from "./_components/dashboard";
+import { Suspense } from "react";
 
 async function AdminPage() {
   return (
@@ -8,8 +11,10 @@ async function AdminPage() {
         <h1 className="mb-8 text-center text-4xl font-bold text-white">
           Reports
         </h1>
-        
-        <AdminDashboard />
+
+        <Suspense fallback={<AdminDashboardSkeleton />}>
+          <AdminDashboard />
+        </Suspense>
       </div>
       <Stars />
     </>
