@@ -39,7 +39,7 @@ export const reports = createTable(
   'report',
   {
     id: text('id', { length: 48 }).primaryKey().unique().notNull().$defaultFn(() => createId()),
-    noteId: text('note_id', { length: 48 }).notNull().references(() => notes.id),
+    noteId: text('note_id', { length: 48 }).references(() => notes.id),
     userId: text('user_id', { length: 32 }).notNull(),
     reason: text('reason', { length: 256 }),
     status: text('status', { enum: ['pending', 'resolved', 'ignored'] })

@@ -27,7 +27,6 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "~/components/ui/alert-dialog";
 import { toast } from "sonner";
 import type { ReportStatus } from "~/types/report";
@@ -156,16 +155,17 @@ export function ReportCard({ report }: ReportCardProps) {
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuItem
-                disabled={isDeleting || status === "resolved"}
-                onClick={() => setOpen(true)}
-              >
-                Delete Note
-              </DropdownMenuItem>
-              <DropdownMenuItem
                 disabled={isDeleting}
                 onClick={() => handleDelete()}
               >
-                Remove Report
+                Ignore Report
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                disabled={isDeleting || status === "resolved"}
+                onClick={() => setOpen(true)}
+                className="focus:bg-red-500/20 focus:text-red-500"
+              >
+                { isDeleting ? <><Spinner/> Deleting...</> : (<><Trash /> Delete Note</>)}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
