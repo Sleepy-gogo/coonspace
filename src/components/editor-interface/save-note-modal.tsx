@@ -26,8 +26,11 @@ import {
   ResponsiveModalTrigger,
 } from "~/components/ui/responsive-dialog";
 import { saveNoteSchema, type SaveNoteFormData } from "~/lib/schemas/note";
-import { checkSlugExists } from "~/lib/services/note";
-import { saveMarkdown, updateMarkdown } from "~/server/markdown";
+import {
+  saveMarkdown,
+  updateMarkdown,
+  checkSlugExists,
+} from "~/server/markdown";
 
 interface SaveNoteModalProps {
   markdown: string;

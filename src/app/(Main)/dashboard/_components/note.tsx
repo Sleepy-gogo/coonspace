@@ -14,6 +14,7 @@ import React, { useState } from "react";
 import { toast } from "sonner";
 import { useCopyToClipboard } from "usehooks-ts";
 import { useRouter } from "next/navigation";
+import { deleteNoteAction } from "~/server/markdown";
 
 interface NoteProps {
   note: PartialNote;
@@ -22,15 +23,15 @@ interface NoteProps {
 /**
  * A component that displays a note card with title, last update time, and action buttons.
  * Provides functionality for editing, deleting, and sharing notes.
- * 
+ *
  * @component
  * @param {Object} props - Component props
  * @param {PartialNote} props.note - The note data to display
  * @param {() => void} props.onDelete - Callback function triggered after successful note deletion
- * 
+ *
  * @example
  * ```tsx
- * <Note 
+ * <Note
  *   note={noteData}
  *   onDelete={() => handleNoteDeleted()}
  * />
@@ -48,22 +49,17 @@ const NoteComponent = ({ note, onDelete }: NoteProps) => {
     setIsDeleting(true);
     e.stopPropagation();
 
-    try {
-      const response = await fetch(`/api/note/${note.id}`, {
-        method: "DELETE",
-      });
+    const data = await deleteNoteAction(note.id);
 
-      if (!response.ok) {
-        throw new Error("Failed to delete note");
-      }
-
-      toast.success("Note deleted successfully");
-      onDelete();
-    } catch {
-      toast.error("Failed to delete note");
-    } finally {
-      setIsDeleting(false);
+    if (!data.success) {
+      toast.error("Failed to delete note. " + data.error);
+      return;
     }
+
+    toast.success("Note deleted successfully");
+    onDelete();
+
+    setIsDeleting(false);
   };
 
   const handleShare = async (e: React.MouseEvent) => {
