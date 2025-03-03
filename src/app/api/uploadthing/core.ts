@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/only-throw-error */
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { UploadThingError } from "uploadthing/server";
 import { auth } from '@clerk/nextjs/server';
@@ -5,6 +6,7 @@ import { createNote } from '~/server/queries/insert';
 import { revalidatePath } from 'next/cache';
 import { createId } from '@paralleldrive/cuid2';
 import slugify from "slug";
+import { ratelimit } from '~/server/ratelimit';
 
 const f = createUploadthing();
 
@@ -18,8 +20,11 @@ export const ourFileRouter = {
     .middleware(async () => {
       const user = await auth();
 
-      // eslint-disable-next-line @typescript-eslint/only-throw-error
       if (!user.userId) throw new UploadThingError("Unauthorized");
+
+      const { success } = await ratelimit.limit(user.userId);
+
+      if (!success) throw new UploadThingError("Too many uploads in a short time");
 
       return { userId: user.userId };
     })
