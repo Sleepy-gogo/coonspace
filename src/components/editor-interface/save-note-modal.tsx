@@ -26,7 +26,8 @@ import {
   ResponsiveModalTrigger,
 } from "~/components/ui/responsive-dialog";
 import { saveNoteSchema, type SaveNoteFormData } from "~/lib/schemas/note";
-import { checkSlugExists, saveNote, updateNote } from "~/lib/services/note";
+import { checkSlugExists } from "~/lib/services/note";
+import { saveMarkdown, updateMarkdown } from "~/server/markdown";
 
 interface SaveNoteModalProps {
   markdown: string;
@@ -92,14 +93,9 @@ function SaveNoteModal({
     setIsSaving(true);
 
     try {
-      const formData = new FormData();
-      formData.set("markdown", markdown);
-      formData.set("title", values.title);
-      formData.set("slug", values.slug ?? "");
-
       const data = await (noteId
-        ? updateNote(noteId, formData)
-        : saveNote(formData));
+        ? updateMarkdown(noteId, markdown, values.title, values.slug)
+        : saveMarkdown(markdown, values.title, values.slug));
 
       if (data?.error) {
         throw new Error(data.error.message);
