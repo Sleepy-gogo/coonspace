@@ -1,5 +1,4 @@
-import { Suspense } from 'react';
-import { NoteGrid, NoteGridSkeleton } from "./_components/note-grid";
+import { NoteGrid } from "./_components/note-grid";
 
 export const metadata = {
   title: 'Dashboard | Coonspace',
@@ -13,9 +12,7 @@ function DashboardPage() {
         Your notes
       </h1>
 
-      <Suspense fallback={<NoteGridSkeleton />}>
-        <NoteGrid />
-      </Suspense>
+      <NoteGrid />
     </div>
   );
 }

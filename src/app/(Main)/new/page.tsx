@@ -1,7 +1,4 @@
-import { Suspense } from "react";
-import EditorInterface, {
-  EditorInterfaceSkeleton,
-} from "~/components/editor-interface";
+import EditorInterface from "~/components/editor-interface";
 
 export const metadata = {
   title: "New Note | Coonspace",
@@ -11,8 +8,6 @@ export const metadata = {
 
 export default function Page() {
   return (
-    <Suspense fallback={<EditorInterfaceSkeleton />}>
       <EditorInterface />
-    </Suspense>
   );
 }

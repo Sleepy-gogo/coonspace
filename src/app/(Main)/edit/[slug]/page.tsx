@@ -1,9 +1,6 @@
 import { clerkClient } from "@clerk/nextjs/server";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
-import EditorInterface, {
-  EditorInterfaceSkeleton,
-} from "~/components/editor-interface";
+import EditorInterface from "~/components/editor-interface";
 import { getNoteBySlug } from "~/server/queries/select";
 
 export const metadata = {
@@ -43,15 +40,13 @@ export default async function Page({
   const markdown = await content.text();
 
   return (
-    <Suspense fallback={<EditorInterfaceSkeleton />}>
-      <EditorInterface
-        initialState={{
-          markdown: markdown,
-          title: post.title,
-          slug: post.slug,
-        }}
-        noteId={post.id}
-      />
-    </Suspense>
+    <EditorInterface
+      initialState={{
+        markdown: markdown,
+        title: post.title,
+        slug: post.slug,
+      }}
+      noteId={post.id}
+    />
   );
 }
