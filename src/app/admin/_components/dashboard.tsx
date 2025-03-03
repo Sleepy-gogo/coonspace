@@ -52,6 +52,11 @@ async function AdminDashboard() {
   );
   return (
     <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {reportsWithUserData.length === 0 && (
+        <p className="col-span-3 text-center text-slate-400 md:text-lg">
+          There&apos;s no reports yet. Wait until a user creates a report.
+        </p>
+      )}
       {reportsWithUserData.map((report) => (
         <ReportCard key={report.id} report={report} />
       ))}

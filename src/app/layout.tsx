@@ -1,6 +1,7 @@
 import "~/styles/globals.css";
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { ClerkProvider } from "@clerk/nextjs";
+import { GeistSans } from "geist/font/sans";
 import { dark } from "@clerk/themes";
 import { type Metadata } from "next";
 import { extractRouterConfig } from "uploadthing/server";
@@ -33,7 +34,7 @@ export default function RootLayout({
         },
       }}
     >
-      <html lang="en">
+      <html lang="en" className={GeistSans.className}>
         <body className="bg-slate-900">
           <CSPostHogProvider>
             <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
