@@ -84,14 +84,7 @@ export async function getReports(
     .offset(offset);
 }
 
-export async function getReportById(id: SelectReport['id']): Promise<Array<{
-  id: string,
-  noteId: string,
-  userId: string,
-  reason: string | null,
-  status: string,
-  createdAt: Date,
-}>> {
+export async function getReportById(id: SelectReport['id']): Promise<Array<Report>> {
   return db.select().from(reports).where(eq(reports.id, id));
 }
 

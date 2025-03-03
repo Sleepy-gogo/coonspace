@@ -9,16 +9,24 @@ async function AdminDashboard() {
     reports.map(async (report) => {
       try {
         const user = await (await clerkClient()).users.getUser(report.userId);
-        const [note] = await getNoteById(report.noteId);
+        const [note] = report.noteId
+          ? await getNoteById(report.noteId)
+          : [
+              {
+                title: "Deleted note",
+                utId: "",
+                slug: "",
+              },
+            ];
         return {
           id: report.id,
-          title: note?.title ?? "Unknown",
-          slug: note?.slug ?? "Unknown",
-          noteId: note?.utId ?? "Unknown",
+          title: note.title,
+          slug: note.slug,
+          noteId: note.utId,
           reason: report.reason,
           status: report.status,
           user: {
-            username: user?.username ?? "unknown",
+            username: user.username ?? "Unknown",
             imageUrl: user.imageUrl,
           },
         };
@@ -29,13 +37,13 @@ async function AdminDashboard() {
         );
         return {
           id: report.id,
-          title: "Unknown",
-          slug: "Unknown",
-          noteId: "Unkown",
+          title: "Report failed to fetch.",
+          slug: "",
+          noteId: "",
           reason: report.reason,
           status: report.status,
           user: {
-            username: "unknown",
+            username: "Unknown",
             imageUrl: "",
           },
         };
