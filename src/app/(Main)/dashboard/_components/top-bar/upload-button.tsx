@@ -71,10 +71,9 @@ interface UploadButtonProps {
 export default function UploadButton({ onComplete }: UploadButtonProps) {
   const posthog = usePostHog();
   const { inputProps, isUploading } = useUploadThingInputProps("mdUploader", {
-    onUploadError: () => {
-      toast.error(
-        "Upload failed. Please select a valid Markdown file and try again.",
-      );
+    onUploadError: (e) => {
+      const errorMessage = e.message == "Invalid config: InvalidFileType" ? "Select a valid Markdown file." : e.message; // Hardcoded for now. Research and improve this.
+      toast.error("Upload failed. " + errorMessage);
     },
     onUploadBegin: () => {
       posthog.capture("file_upload_begin");
