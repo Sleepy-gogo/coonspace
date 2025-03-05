@@ -36,6 +36,7 @@
   - [Turso](https://turso.tech) (Database)
   - [UploadThing](https://uploadthing.com) (File Storage)
   - [PostHog](https://posthog.com) (Analytics)
+  - [Upstash](https://upstash.com) (Rate limiting)
 
 ### Installation
 
@@ -59,14 +60,18 @@
    - Clerk API keys
    - Turso database URL and auth token
    - UploadThing API keys
-   - PostHog project API key (optional)
+   - PostHog project API key
+   - Upstash redis keys
 
-4. **Run the development server**
+4. **Set up Clerk webhook**
+   Create a webhook in the Clerk dashboard and point it to `yourdomain.com/api/webhook/clerk`. This is essential for handling user deletion correctly, otherwise notes from deleted users will remain in the app. [More information on Clerk webhooks](https://clerk.com/docs/users/sync-data-to-your-backend)
+
+5. **Run the development server**
    ```bash
    pnpm dev
    ```
 
-5. **Open [http://localhost:3000](http://localhost:3000)** to see the app running
+6. **Open [http://localhost:3000](http://localhost:3000)** to see the app running
 
 ## 👨‍💻 Admin Panel
 
