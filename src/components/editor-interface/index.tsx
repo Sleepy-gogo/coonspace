@@ -6,6 +6,7 @@ import MarkdownEditor, {
 } from "~/components/markdown-editor";
 import SaveNoteModal from "./save-note-modal";
 import { Skeleton } from "../ui/skeleton";
+import { Info } from "lucide-react";
 
 interface MarkdownEditorProps {
   initialState?: {
@@ -48,9 +49,17 @@ export default function EditorInterface({
   const [markdown, setMarkdown] = useState(initialState.markdown);
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col">
       <MarkdownEditor markdown={markdown} setMarkdown={setMarkdown} />
-      <div className="mx-auto flex w-full max-w-screen-sm justify-center border-t border-slate-400 pt-4">
+      <a
+        href="https://www.markdownguide.org/basic-syntax/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mb-4 flex w-full items-center justify-center gap-2 text-sm text-slate-400 transition-all hover:text-slate-300 hover:underline md:mt-4"
+      >
+        <Info className="size-5" /> Don&apos;t know how to write markdown?
+      </a>
+      <div className="mx-auto flex w-full max-w-screen-sm justify-center border-t border-slate-400/40 pt-4">
         <SaveNoteModal
           markdown={markdown}
           initialTitle={initialState.title}
