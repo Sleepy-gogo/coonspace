@@ -64,7 +64,7 @@ export default async function NotePage({
   };
 
   return (
-    <div className="container relative mx-auto flex flex-col gap-4">
+    <div className="container relative mx-auto flex flex-col gap-4 px-4">
       <div className="mx-auto min-h-[60vh] w-full transition-all">
         <GoToTopButton />
         <h1 className="my-8 border-b pb-4 text-center text-4xl font-bold italic tracking-tight text-white md:mt-4 md:text-left">
