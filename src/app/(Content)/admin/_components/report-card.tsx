@@ -81,10 +81,14 @@ export function ReportCard({ report }: ReportCardProps) {
   };
 
   const handleNoteDelete = async () => {
+    console.log("awawa 1");
     setIsDeleting(true);
     try {
+      console.log("awawa 2");
       await deleteNote(report.noteId);
+      console.log("awawa 3");
       await handleStatusChange("resolved");
+      console.log("awawa 4");
       toast.success("The note has been successfully deleted");
     } catch (error) {
       console.error("Failed to delete note:", error);
@@ -140,11 +144,7 @@ export function ReportCard({ report }: ReportCardProps) {
         </CardContent>
         <Separator />
         <CardFooter className="mt-2 flex justify-between pb-3">
-          <Button
-            variant="outline"
-            size="sm"
-            disabled={status === "resolved"}
-          >
+          <Button variant="outline" size="sm" disabled={status === "resolved"}>
             <Link href={`/note/${report.slug}`}>Visit note</Link>
           </Button>
           <DropdownMenu>
@@ -165,7 +165,15 @@ export function ReportCard({ report }: ReportCardProps) {
                 onClick={() => setOpen(true)}
                 className="focus:bg-red-500/20 focus:text-red-500"
               >
-                { isDeleting ? <><Spinner/> Deleting...</> : (<><Trash /> Delete Note</>)}
+                {isDeleting ? (
+                  <>
+                    <Spinner /> Deleting...
+                  </>
+                ) : (
+                  <>
+                    <Trash /> Delete Note
+                  </>
+                )}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

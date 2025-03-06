@@ -1,6 +1,7 @@
 "use server";
 
 import { eq } from 'drizzle-orm';
+import { revalidatePath } from 'next/cache';
 import { db } from '~/server/db';
 import type { SelectNote, SelectReport } from '~/server/db/schema';
 import { notes, reports } from '~/server/db/schema';
@@ -16,9 +17,11 @@ export async function deleteNote(utId: SelectNote['utId']) {
   await db.update(reports).set({ noteId: null, status: "resolved" }).where(eq(reports.noteId, note.id));
   await utapi.deleteFiles(utId);
 
-  return db.delete(notes).where(eq(notes.utId, utId));
+  await db.delete(notes).where(eq(notes.utId, utId));
+  revalidatePath("/admin");
 }
 
 export async function deleteReport(id: SelectReport['id']) {
-  return db.delete(reports).where(eq(reports.id, id));
+  await db.delete(reports).where(eq(reports.id, id));
+  revalidatePath("/admin");
 }
