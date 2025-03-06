@@ -106,7 +106,10 @@ export async function slugExists(slug: string): Promise<boolean> {
 export async function getReports(
   page = 1,
   pageSize = 10
-): Promise<Array<Report>> {
+): Promise<{
+  totalPages: number,
+  reports: Array<Report>
+}> {
   const user = await auth();
 
   if (!user.userId) {
@@ -116,13 +119,22 @@ export async function getReports(
   const userId = user.userId;
 
   const offset = (page - 1) * pageSize;
-  return db
+
+  const countResult = await db.select({ count: count() })
+    .from(reports)
+
+  const totalCount = countResult[0]?.count ?? 0;
+  const totalPages = Math.ceil(totalCount / pageSize);
+
+  const data = await db
     .select()
     .from(reports)
     .where(eq(reports.userId, userId))
     .orderBy(desc(reports.updatedAt))
     .limit(pageSize)
     .offset(offset);
+  
+  return {totalPages : totalPages, reports: data}
 }
 
 export async function getReportById(id: SelectReport['id']): Promise<Array<Report>> {

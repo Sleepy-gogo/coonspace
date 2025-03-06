@@ -25,3 +25,8 @@ export async function deleteReport(id: SelectReport['id']) {
   await db.delete(reports).where(eq(reports.id, id));
   revalidatePath("/admin");
 }
+
+export async function deleteResolvedReports() {
+  await db.delete(reports).where(eq(reports.status, "resolved"));
+  revalidatePath("/admin");
+}

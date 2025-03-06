@@ -1,3 +1,4 @@
+import { revalidatePath } from 'next/cache';
 import "server-only";
 
 import { db } from '~/server/db';
@@ -10,5 +11,6 @@ export async function createNote(data: InsertNote) {
 }
 
 export async function createReport(data: InsertReport) {
-  return db.insert(reports).values(data);
+  await db.insert(reports).values(data);
+  revalidatePath("/admin");
 }

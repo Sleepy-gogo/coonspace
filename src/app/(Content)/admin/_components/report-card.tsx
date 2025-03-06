@@ -81,14 +81,10 @@ export function ReportCard({ report }: ReportCardProps) {
   };
 
   const handleNoteDelete = async () => {
-    console.log("awawa 1");
     setIsDeleting(true);
     try {
-      console.log("awawa 2");
       await deleteNote(report.noteId);
-      console.log("awawa 3");
       await handleStatusChange("resolved");
-      console.log("awawa 4");
       toast.success("The note has been successfully deleted");
     } catch (error) {
       console.error("Failed to delete note:", error);
