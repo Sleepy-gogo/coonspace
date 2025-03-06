@@ -2,12 +2,13 @@
 
 import useSWR from "swr";
 import { Note, NoteSkeleton } from "./note";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { PartialNote } from "~/types/note";
 import { toast } from "sonner";
 import { useDebounceValue } from "usehooks-ts";
 import GridTopBar from "./top-bar";
 import { DisabledGridTopBar } from "./top-bar";
+import autoAnimate from "@formkit/auto-animate";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -24,6 +25,15 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 export function NoteGrid() {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [debouncedSearchTerm, setDebounced] = useDebounceValue(searchTerm, 400);
+  const notesParent = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!notesParent.current) return;
+    autoAnimate(notesParent.current, {
+      easing: "ease-in",
+      duration: 120,
+    });
+  }, [notesParent]);
 
   const {
     data: notes,
@@ -59,12 +69,15 @@ export function NoteGrid() {
           publishing your notes!
         </p>
       )}
-      <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {notes?.map((note, index) => (
-          <Note key={index} note={note} onDelete={mutate} />
+      <div
+        ref={notesParent}
+        className="grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3"
+      >
+        {notes?.map((note) => (
+          <Note key={note.id} note={note} onDelete={mutate} />
         ))}
         {isLoading &&
-          Array.from({ length: 3 }).map((_, index) => (
+          Array.from({ length: 6 }).map((_, index) => (
             <NoteSkeleton key={index} />
           ))}
       </div>
