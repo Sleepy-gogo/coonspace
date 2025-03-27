@@ -10,11 +10,65 @@ import { Toaster } from "~/components/ui/sonner";
 import { CSPostHogProvider } from "./providers";
 
 export const metadata: Metadata = {
-  title: "CoonSpace | Online Markdown Sharing",
+  title: "CoonSpace | Online Markdown Sharing & Collaboration",
   description:
-    "CoonSpace is a fast and easy way to share markdown documents online",
+    "CoonSpace is a fast, easy, and collaborative platform to share, edit, and manage your markdown documents online. Perfect for developers, writers, and teams.",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
-  keywords: ["markdown", "documents", "sharing", "online", "fast", "easy"],
+  keywords: [
+    "markdown",
+    "documents",
+    "sharing",
+    "online",
+    "editing",
+    "developers",
+    "writers",
+    "notes",
+    "knowledge base",
+    "plain text",
+    "web editor",
+    "realtime",
+    "free",
+    "fast",
+    "easy",
+    "style",
+    "text"
+  ],
+  openGraph: {
+    title: "CoonSpace | Online Markdown Sharing & Collaboration",
+    description:
+      "Share, edit, and collaborate on markdown documents online with CoonSpace. Boost your team's productivity with our fast and easy platform.",
+    url: "https://sgcoon.space/",
+    siteName: "CoonSpace",
+    images: [
+      {
+        url: "https://sgcoon.space/site.png",
+        width: 1200,
+        height: 630,
+        alt: "CoonSpace - Online Markdown Sharing",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "CoonSpace | Online Markdown Sharing & Collaboration",
+    description:
+      "Share, edit, and collaborate on markdown documents online with CoonSpace.",
+    site: "@sleepygogo",
+    creator: "@sleepygogo",
+    images: ["https://sgcoon.space/site.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-snippet": 200,
+      "max-image-preview": "standard",
+    },
+  },
 };
 
 export default function RootLayout({
