@@ -93,7 +93,7 @@ export default function HomePage() {
             Powerful Features, Simple Interface
           </h2>
           <div className="grid gap-16 lg:grid-cols-2">
-            <div className="flex flex-col gap-12">
+            <div className="grid auto-rows-fr gap-12">
               <div className="flex flex-col gap-4">
                 <div className="overflow-hidden rounded-lg border border-slate-200/20 bg-slate-800/50 shadow-lg">
                   <Image
@@ -138,7 +138,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            <div className="flex flex-col gap-12">
+            <div className="grid auto-rows-fr gap-12">
               <div className="flex flex-col gap-4">
                 <div className="overflow-hidden rounded-lg border border-slate-200/20 bg-slate-800/50 shadow-lg">
                   <Image
