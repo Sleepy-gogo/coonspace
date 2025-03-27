@@ -7,6 +7,32 @@ export const metadata = {
   title: "Edit Note | Coonspace",
   description:
     "Edit a note on Coonspace!\n\nOnline Markdown sharing, fast and easy.",
+  openGraph: {
+    title: "Edit Note | Coonspace",
+    description:
+      "Edit a note on Coonspace!\n\nOnline Markdown sharing, fast and easy.",
+    url: "https://sgcoon.space/edit",
+    siteName: "CoonSpace",
+    images: [
+      {
+        url: "https://sgcoon.space/site.png",
+        width: 1200,
+        height: 630,
+        alt: "Edit Note - Coonspace",
+      },
+    ],
+    locale: "en_US",
+    type: "article",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Edit Note | Coonspace",
+    description:
+      "Edit a note on Coonspace!\n\nOnline Markdown sharing, fast and easy.",
+    images: ["https://sgcoon.space/site.png"],
+    site: "@sleepygogo",
+    creator: "@sleepygogo"
+  }
 };
 
 export default async function Page({
