@@ -135,7 +135,7 @@ export default function RootLayout({
         <body className="bg-slate-900">
           <CSPostHogProvider>
             <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
-            <div className="relative min-h-screen w-[100dvw] overflow-hidden">
+            <div className="relative min-h-screen overflow-hidden">
               {children}
             </div>
             <Toaster theme="dark" />
