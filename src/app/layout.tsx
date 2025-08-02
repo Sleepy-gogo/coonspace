@@ -1,7 +1,7 @@
 import "~/styles/globals.css";
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { ClerkProvider } from "@clerk/nextjs";
-import { GeistSans } from "geist/font/sans";
+import { Caveat, Montserrat } from 'next/font/google'
 import { dark } from "@clerk/themes";
 import { type Metadata } from "next";
 import { extractRouterConfig } from "uploadthing/server";
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   title: "CoonSpace | Online Markdown Sharing & Collaboration",
   description:
     "CoonSpace is a fast, easy, and collaborative platform to share, edit, and manage your markdown documents online. Perfect for developers, writers, and teams.",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
+  icons: [{ rel: "icon", url: "/favicon.svg" }],
   keywords: [
     "markdown",
     "documents",
@@ -70,6 +70,17 @@ export const metadata: Metadata = {
     },
   },
 };
+
+const caveat = Caveat({
+  subsets: ['latin'],
+  weight: '400',
+  variable: '--font-caveat',
+})
+
+const montserrat = Montserrat({
+  subsets: ['latin'],
+  variable: '--font-montserrat',
+})
 
 export default function RootLayout({
   children,
@@ -131,7 +142,12 @@ export default function RootLayout({
         },
       }}
     >
-      <html lang="en" className={GeistSans.className}>
+      <html lang="en" className={montserrat.className} >
+        <head>
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" />
+          <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"></link>
+        </head>
         <body className="bg-slate-900">
           <CSPostHogProvider>
             <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />

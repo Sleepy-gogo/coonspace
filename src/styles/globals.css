@@ -36,3 +36,8 @@ body {
     --radius: 0.5rem;
   }
 }
+
+.custom-scroll {
+  scrollbar-color: oklch(55.4% 0.046 257.417) oklch(37.2% 0.044 257.287);
+  scrollbar-width: thin;
+}

@@ -1,16 +1,17 @@
-import { ArrowRight, Code, Github, Share2, Zap } from "lucide-react";
+import { ArrowRight, Code, CornerDownRight, Github, Share2, Zap } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import Background from "~/components/background";
+import MiniPreview from '~/components/mini-preview';
 import { Button } from "~/components/ui/button";
 
 export default function HomePage() {
   return (
     <>
-      <main className="flex flex-col gap-32 pb-24 lg:gap-40">
-        <section className="mx-auto flex max-w-md flex-col items-center justify-center gap-10 px-6 pt-36 sm:max-w-2xl sm:px-8 md:max-w-3xl md:px-10 md:pt-48 lg:max-w-4xl lg:px-4 xl:max-w-5xl 2xl:max-w-6xl">
-          <div className="animate-fade-in flex flex-col gap-6">
-            <h1 className="text-center text-4xl font-bold tracking-tight text-white sm:text-6xl lg:text-[4rem] xl:text-[6rem] 2xl:text-[6.5rem]">
+      <main className="flex flex-col gap-28 pb-24 lg:gap-40">
+        <section className="mx-auto flex max-w-md flex-col items-center justify-center gap-6 px-6 pt-36 sm:max-w-2xl sm:px-8 md:max-w-3xl md:px-10 md:pt-48 lg:max-w-4xl lg:px-4 xl:max-w-5xl 2xl:max-w-6xl">
+          <div className="animate-fade-in flex flex-col gap-6 relative">
+            <h1 className="text-center text-5xl font-[800] tracking-tight text-white sm:text-[4rem] md:text-[4.5rem] lg:text-[5rem] xl:text-[6rem] 2xl:text-[6.5rem]">
               Share{" "}
               <span className="animate-pulse-slow text-violet-400">
                 Beautiful
@@ -21,9 +22,9 @@ export default function HomePage() {
                 Instantly
               </span>
             </h1>
-            <p className="text-center text-xl text-slate-200">
-              The free and open-source solution for sharing markdown across the
-              web.{" "}
+            <p className="text-center text-xl lg:text-2xl text-slate-200 mt-2">
+              The free and open-source minimal solution for sharing markdown across the
+              web.<br/>
               <span className="font-medium italic">
                 No sign-up required for viewers.
               </span>
@@ -41,6 +42,14 @@ export default function HomePage() {
               </Link>
             </Button>
           </div>
+
+          <div className="relative w-full">
+            <div className="absolute text-white lg:flex items-center justify-center flex-col top-1/2 -left-16 -translate-x-1/2 -translate-y-1/2 hidden">
+              <p className="text-4xl -rotate-6 [font-family:Caveat]">Try now!</p>
+              <CornerDownRight className="-rotate-6 translate-x-4 -translate-y-1 size-8" />
+            </div>
+            <MiniPreview className="hidden sm:block mt-20" />
+          </div>
         </section>
 
         <section id="features" className="scroll-mt-24">
@@ -53,7 +62,7 @@ export default function HomePage() {
                 <div className="mb-4 rounded-full bg-violet-500/20 p-4 transition-all duration-300 group-hover:bg-violet-500/30">
                   <Code className="size-8 text-violet-400" />
                 </div>
-                <h3 className="flex items-center gap-2 text-2xl font-bold tracking-tight text-slate-200/95 group-hover:text-white">
+                <h3 className="flex items-center gap-2 text-2xl font-bold tracking-tight text-slate-200/95 group-hover:text-white text-center">
                   Write in Markdown
                 </h3>
                 <p className="mt-2 text-center font-medium text-slate-300">
@@ -65,7 +74,7 @@ export default function HomePage() {
                 <div className="mb-4 rounded-full bg-blue-500/20 p-4 transition-all duration-300 group-hover:bg-blue-500/30">
                   <Zap className="size-8 text-blue-400" />
                 </div>
-                <h3 className="flex items-center gap-2 text-2xl font-bold tracking-tight text-slate-200/95 group-hover:text-white">
+                <h3 className="flex items-center gap-2 text-2xl font-bold tracking-tight text-slate-200/95 group-hover:text-white text-center">
                   Instant Preview
                 </h3>
                 <p className="mt-2 text-center font-medium text-slate-300">
@@ -77,7 +86,7 @@ export default function HomePage() {
                 <div className="mb-4 rounded-full bg-green-500/20 p-4 transition-all duration-300 group-hover:bg-green-500/30">
                   <Share2 className="size-8 text-green-400" />
                 </div>
-                <h3 className="flex items-center gap-2 text-2xl font-bold tracking-tight text-slate-200/95 group-hover:text-white">
+                <h3 className="flex items-center gap-2 text-2xl font-bold tracking-tight text-slate-200/95 group-hover:text-white text-center">
                   Share Anywhere
                 </h3>
                 <p className="mt-2 text-center font-medium text-slate-300">
