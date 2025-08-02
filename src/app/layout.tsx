@@ -1,4 +1,5 @@
 import "~/styles/globals.css";
+import "katex/dist/katex.min.css";
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Caveat, Montserrat } from 'next/font/google'

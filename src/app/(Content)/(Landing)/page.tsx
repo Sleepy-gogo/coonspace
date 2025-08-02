@@ -128,8 +128,8 @@ export default function HomePage() {
               <div className="flex flex-col gap-4">
                 <div className="overflow-hidden rounded-lg border border-slate-200/20 bg-slate-800/50 shadow-lg">
                   <Image
-                    height={300}
-                    width={600}
+                    height={720}
+                    width={1240}
                     src="/screenshots/note.webp"
                     alt="CoonSpace Note Interface"
                     className="aspect-video w-full object-cover"

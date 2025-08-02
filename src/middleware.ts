@@ -8,7 +8,7 @@ const isAdmin = createRouteMatcher(['/admin']);
 export default clerkMiddleware(async (auth, req) => {
   if (isAdmin(req) && (await auth()).sessionClaims?.metadata?.role !== 'admin') {
     const url = new URL('/', req.url);
-    return NextResponse.redirect(url, 401);
+    return NextResponse.redirect(url);
   }
   if (isProtected(req)) await auth.protect();
 });

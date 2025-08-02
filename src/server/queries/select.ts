@@ -116,7 +116,9 @@ export async function getReports(
     throw new Error('Unauthorized');
   }
 
-  const userId = user.userId;
+  if (user.sessionClaims?.metadata?.role !== 'admin') {
+    throw new Error('Unauthorized');
+  }
 
   const offset = (page - 1) * pageSize;
 
@@ -129,7 +131,6 @@ export async function getReports(
   const data = await db
     .select()
     .from(reports)
-    .where(eq(reports.userId, userId))
     .orderBy(desc(reports.updatedAt))
     .limit(pageSize)
     .offset(offset);
