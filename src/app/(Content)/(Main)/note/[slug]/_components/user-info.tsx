@@ -7,6 +7,7 @@ import {
   TooltipTrigger,
 } from "~/components/ui/tooltip";
 import { ReportModal } from "./report-modal";
+import PDFDownloadButton from '~/components/pdf-download-button';
 
 interface UserInfoCardProps {
   user: {
@@ -18,6 +19,8 @@ interface UserInfoCardProps {
   info: {
     id: string;
     updatedAt: Date;
+    slug: string;
+    title: string;
   };
 }
 
@@ -47,6 +50,7 @@ function UserInfoCard({ user, info }: UserInfoCardProps) {
             minute: "2-digit",
           })}
         </p>
+        <div className="flex gap-2 flex-wrap">
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -56,7 +60,16 @@ function UserInfoCard({ user, info }: UserInfoCardProps) {
               <p>Report note</p>
             </TooltipContent>
           </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <PDFDownloadButton slug={info.slug} title={info.title} />
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Download</p>
+            </TooltipContent>
+          </Tooltip>
         </TooltipProvider>
+        </div>
       </div>
     </div>
   );

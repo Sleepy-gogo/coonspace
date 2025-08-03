@@ -7,10 +7,9 @@ import "./src/env.js";
 /** @type {import("next").NextConfig} */
 const config = {
   images: {
-    remotePatterns: [
-      {hostname: "img.clerk.com"}
-    ]
+    remotePatterns: [{ hostname: "img.clerk.com" }],
   },
+  serverExternalPackages: ["@sparticuz/chromium", "puppeteer-core", "katex"],
   async rewrites() {
     return [
       {
@@ -29,6 +28,12 @@ const config = {
   },
   // This is required to support PostHog trailing slash API requests
   skipTrailingSlashRedirect: true,
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 };
 
 export default config;

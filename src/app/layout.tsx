@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   title: "CoonSpace | Online Markdown Sharing & Collaboration",
   description:
     "CoonSpace is a fast, easy, and collaborative platform to share, edit, and manage your markdown documents online. Perfect for developers, writers, and teams.",
-  icons: [{ rel: "icon", url: "/favicon.svg" }],
+  icons: [{ rel: "icon", url: "/favicon.ico" }],
   keywords: [
     "markdown",
     "documents",
@@ -144,11 +144,6 @@ export default function RootLayout({
       }}
     >
       <html lang="en" className={montserrat.className} >
-        <head>
-          <link rel="preconnect" href="https://fonts.googleapis.com" />
-          <link rel="preconnect" href="https://fonts.gstatic.com" />
-          <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"></link>
-        </head>
         <body className="bg-slate-900">
           <CSPostHogProvider>
             <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
