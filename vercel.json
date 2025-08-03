@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "src/app/api/note/*/pdf/route.ts": {
+      "maxDuration": 60
+    }
+  }
+}

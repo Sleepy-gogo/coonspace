@@ -1,4 +1,4 @@
-import { Pencil, Trash2, Share2, Check } from "lucide-react";
+import { Pencil, Trash2, Share2, Check, Download } from "lucide-react";
 import Link from "next/link";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardFooter } from "~/components/ui/card";
@@ -15,6 +15,7 @@ import { toast } from "sonner";
 import { useCopyToClipboard } from "usehooks-ts";
 import { useRouter } from "next/navigation";
 import { deleteNoteAction } from "~/server/markdown";
+import PDFDownloadButton from '~/components/pdf-download-button';
 
 interface NoteProps {
   note: PartialNote;
@@ -157,6 +158,14 @@ const NoteComponent = ({ note, onDelete }: NoteProps) => {
               </TooltipTrigger>
               <TooltipContent>
                 <p>Share note</p>
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <PDFDownloadButton slug={note.slug} title={note.title} className="group-hover:border-slate-50/20 group-hover:shadow" />
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Download as PDF</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>

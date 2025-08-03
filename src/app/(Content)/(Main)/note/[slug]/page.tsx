@@ -85,6 +85,8 @@ export default async function NotePage({
   const info = {
     id: note.id,
     updatedAt: note.updatedAt,
+    slug: note.slug,
+    title: note.title,
   };
 
   return (
