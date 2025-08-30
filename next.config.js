@@ -9,7 +9,9 @@ const config = {
   images: {
     remotePatterns: [{ hostname: "img.clerk.com" }],
   },
-  serverExternalPackages: ["@sparticuz/chromium", "puppeteer-core", "katex"],
+  // Ensure KaTeX is bundled so its CSS can be processed by Next.js
+  transpilePackages: ["katex"],
+  serverExternalPackages: ["@sparticuz/chromium", "puppeteer-core"],
   async rewrites() {
     return [
       {
