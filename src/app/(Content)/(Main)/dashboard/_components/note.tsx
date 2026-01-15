@@ -1,7 +1,6 @@
-import { Pencil, Trash2, Share2, Check, Download } from "lucide-react";
+import { Pencil, Trash2, Share2, Check, FileText } from "lucide-react";
 import Link from "next/link";
 import { Button } from "~/components/ui/button";
-import { Card, CardContent, CardFooter } from "~/components/ui/card";
 import {
   Tooltip,
   TooltipContent,
@@ -15,29 +14,13 @@ import { toast } from "sonner";
 import { useCopyToClipboard } from "usehooks-ts";
 import { useRouter } from "next/navigation";
 import { deleteNoteAction } from "~/server/markdown";
-import PDFDownloadButton from '~/components/pdf-download-button';
+import PDFDownloadButton from "~/components/pdf-download-button";
 
 interface NoteProps {
   note: PartialNote;
   onDelete: () => void;
 }
-/**
- * A component that displays a note card with title, last update time, and action buttons.
- * Provides functionality for editing, deleting, and sharing notes.
- *
- * @component
- * @param {Object} props - Component props
- * @param {PartialNote} props.note - The note data to display
- * @param {() => void} props.onDelete - Callback function triggered after successful note deletion
- *
- * @example
- * ```tsx
- * <Note
- *   note={noteData}
- *   onDelete={() => handleNoteDeleted()}
- * />
- * ```
- */
+
 const NoteComponent = ({ note, onDelete }: NoteProps) => {
   const router = useRouter();
   const [, copyToClipboard] = useCopyToClipboard();
@@ -54,12 +37,12 @@ const NoteComponent = ({ note, onDelete }: NoteProps) => {
 
     if (!data.success) {
       toast.error("Failed to delete note. " + data.error);
+      setIsDeleting(false);
       return;
     }
 
     toast.success("Note deleted successfully");
     onDelete();
-
     setIsDeleting(false);
   };
 
@@ -93,84 +76,92 @@ const NoteComponent = ({ note, onDelete }: NoteProps) => {
       href={`/note/${note.slug}`}
       aria-label={note.title}
       className={
-        isDeleting ? "pointer-events-none animate-pulse cursor-wait" : ""
+        isDeleting ? "pointer-events-none animate-pulse cursor-wait" : "group"
       }
     >
-      <Card className="group flex h-full flex-col">
-        <CardContent className="flex-grow p-4">
-          <h2 className="text-xl font-bold">{note.title}</h2>
-          <p className="whitespace-pre-wrap text-slate-400 transition-colors group-hover:text-slate-200">
-            Last update:{" "}
-            {new Date(note.updatedAt).toLocaleString("en-US", {
-              month: "short",
-              day: "2-digit",
-              hour: "2-digit",
-              minute: "2-digit",
-            })}
-          </p>
-        </CardContent>
-        <CardFooter className="flex justify-end space-x-2 p-4">
-          <TooltipProvider>
+      <div className="flex h-full min-h-[160px] flex-col overflow-hidden rounded-xl border border-slate-700/50 bg-slate-800/40 backdrop-blur-sm transition-all duration-200 hover:border-slate-600 hover:bg-slate-800/60">
+        {/* Content */}
+        <div className="flex flex-1 flex-col p-5">
+          <div className="flex items-start gap-3">
+            <div className="rounded-lg bg-slate-700/50 p-2 text-slate-400">
+              <FileText className="size-4" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <h2 className="truncate text-base font-semibold text-white">
+                {note.title}
+              </h2>
+              <p className="mt-1 text-xs text-slate-500">
+                Updated{" "}
+                {new Date(note.updatedAt).toLocaleString("en-US", {
+                  month: "short",
+                  day: "2-digit",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Actions */}
+        <div className="flex items-center justify-end gap-1 border-t border-slate-700/30 bg-slate-900/30 px-3 py-2">
+          <TooltipProvider delayDuration={200}>
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
-                  className="group-hover:border-slate-50/20 group-hover:shadow"
                   size="icon"
-                  variant="outline"
+                  variant="ghost"
                   onClick={handleEdit}
+                  className="size-8 text-slate-500 hover:text-white"
                 >
-                  <Pencil className="h-4 w-4" />
+                  <Pencil className="size-3.5" />
                 </Button>
               </TooltipTrigger>
-              <TooltipContent>
-                <p>Edit note</p>
-              </TooltipContent>
+              <TooltipContent>Edit</TooltipContent>
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
-                  className="group-hover:border-slate-50/20 group-hover:shadow"
                   size="icon"
-                  variant="outline"
+                  variant="ghost"
                   onClick={handleDelete}
+                  className="size-8 text-slate-500 hover:text-red-400"
                 >
-                  <Trash2 className="h-4 w-4" />
+                  <Trash2 className="size-3.5" />
                 </Button>
               </TooltipTrigger>
-              <TooltipContent>
-                <p>Delete note</p>
-              </TooltipContent>
+              <TooltipContent>Delete</TooltipContent>
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
-                  className="group-hover:border-slate-50/20 group-hover:shadow"
                   size="icon"
-                  variant="outline"
+                  variant="ghost"
                   onClick={handleShare}
+                  className="size-8 text-slate-500 hover:text-blue-400"
                 >
                   {copied ? (
-                    <Check className="h-4 w-4" />
+                    <Check className="size-3.5" />
                   ) : (
-                    <Share2 className="h-4 w-4" />
+                    <Share2 className="size-3.5" />
                   )}
                 </Button>
               </TooltipTrigger>
-              <TooltipContent>
-                <p>Share note</p>
-              </TooltipContent>
+              <TooltipContent>Share</TooltipContent>
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
-                <PDFDownloadButton slug={note.slug} title={note.title} className="group-hover:border-slate-50/20 group-hover:shadow" />
+                <PDFDownloadButton
+                  slug={note.slug}
+                  title={note.title}
+                  className="size-8 text-slate-500 hover:text-white"
+                />
               </TooltipTrigger>
-              <TooltipContent>
-                <p>Download as PDF</p>
-              </TooltipContent>
+              <TooltipContent>Download PDF</TooltipContent>
             </Tooltip>
           </TooltipProvider>
-        </CardFooter>
-      </Card>
+        </div>
+      </div>
     </Link>
   );
 };
@@ -181,16 +172,22 @@ export const Note = React.memo(NoteComponent);
 
 export function NoteSkeleton() {
   return (
-    <Card className="flex h-full animate-pulse flex-col">
-      <CardContent className="flex-grow p-4">
-        <Skeleton className="mb-2 h-6 w-3/4" />
-        <Skeleton className="h-4 w-1/2" />
-      </CardContent>
-      <CardFooter className="flex justify-end space-x-2 p-4">
-        <Skeleton className="h-8 w-8" />
-        <Skeleton className="h-8 w-8" />
-        <Skeleton className="h-8 w-8" />
-      </CardFooter>
-    </Card>
+    <div className="flex h-full min-h-[160px] flex-col overflow-hidden rounded-xl border border-slate-700/50 bg-slate-800/40">
+      <div className="flex flex-1 flex-col p-5">
+        <div className="flex items-start gap-3">
+          <Skeleton className="size-8 rounded-lg" />
+          <div className="flex-1">
+            <Skeleton className="h-5 w-3/4" />
+            <Skeleton className="mt-2 h-3 w-1/2" />
+          </div>
+        </div>
+      </div>
+      <div className="flex justify-end gap-1 border-t border-slate-700/30 bg-slate-900/30 px-3 py-2">
+        <Skeleton className="size-8 rounded-lg" />
+        <Skeleton className="size-8 rounded-lg" />
+        <Skeleton className="size-8 rounded-lg" />
+        <Skeleton className="size-8 rounded-lg" />
+      </div>
+    </div>
   );
 }

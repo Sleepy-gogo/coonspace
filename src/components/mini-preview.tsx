@@ -85,22 +85,24 @@ function MiniPreview({ className }: { className?: string }) {
   const [markdown, setMarkdown] = useState(initialMarkdown);
   return (
     <div className={cn("relative z-10 w-full", className)}>
-      <div className="relative w-full overflow-hidden rounded-[1.55rem] bg-blue-600 p-0.5 shadow-lg shadow-blue-500/20">
-        <div className="relative rounded-3xl bg-slate-900 p-4 shadow-lg">
-          <div className="mb-4 flex items-center justify-between">
-            <div className="flex space-x-2">
-              <div className="h-3 w-3 rounded-full bg-red-500"></div>
-              <div className="h-3 w-3 rounded-full bg-yellow-500"></div>
-              <div className="h-3 w-3 rounded-full bg-green-500"></div>
-            </div>
-            <div className="rounded-xl bg-blue-400/10 px-4 py-1 text-sm font-semibold text-blue-300">
-              Live
-            </div>
+      <div className="overflow-hidden rounded-xl bg-slate-900/90 backdrop-blur-sm">
+        {/* Window chrome */}
+        <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
+          <div className="flex gap-2">
+            <div className="size-3 rounded-full bg-red-500/80" />
+            <div className="size-3 rounded-full bg-yellow-500/80" />
+            <div className="size-3 rounded-full bg-green-500/80" />
           </div>
+          <span className="rounded-full bg-blue-500/20 px-3 py-1 text-xs font-medium text-blue-300">
+            Live Preview
+          </span>
+        </div>
+        {/* Editor */}
+        <div className="p-4">
           <MarkdownEditor
             markdown={markdown}
             setMarkdown={setMarkdown}
-            className="h-[500px]"
+            className="h-[400px]"
           />
         </div>
       </div>

@@ -3,6 +3,10 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --radius: 0.5rem;
+}
+
 html,
 body {
   margin: 0;
@@ -13,31 +17,92 @@ body {
   position: absolute;
   border-radius: 50%;
   background-color: white;
-  animation: twinkle 1s ease-in-out infinite;
+  animation: twinkle 4s ease-in-out infinite;
+}
+
+.star--blue {
+  background-color: #93c5fd;
+}
+
+.star--dim {
+  opacity: 0.4;
 }
 
 @keyframes twinkle {
-  0% {
+  0%,
+  100% {
+    opacity: 0.3;
     transform: scale(1);
-    opacity: 0.5;
   }
   50% {
-    transform: scale(1.1);
     opacity: 1;
+    transform: scale(1.2);
   }
+}
+
+.text-glow {
+  text-shadow:
+    0 0 40px rgba(96, 165, 250, 0.5),
+    0 0 80px rgba(96, 165, 250, 0.3);
+}
+
+.text-gradient {
+  color: #60a5fa;
+  background: linear-gradient(
+    90deg,
+    #60a5fa 0%,
+    #93c5fd 40%,
+    #60a5fa 60%,
+    #60a5fa 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shine 3s ease-in-out infinite;
+}
+
+@keyframes shine {
+  0%,
   100% {
-    transform: scale(1);
-    opacity: 0.5;
+    background-position: 200% center;
   }
+  50% {
+    background-position: 0% center;
+  }
+}
+
+.btn-glow {
+  box-shadow:
+    0 0 20px rgba(96, 165, 250, 0.4),
+    0 0 40px rgba(96, 165, 250, 0.2);
+}
+
+.btn-glow:hover {
+  box-shadow:
+    0 0 30px rgba(96, 165, 250, 0.6),
+    0 0 60px rgba(96, 165, 250, 0.3);
+}
+
+.preview-frame {
+  background: linear-gradient(
+    135deg,
+    rgba(96, 165, 250, 0.15) 0%,
+    rgba(139, 92, 246, 0.1) 100%
+  );
+  border: 1px solid rgba(96, 165, 250, 0.3);
+  box-shadow:
+    0 0 60px rgba(96, 165, 250, 0.15),
+    0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.custom-scroll {
+  scrollbar-color: rgba(96, 165, 250, 0.3) rgba(15, 23, 42, 0.5);
+  scrollbar-width: thin;
 }
 
 @layer base {
   :root {
     --radius: 0.5rem;
   }
-}
-
-.custom-scroll {
-  scrollbar-color: oklch(55.4% 0.046 257.417) oklch(37.2% 0.044 257.287);
-  scrollbar-width: thin;
 }

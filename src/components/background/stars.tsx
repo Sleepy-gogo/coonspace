@@ -1,54 +1,46 @@
+"use client";
+
 interface StarsProps {
-  fixed?: boolean;
-  opacity?: number;
   count?: number;
-  options?: {
-    size: number;
-    x: number;
-    y: number;
-    blur: number;
-    duration: number;
-  };
+  fixed?: boolean;
 }
 
-function Stars({
-  fixed = false,
-  opacity = 1,
-  count = 40,
-  options = { size: 2, x: 100, y: 100, blur: 1.5, duration: 6 },
-}: StarsProps) {
-  const { size, x, y, blur, duration } = options;
+export default function Stars({ count = 100, fixed = false }: StarsProps) {
+  const stars = Array.from({ length: count }, (_, i) => {
+    const size = Math.random() * 2.5 + 0.5; // 0.5-3px
+    const isBlue = Math.random() > 0.7;
+    const isDim = Math.random() > 0.6;
 
-  const starsCount = count;
-  const stars = Array.from({ length: starsCount }, () => ({
-    size: (Math.random() * size + 1).toFixed(2),
-    x: (Math.random() * x).toFixed(2),
-    y: (Math.random() * y).toFixed(2),
-    blur: (Math.random() * blur).toFixed(2),
-    duration: `${Math.floor(Math.random() * duration + 2)}s`,
-  }));
+    return {
+      id: i,
+      size,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      delay: Math.random() * 4,
+      duration: Math.random() * 3 + 3, // 3-6s
+      isBlue,
+      isDim,
+    };
+  });
 
   return (
     <div
-      className={"pointer-events-none inset-0 -z-10 " + (fixed ? "fixed" : "absolute")}
-      style={{ opacity }}
+      className={`pointer-events-none ${fixed ? "fixed" : "absolute"} inset-0 overflow-hidden`}
     >
-      {stars.map((star, index) => (
+      {stars.map((star) => (
         <div
-          key={index}
-          className="star"
+          key={star.id}
+          className={`star ${star.isBlue ? "star--blue" : ""} ${star.isDim ? "star--dim" : ""}`}
           style={{
             width: `${star.size}px`,
             height: `${star.size}px`,
             left: `${star.x}%`,
             top: `${star.y}%`,
-            filter: `blur(${star.blur}px)`,
-            animationDuration: star.duration,
+            animationDelay: `${star.delay}s`,
+            animationDuration: `${star.duration}s`,
           }}
         />
       ))}
     </div>
   );
 }
-
-export default Stars;

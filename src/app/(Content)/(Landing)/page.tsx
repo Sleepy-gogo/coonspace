@@ -1,13 +1,8 @@
-import {
-  ArrowRight,
-  Code,
-  CornerDownRight,
-  Github,
-  Share2,
-  Zap,
-} from "lucide-react";
-import Image from "next/image";
+"use client";
+
+import { ArrowRight, Github, CornerDownRight } from "lucide-react";
 import Link from "next/link";
+import { motion } from "motion/react";
 import Background from "~/components/background";
 import MiniPreview from "~/components/mini-preview";
 import { Button } from "~/components/ui/button";
@@ -15,235 +10,104 @@ import { Button } from "~/components/ui/button";
 export default function HomePage() {
   return (
     <>
-      <main className="flex flex-col gap-28 pb-24 lg:gap-40">
-        <section className="mx-auto flex max-w-md flex-col items-center justify-center gap-6 px-6 pt-36 sm:max-w-2xl sm:px-8 md:max-w-3xl md:px-10 md:pt-48 lg:max-w-4xl lg:px-4 xl:max-w-5xl 2xl:max-w-6xl">
-          <div className="rounded-xl bg-blue-400/10 px-4 py-2 text-sm font-semibold text-blue-300">
-            <span className="me-1 text-base leading-none">✨</span>Now testing
-            pdf downloads!
-          </div>
-          <div className="animate-fade-in relative flex flex-col gap-6">
-            <h1 className="text-center text-5xl font-[800] tracking-tight text-white sm:text-[4rem] md:text-[4.5rem] lg:text-[5rem] xl:text-[6rem] 2xl:text-[6.5rem]">
-              Share{" "}
-              <span className="animate-pulse-slow text-violet-400">
-                Beautiful
-              </span>
+      <main className="relative">
+        <section className="relative flex min-h-screen flex-col items-center justify-center px-6 pb-32 pt-40">
+          <div className="mx-auto max-w-4xl text-center">
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease: "easeOut" }}
+              className="font-[family-name:var(--font-plus-jakarta)] text-5xl font-extrabold tracking-tight sm:text-6xl lg:text-7xl"
+            >
+              <span className="text-white">Share </span>
+              <span className="text-gradient">Beautiful</span>
               <br />
-              Notes,{" "}
-              <span className="animate-pulse-slow text-blue-500">
-                Instantly
-              </span>
-            </h1>
-            <p className="mt-2 text-center text-xl text-slate-200 lg:text-2xl">
-              The free and open-source minimal solution for sharing markdown
-              across the web.
+              <span className="text-white">Notes, </span>
+              <span className="text-gradient">Instantly</span>
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.15, ease: "easeOut" }}
+              className="mx-auto mt-10 max-w-xl text-lg text-slate-300 sm:text-xl"
+            >
+              The free and open-source way to share markdown across the web.
               <br />
-              <span className="font-medium italic">
+              <span className="text-slate-400">
                 No sign-up required for viewers.
               </span>
-            </p>
-          </div>
+            </motion.p>
 
-          <div className="flex w-full flex-col justify-center gap-4 sm:flex-row">
-            <Button
-              className="transition-all hover:scale-105 hover:shadow-md"
-              size="lg"
-              asChild
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}
+              className="mt-12 flex flex-wrap items-center justify-center gap-4"
             >
-              <Link href="/dashboard">
-                Get started <ArrowRight />
-              </Link>
-            </Button>
+              <Button variant="primary" size="lg" asChild>
+                <Link href="/dashboard">
+                  Get Started <ArrowRight className="ml-1" />
+                </Link>
+              </Button>
+              <Button variant="outline" size="lg" asChild>
+                <a
+                  href="https://github.com/sleepy-gogo/coonspace"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Github className="mr-2" />
+                  View on GitHub
+                </a>
+              </Button>
+            </motion.div>
           </div>
 
-          <div className="relative w-full">
-            <div className="absolute -left-16 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center text-white lg:flex">
-              <p className="-rotate-6 text-4xl [font-family:Caveat]">
-                Try now!
+          <motion.div
+            initial={{ opacity: 0, y: 60 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.5, ease: "easeOut" }}
+            className="relative mt-24 w-full max-w-5xl px-4"
+          >
+            <div className="absolute -top-14 xl:-left-[10%] xl:top-[50%] hidden items-end gap-1 lg:flex flex-row-reverse xl:flex-row">
+              <p className="-rotate-6 font-[family-name:var(--font-caveat)] text-3xl text-white/80">
+                Try it now!
               </p>
-              <CornerDownRight className="size-8 -translate-y-1 translate-x-4 -rotate-6" />
+              <CornerDownRight className="size-7 translate-y-3 xl:translate-y-4 xl:-translate-x-7 rotate-[85deg] xl:-rotate-12 text-white/60" />
             </div>
-            <MiniPreview className="mt-20 hidden sm:block" />
-          </div>
+
+            <div className="preview-frame overflow-hidden rounded-2xl">
+              <MiniPreview />
+            </div>
+          </motion.div>
         </section>
 
-        <section id="features" className="scroll-mt-24">
-          <div className="mx-auto flex w-full max-w-screen-lg flex-col gap-4 px-4">
-            <h2 className="text-center text-3xl font-bold text-white md:text-4xl">
-              Why Choose <span className="text-blue-400">CoonSpace</span>?
-            </h2>
-            <div className="mt-6 flex w-full flex-col gap-6 sm:flex-row sm:flex-wrap sm:justify-center lg:flex-nowrap">
-              <div className="group flex flex-col items-center rounded-lg border border-blue-200/20 bg-blue-800/20 p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-blue-200/40 hover:bg-blue-700/30 hover:shadow-lg sm:w-[48%] md:w-[31%]">
-                <div className="mb-4 rounded-full bg-violet-500/20 p-4 transition-all duration-300 group-hover:bg-violet-500/30">
-                  <Code className="size-8 text-violet-400" />
-                </div>
-                <h3 className="flex items-center gap-2 text-center text-2xl font-bold tracking-tight text-slate-200/95 group-hover:text-white">
-                  Write in Markdown
-                </h3>
-                <p className="mt-2 text-center font-medium text-slate-300">
-                  Create your content using simple Markdown syntax with our
-                  built-in editor with syntax highlighting
-                </p>
-              </div>
-              <div className="group flex flex-col items-center rounded-lg border border-blue-200/20 bg-blue-800/20 p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-blue-200/40 hover:bg-blue-700/30 hover:shadow-lg sm:w-[48%] md:w-[31%]">
-                <div className="mb-4 rounded-full bg-blue-500/20 p-4 transition-all duration-300 group-hover:bg-blue-500/30">
-                  <Zap className="size-8 text-blue-400" />
-                </div>
-                <h3 className="flex items-center gap-2 text-center text-2xl font-bold tracking-tight text-slate-200/95 group-hover:text-white">
-                  Instant Preview
-                </h3>
-                <p className="mt-2 text-center font-medium text-slate-300">
-                  See your formatted content in real-time as you type with our
-                  split-pane editor
-                </p>
-              </div>
-              <div className="group flex flex-col items-center rounded-lg border border-blue-200/20 bg-blue-800/20 p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-blue-200/40 hover:bg-blue-700/30 hover:shadow-lg sm:w-[48%] md:w-[31%]">
-                <div className="mb-4 rounded-full bg-green-500/20 p-4 transition-all duration-300 group-hover:bg-green-500/30">
-                  <Share2 className="size-8 text-green-400" />
-                </div>
-                <h3 className="flex items-center gap-2 text-center text-2xl font-bold tracking-tight text-slate-200/95 group-hover:text-white">
-                  Share Anywhere
-                </h3>
-                <p className="mt-2 text-center font-medium text-slate-300">
-                  Generate a link and share your content with anyone, anywhere
-                  with one click
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-        <section className="container mx-auto px-4">
-          <h2 className="mb-12 text-center text-4xl font-bold text-white">
-            Powerful Features, Simple Interface
-          </h2>
-          <div className="grid gap-16 lg:grid-cols-2">
-            <div className="grid auto-rows-fr gap-12">
-              <div className="flex flex-col gap-4">
-                <div className="overflow-hidden rounded-lg border border-slate-200/20 bg-slate-800/50 shadow-lg">
-                  <Image
-                    height={720}
-                    width={1240}
-                    src="/screenshots/editor.webp"
-                    alt="CoonSpace Editor Interface"
-                    className="aspect-video w-full object-cover"
-                  />
-                </div>
-                <div>
-                  <h3 className="mb-2 text-2xl font-bold text-white">
-                    Powerful Markdown Editor
-                  </h3>
-                  <p className="text-lg text-slate-300">
-                    Write in Markdown with syntax highlighting, live preview,
-                    and support for tables, code blocks, and more. Our editor
-                    makes complex formatting simple.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-4">
-                <div className="overflow-hidden rounded-lg border border-slate-200/20 bg-slate-800/50 shadow-lg">
-                  <Image
-                    height={720}
-                    width={1240}
-                    src="/screenshots/note.webp"
-                    alt="CoonSpace Note Interface"
-                    className="aspect-video w-full object-cover"
-                  />
-                </div>
-                <div>
-                  <h3 className="mb-2 text-2xl font-bold text-white">
-                    One-Click Sharing
-                  </h3>
-                  <p className="text-lg text-slate-300">
-                    Share your documents instantly with a unique, shareable
-                    link. No sign-up required for viewers.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="grid auto-rows-fr gap-12">
-              <div className="flex flex-col gap-4">
-                <div className="overflow-hidden rounded-lg border border-slate-200/20 bg-slate-800/50 shadow-lg">
-                  <Image
-                    height={720}
-                    width={1240}
-                    src="/screenshots/syntax.webp"
-                    alt="CoonSpace Syntax Highlight"
-                    className="aspect-video w-full object-cover"
-                  />
-                </div>
-                <div>
-                  <h3 className="mb-2 text-2xl font-bold text-white">
-                    Beautiful Syntax Highlighting
-                  </h3>
-                  <p className="text-lg text-slate-300">
-                    Code blocks are automatically highlighted with support for
-                    numerous programming languages.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-4">
-                <div className="overflow-hidden rounded-lg border border-slate-200/20 bg-slate-800/50 shadow-lg">
-                  <Image
-                    height={720}
-                    width={1240}
-                    src="/screenshots/dashboard.webp"
-                    alt="CoonSpace Dashboard"
-                    className="aspect-video w-full object-cover"
-                  />
-                </div>
-                <div>
-                  <h3 className="mb-2 text-2xl font-bold text-white">
-                    Organized Dashboard
-                  </h3>
-                  <p className="text-lg text-slate-300">
-                    Keep track of all your documents in one place with our
-                    intuitive dashboard interface. Search, share, and manage
-                    with ease.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-        <section className="container mx-auto">
-          <div className="overflow-hidden rounded-2xl p-8">
-            <div className="z-10 mx-auto max-w-3xl py-12 text-center">
-              <h2 className="mb-6 text-3xl font-bold text-white md:text-4xl">
-                Ready to Start Sharing?
+        <section className="relative py-40">
+          <div className="mx-auto max-w-3xl px-6 text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.7 }}
+            >
+              <h2 className="font-[family-name:var(--font-plus-jakarta)] text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
+                Ready to share your ideas?
               </h2>
-              <p className="mb-8 text-xl text-slate-200">
-                Join the community and start sharing your markdown documents
-                today. It&apos;s free, open-source, and takes just seconds to
-                get started.
+              <p className="mt-8 text-lg text-slate-400">
+                Start writing in seconds. Free and open source forever.
               </p>
-              <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
-                <Button size="lg" variant="secondary" asChild>
+              <div className="mt-12">
+                <Button variant="primary" size="lg" asChild>
                   <Link href="/dashboard">
-                    Get Started for Free <ArrowRight className="ml-2 h-4 w-4" />
+                    Start Writing <ArrowRight className="ml-1" />
                   </Link>
                 </Button>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="gap-2 border-slate-400 text-slate-200 transition-all hover:bg-slate-800/50"
-                  asChild
-                >
-                  <a
-                    href="https://github.com/sleepy-gogo/coonspace"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Github className="size-5" />
-                    View on GitHub
-                  </a>
-                </Button>
               </div>
-            </div>
+            </motion.div>
           </div>
         </section>
       </main>
+
       <Background />
     </>
   );

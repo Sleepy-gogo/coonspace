@@ -2,7 +2,7 @@ import "~/styles/globals.css";
 import "katex/dist/katex.min.css";
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { ClerkProvider } from "@clerk/nextjs";
-import { Caveat, Montserrat } from 'next/font/google'
+import { Caveat, Montserrat, Plus_Jakarta_Sans } from "next/font/google";
 import { dark } from "@clerk/themes";
 import { type Metadata } from "next";
 import { extractRouterConfig } from "uploadthing/server";
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     "fast",
     "easy",
     "style",
-    "text"
+    "text",
   ],
   openGraph: {
     title: "CoonSpace | Online Markdown Sharing & Collaboration",
@@ -73,15 +73,21 @@ export const metadata: Metadata = {
 };
 
 const caveat = Caveat({
-  subsets: ['latin'],
-  weight: '400',
-  variable: '--font-caveat',
-})
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-caveat",
+});
 
 const montserrat = Montserrat({
-  subsets: ['latin'],
-  variable: '--font-montserrat',
-})
+  subsets: ["latin"],
+  variable: "--font-montserrat",
+});
+
+const plusJakarta = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-plus-jakarta",
+  weight: ["400", "500", "600", "700", "800"],
+});
 
 export default function RootLayout({
   children,
@@ -143,7 +149,10 @@ export default function RootLayout({
         },
       }}
     >
-      <html lang="en" className={montserrat.className} >
+      <html
+        lang="en"
+        className={`${montserrat.className} ${plusJakarta.variable} ${caveat.variable}`}
+      >
         <body className="bg-slate-900">
           <CSPostHogProvider>
             <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />

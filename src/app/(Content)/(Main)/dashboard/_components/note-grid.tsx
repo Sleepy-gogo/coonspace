@@ -21,17 +21,6 @@ import {
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-/**
- * A responsive grid component for displaying and managing notes.
- * Features include:
- * - Dynamic note loading with loading skeletons
- * - Search functionality with debouncing
- * - Empty state handling
- * - Grid layout that adapts to different screen sizes
- * - Support for note deletion
- * - Pagination for navigating through notes
- * @component
- */
 export function NoteGrid() {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [debouncedSearchTerm, setDebounced] = useDebounceValue(searchTerm, 400);
@@ -128,13 +117,30 @@ export function NoteGrid() {
 
       <div
         ref={notesParent}
-        className="mb-4 grid min-h-[50vh] w-full grid-cols-1 gap-4 md:grid-cols-2 md:grid-rows-3 lg:grid-cols-3 lg:grid-rows-2"
+        className="mb-8 grid min-h-[40vh] w-full grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"
       >
         {notes && notes.length === 0 && !isLoading && (
-          <p className="col-span-3 text-center text-slate-400 md:text-lg">
-            Click the <span className="font-bold">Add Note</span> to start
-            publishing your notes!
-          </p>
+          <div className="col-span-full flex flex-col items-center justify-center rounded-xl border border-dashed border-slate-700/50 py-20 text-center">
+            <div className="mb-4 rounded-xl bg-slate-800/50 p-4">
+              <svg
+                className="size-8 text-slate-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.5}
+                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                />
+              </svg>
+            </div>
+            <p className="text-lg font-medium text-slate-300">No notes yet</p>
+            <p className="mt-1 text-slate-500">
+              Create your first note to get started
+            </p>
+          </div>
         )}
         {notes?.map((note) => (
           <Note key={note.id} note={note} onDelete={mutate} />

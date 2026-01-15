@@ -1,14 +1,58 @@
-import Stars from './stars';
+"use client";
 
-function Background() {
+import Stars from "./stars";
+
+export default function Background() {
   return (
-    <div>
-      <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_2px)] bg-[size:74px_94px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
-      <div className="absolute bottom-0 left-[-10%] right-0 top-[50%] -z-10 size-[1700px] rounded-full bg-[radial-gradient(circle_farthest-side,rgba(90,90,255,.25),rgba(255,255,255,0))] md:left-[-90%] lg:left-[-20%]"></div>
-      <div className="absolute bottom-0 right-[-110%] top-[-10%] -z-10 size-[1300px] rounded-full bg-[radial-gradient(circle_farthest-side,rgba(80,80,255,.18),rgba(255,255,255,0))] md:right-[-90%] lg:right-[-20%]"></div>
+    <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+      {/* Base: Deep space gradient */}
+      <div className="absolute inset-0 bg-gradient-to-b from-slate-900 via-[#0c1222] to-[#050816]" />
+
+      {/* Radial glow - top center (hero area) */}
+      <div
+        className="absolute left-1/2 top-0 h-[800px] w-[1200px] -translate-x-1/2 opacity-40"
+        style={{
+          background:
+            "radial-gradient(ellipse at center top, rgba(96, 165, 250, 0.3) 0%, transparent 60%)",
+        }}
+      />
+
+      {/* Radial glow - left accent */}
+      <div
+        className="absolute -left-[300px] top-[20%] h-[600px] w-[600px] opacity-30"
+        style={{
+          background:
+            "radial-gradient(circle, rgba(139, 92, 246, 0.4) 0%, transparent 60%)",
+        }}
+      />
+
+      {/* Radial glow - right accent */}
+      <div
+        className="absolute -right-[200px] top-[40%] h-[500px] w-[500px] opacity-20"
+        style={{
+          background:
+            "radial-gradient(circle, rgba(96, 165, 250, 0.3) 0%, transparent 60%)",
+        }}
+      />
+
+      {/* Bottom gradient for footer blend */}
+      <div
+        className="absolute bottom-0 left-0 right-0 h-[400px]"
+        style={{
+          background: "linear-gradient(to top, #020408 0%, transparent 100%)",
+        }}
+      />
+
+      {/* Stars throughout */}
       <Stars count={120} />
+
+      {/* Grain texture overlay */}
+      <div
+        className="absolute inset-0 opacity-[0.015]"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+        }}
+      />
     </div>
   );
 }
-
-export default Background;

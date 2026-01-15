@@ -13,7 +13,7 @@ function GridTopBar({
   setSearchTerm,
 }: GridTopBarProps) {
   return (
-    <div className="mb-6 flex items-center justify-between gap-4">
+    <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
       <SearchBox searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       <AddNoteModal refetchNotes={refetchNotes} />
     </div>
@@ -22,7 +22,7 @@ function GridTopBar({
 
 export function DisabledGridTopBar() {
   return (
-    <div className="mb-6 flex items-center justify-between gap-4">
+    <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
       <DisabledSearchBox />
       <DisabledAddNoteModal />
     </div>
