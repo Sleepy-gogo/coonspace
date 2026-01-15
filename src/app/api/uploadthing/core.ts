@@ -6,7 +6,6 @@ import { createNote } from '~/server/queries/insert';
 import { revalidatePath } from 'next/cache';
 import { createId } from '@paralleldrive/cuid2';
 import slugify from "slug";
-import { ratelimit } from '~/server/ratelimit';
 
 const f = createUploadthing();
 
@@ -21,10 +20,6 @@ export const ourFileRouter = {
       const user = await auth();
 
       if (!user.userId) throw new UploadThingError("Unauthorized");
-
-      const { success } = await ratelimit.limit(user.userId);
-
-      if (!success) throw new UploadThingError("Too many uploads in a short time");
 
       return { userId: user.userId };
     })
