@@ -2,7 +2,7 @@
 
 <p align="center">A free and open-source platform for sharing markdown notes instantly. Simply drag and drop your markdown files, get a permalink, and share with anyone.</p>
 
-![CoonSpace Banner](https://i.postimg.cc/pr3DzjLw/109shots-so.png)
+![CoonSpace Banner](https://i.ibb.co/j9xCWKS5/482-1x-shots-so.png)
 
 
 ## 🚀 Features
@@ -16,20 +16,19 @@
 
 ## 🛠️ Tech Stack
 
-- **Next.js 14** - React framework with App Router
+- **Next.js 15** - React framework with App Router
 - **TypeScript** - Type-safe code
 - **Tailwind CSS** - Utility-first styling
 - **Clerk** - Authentication and user management
 - **Turso** - SQLite database for edge computing
 - **UploadThing** - File storage and management
 - **PostHog** - Privacy-friendly analytics
-- **Upstash** - Rate limiting to prevent abuse
 
 ## 🏁 Getting Started
 
 ### Prerequisites
 
-- Node.js 18+
+- Node.js 20+
 - bun (recommended) or pnpm/npm/yarn
 - Accounts for the following services:
   - [Clerk](https://clerk.dev) (Authentication)
@@ -48,7 +47,7 @@
 
 2. **Install dependencies**
    ```bash
-   pnpm install
+   bun install
    ```
 
 3. **Set up environment variables**
@@ -61,14 +60,13 @@
    - Turso database URL and auth token
    - UploadThing API keys
    - PostHog project API key
-   - Upstash redis keys
 
 4. **Set up Clerk webhook**
    Create a webhook in the Clerk dashboard and point it to `yourdomain.com/api/webhook/clerk`. This is essential for handling user deletion correctly, otherwise notes from deleted users will remain in the app. [More information on Clerk webhooks](https://clerk.com/docs/users/sync-data-to-your-backend)
 
 5. **Run the development server**
    ```bash
-   pnpm dev
+   bun dev
    ```
 
 6. **Open [http://localhost:3000](http://localhost:3000)** to see the app running
