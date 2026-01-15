@@ -15,6 +15,17 @@ import { useCopyToClipboard } from "usehooks-ts";
 import { useRouter } from "next/navigation";
 import { deleteNoteAction } from "~/server/markdown";
 import PDFDownloadButton from "~/components/pdf-download-button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "~/components/ui/alert-dialog";
 
 interface NoteProps {
   note: PartialNote;
@@ -29,9 +40,10 @@ const NoteComponent = ({ note, onDelete }: NoteProps) => {
 
   const handleDelete = async (e: React.MouseEvent) => {
     e.preventDefault();
+    e.stopPropagation();
+
     if (isDeleting) return;
     setIsDeleting(true);
-    e.stopPropagation();
 
     const data = await deleteNoteAction(note.id);
 
@@ -72,97 +84,131 @@ const NoteComponent = ({ note, onDelete }: NoteProps) => {
   };
 
   return (
-    <Link
-      href={`/note/${note.slug}`}
-      aria-label={note.title}
+    <div
       className={
-        isDeleting ? "pointer-events-none animate-pulse cursor-wait" : "group"
+        isDeleting
+          ? "pointer-events-none animate-pulse cursor-wait"
+          : "group flex h-full min-h-[160px] flex-col overflow-hidden rounded-xl border border-slate-700/50 bg-slate-800/40 backdrop-blur-sm transition-all duration-200 hover:border-slate-600 hover:bg-slate-800/60"
       }
     >
-      <div className="flex h-full min-h-[160px] flex-col overflow-hidden rounded-xl border border-slate-700/50 bg-slate-800/40 backdrop-blur-sm transition-all duration-200 hover:border-slate-600 hover:bg-slate-800/60">
-        {/* Content */}
-        <div className="flex flex-1 flex-col p-5">
-          <div className="flex items-start gap-3">
-            <div className="rounded-lg bg-slate-700/50 p-2 text-slate-400">
-              <FileText className="size-4" />
-            </div>
-            <div className="min-w-0 flex-1">
-              <h2 className="truncate text-base font-semibold text-white">
-                {note.title}
-              </h2>
-              <p className="mt-1 text-xs text-slate-500">
-                Updated{" "}
-                {new Date(note.updatedAt).toLocaleString("en-US", {
-                  month: "short",
-                  day: "2-digit",
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
-              </p>
-            </div>
+      <Link
+        href={`/note/${note.slug}`}
+        aria-label={note.title}
+        className="flex flex-1 flex-col p-5"
+      >
+        <div className="flex items-start gap-3">
+          <div className="rounded-lg bg-slate-700/50 p-2 text-slate-400">
+            <FileText className="size-4" />
+          </div>
+          <div className="min-w-0 flex-1">
+            <h2 className="truncate text-base font-semibold text-white">
+              {note.title}
+            </h2>
+            <p className="mt-1 text-xs text-slate-500">
+              Updated{" "}
+              {new Date(note.updatedAt).toLocaleString("en-US", {
+                month: "short",
+                day: "2-digit",
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+            </p>
           </div>
         </div>
+      </Link>
 
-        {/* Actions */}
-        <div className="flex items-center justify-end gap-1 border-t border-slate-700/30 bg-slate-900/30 px-3 py-2">
-          <TooltipProvider delayDuration={200}>
+      {/* Actions */}
+      <div className="flex items-center justify-end gap-1 border-t border-slate-700/30 bg-slate-900/30 px-3 py-2">
+        <TooltipProvider delayDuration={200}>
+          <Tooltip>
+            {/* Edit Button */}
+            <TooltipTrigger asChild>
+              <Button
+                size="icon"
+                variant="ghost"
+                onClick={handleEdit}
+                className="size-8 text-slate-500 hover:text-white"
+              >
+                <Pencil className="size-3.5" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Edit</TooltipContent>
+          </Tooltip>
+
+          {/* Delete Dialog */}
+          <AlertDialog>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button
-                  size="icon"
-                  variant="ghost"
-                  onClick={handleEdit}
-                  className="size-8 text-slate-500 hover:text-white"
-                >
-                  <Pencil className="size-3.5" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Edit</TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  size="icon"
-                  variant="ghost"
-                  onClick={handleDelete}
-                  className="size-8 text-slate-500 hover:text-red-400"
-                >
-                  <Trash2 className="size-3.5" />
-                </Button>
+                <AlertDialogTrigger asChild>
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    className="size-8 text-slate-500 hover:text-red-400"
+                  >
+                    <Trash2 className="size-3.5" />
+                  </Button>
+                </AlertDialogTrigger>
               </TooltipTrigger>
               <TooltipContent>Delete</TooltipContent>
             </Tooltip>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  size="icon"
-                  variant="ghost"
-                  onClick={handleShare}
-                  className="size-8 text-slate-500 hover:text-blue-400"
+            <AlertDialogContent onClick={(e) => e.stopPropagation()}>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Delete Note</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Are you sure you want to delete{" "}
+                  <span className="font-medium text-slate-200">
+                    "{note.title}"
+                  </span>
+                  ? This action cannot be undone.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel onClick={(e) => e.stopPropagation()}>
+                  Cancel
+                </AlertDialogCancel>
+                <AlertDialogAction
+                  onClick={handleDelete}
+                  className="border-red-600 bg-red-600 text-white hover:bg-red-700"
                 >
-                  {copied ? (
-                    <Check className="size-3.5" />
-                  ) : (
-                    <Share2 className="size-3.5" />
-                  )}
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Share</TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <PDFDownloadButton
-                  slug={note.slug}
-                  title={note.title}
-                  className="size-8 text-slate-500 hover:text-white"
-                />
-              </TooltipTrigger>
-              <TooltipContent>Download PDF</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </div>
+                  Delete
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+
+          {/* Share Button */}
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                size="icon"
+                variant="ghost"
+                onClick={handleShare}
+                className="size-8 text-slate-500 hover:text-blue-400"
+              >
+                {copied ? (
+                  <Check className="size-3.5" />
+                ) : (
+                  <Share2 className="size-3.5" />
+                )}
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Share</TooltipContent>
+          </Tooltip>
+
+          {/* Download Button */}
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <PDFDownloadButton
+                slug={note.slug}
+                title={note.title}
+                className="size-8 text-slate-500 hover:text-white"
+              />
+            </TooltipTrigger>
+            <TooltipContent>Download PDF</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
-    </Link>
+    </div>
   );
 };
 

@@ -16,7 +16,7 @@ export default function AppLayout({
       />
       <Stars count={80} fixed />
 
-      <main className="relative flex min-h-[85dvh] flex-col pt-24 pb-24">
+      <main className="relative flex min-h-[85dvh] flex-col pb-24 pt-32">
         <div className="flex-1">{children}</div>
       </main>
     </>

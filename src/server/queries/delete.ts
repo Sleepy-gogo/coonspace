@@ -1,11 +1,12 @@
 "use server";
 
 import { eq } from 'drizzle-orm';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { db } from '~/server/db';
 import type { SelectNote, SelectReport } from '~/server/db/schema';
 import { notes, reports } from '~/server/db/schema';
 import { utapi } from '~/server/uploadthing';
+import { CACHE_TAGS } from '~/lib/note-cache';
 
 export async function deleteNote(utId: SelectNote['utId']) {
   const note = await db.select().from(notes).where(eq(notes.utId, utId)).get();
@@ -18,6 +19,11 @@ export async function deleteNote(utId: SelectNote['utId']) {
   await utapi.deleteFiles(utId);
 
   await db.delete(notes).where(eq(notes.utId, utId));
+
+  // Invalidate all caches related to this note
+  revalidateTag(CACHE_TAGS.note(note.slug));
+  revalidateTag(CACHE_TAGS.noteContent(note.id));
+  revalidateTag(CACHE_TAGS.noteHtml(note.id));
   revalidatePath("/admin");
 }
 

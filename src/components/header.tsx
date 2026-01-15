@@ -11,7 +11,7 @@ import { Skeleton } from "~/components/ui/skeleton";
 
 function Header() {
   return (
-    <header className="fixed left-0 right-0 top-0 z-50 bg-slate-900/50 backdrop-blur-md border border-slate-800/50 max-w-screen-lg rounded-full mx-auto">
+    <header className="fixed left-0 right-0 top-0 z-50 bg-slate-900/50 backdrop-blur-md border border-slate-800/50 max-w-screen-lg rounded-full mx-auto mt-4">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <Link
           href="/"

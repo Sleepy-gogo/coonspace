@@ -54,8 +54,12 @@ export function ReportModal({ noteId }: ReportModalProps) {
   return (
     <ResponsiveModal open={open} onOpenChange={setOpen}>
       <ResponsiveModalTrigger asChild>
-        <Button variant="destructive" size="icon">
-          <Flag />
+        <Button
+          variant="ghost"
+          size="icon"
+          className="text-slate-500 hover:bg-red-500/10 hover:text-red-400"
+        >
+          <Flag className="size-4" />
         </Button>
       </ResponsiveModalTrigger>
       <ResponsiveModalContent side="bottom">
@@ -69,20 +73,19 @@ export function ReportModal({ noteId }: ReportModalProps) {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="flex flex-col gap-2"
+            className="flex flex-col gap-4 pt-4"
           >
             <FormField
               control={form.control}
               name="reason"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-semibold text-slate-200">
-                    Reason:
-                  </FormLabel>
+                  <FormLabel className="text-slate-200">Reason</FormLabel>
                   <FormControl>
                     <AutosizeTextarea
                       placeholder="This note contains..."
                       maxHeight={100}
+                      className="min-h-[100px]"
                       {...field}
                     />
                   </FormControl>
@@ -93,17 +96,21 @@ export function ReportModal({ noteId }: ReportModalProps) {
                 </FormItem>
               )}
             />
-            <Separator className="mb-2" />
-            <Button type="submit" className="self-center">
-              Submit
-            </Button>
+            <div className="flex justify-end gap-2">
+              <Button
+                type="button"
+                variant="ghost"
+                onClick={() => setOpen(false)}
+              >
+                Cancel
+              </Button>
+              <Button type="submit" variant="destructive">
+                Submit Report
+              </Button>
+            </div>
           </form>
         </Form>
       </ResponsiveModalContent>
     </ResponsiveModal>
   );
-}
-
-export function DisabledAddNoteModal() {
-  return <Button disabled>Add Note</Button>;
 }

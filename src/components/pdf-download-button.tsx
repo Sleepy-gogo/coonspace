@@ -3,19 +3,21 @@
 import { Download, Loader } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Button } from "~/components/ui/button";
+import { Button, type ButtonProps } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
 
-interface PDFDownloadButtonProps {
+interface PDFDownloadButtonProps extends ButtonProps {
   slug: string;
   title: string;
-  className?: string;
 }
 
 export default function PDFDownloadButton({
   slug,
   title,
-  className = "",
+  className,
+  variant = "outline",
+  size = "icon",
+  ...props
 }: PDFDownloadButtonProps) {
   const [isGenerating, setIsGenerating] = useState(false);
 
@@ -58,9 +60,10 @@ export default function PDFDownloadButton({
     <Button
       onClick={handleDownload}
       disabled={isGenerating}
-      variant="outline"
-      size="icon"
+      variant={variant}
+      size={size}
       className={cn(className)}
+      {...props}
     >
       {isGenerating ? (
         <Loader className="h-4 w-4 animate-spin" />

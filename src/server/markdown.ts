@@ -113,7 +113,7 @@ export async function updateMarkdown(id: string, markdown: string, title: string
         ...post,
         title: title,
         slug: fileSlug,
-      });
+      }, post.slug); // Pass old slug for cache invalidation
     }
 
     const contentResponse = await fetch(post.content);
